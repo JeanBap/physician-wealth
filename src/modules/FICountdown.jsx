@@ -30,9 +30,12 @@ export default function FICountdown({ profile: p, standalone }) {
     return () => clearInterval(iv);
   }, []);
 
-  const d = Math.floor(tick);
-  const h = Math.floor((tick % 1) * 24);
-  const m = Math.floor(((tick % 1) * 24 % 1) * 60);
+  const totalD = Math.floor(tick);
+  const countYrs = Math.floor(totalD / 365);
+  const countMos = Math.floor((totalD % 365) / 30);
+  const countDays = totalD % 30;
+  
+  
 
   // Journey chart (only in standalone mode)
   const journey = useMemo(() => {
@@ -73,12 +76,12 @@ export default function FICountdown({ profile: p, standalone }) {
         </p>
 
         <div className="flex items-center justify-center gap-4 relative">
-          {[[d, "days"], [h, "hrs"], [m, "min"]].map(([v, l], i) => (
+          {[[countYrs, "years"], [countMos, "months"], [countDays, "days"]].map(([v, l], i) => (
             <div key={i} className="text-center">
               <div className="relative">
                 <p className="text-4xl lg:text-5xl font-black text-emerald-400 tabular-nums leading-none"
                   style={{ fontFamily: "'JetBrains Mono', monospace", textShadow: "0 0 30px rgba(52,211,153,0.3)" }}>
-                  {String(v).padStart(l === "days" ? 1 : 2, "0")}
+                  {String(v).padStart(l === "years" ? 1 : 2, "0")}
                 </p>
               </div>
               <p className="text-[8px] text-emerald-400/25 uppercase mt-1.5 tracking-wider">{l}</p>

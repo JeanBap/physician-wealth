@@ -101,32 +101,38 @@ export default function App() {
 
   return (
     <div className="flex h-screen" style={{ background: "#0a0b10", color: "#fff", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      {/* Mobile overlay */}
+      {sidebarOpen && <div className="md:hidden fixed inset-0 bg-black/60 z-20" onClick={() => setSidebarOpen(false)} />}
+
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? "w-52" : "w-0 overflow-hidden"} border-r border-white/[0.04] bg-[#08090e] transition-all flex-shrink-0 flex flex-col`}>
+      <aside className={`${sidebarOpen ? "w-60 translate-x-0" : "-translate-x-full md:translate-x-0 md:w-0 md:overflow-hidden"} fixed md:relative z-30 h-full border-r border-white/[0.04] bg-[#08090e] transition-all flex-shrink-0 flex flex-col`}>
         {/* Logo */}
-        <div className="p-4 border-b border-white/[0.04]">
-          <p className="text-emerald-400 text-sm font-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
-            PhysicianWealth
-          </p>
-          {user?.isAdmin ? <p className="text-[8px] text-emerald-400/50 mt-0.5">Admin - Full Access</p> : trialDays > 0 && <p className="text-[8px] text-amber-400/50 mt-0.5">{trialDays} trial days left</p>}
+        <div className="p-4 border-b border-white/[0.04] flex items-center justify-between">
+          <div>
+            <p className="text-emerald-400 text-base font-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+              PhysicianWealth
+            </p>
+            {user?.isAdmin ? <p className="text-xs text-emerald-400/50 mt-0.5">Admin</p> : trialDays > 0 && <p className="text-xs text-amber-400/50 mt-0.5">{trialDays}d trial</p>}
+          </div>
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-white/20 text-lg">X</button>
         </div>
 
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto py-2">
           {Object.entries(sidebarSections).map(([cat, items]) => (
             <div key={cat} className="mb-2">
-              <p className="text-[7px] text-white/10 uppercase tracking-widest px-4 py-1">{cat}</p>
+              <p className="text-[10px] text-white/10 uppercase tracking-widest px-4 py-1.5">{cat}</p>
               {items.map(m => {
                 const active = page === m.key;
                 const locked = !canAccessModule(m.tier, userTier, trialExpired);
                 return (
-                  <button key={m.key} onClick={() => setPage(m.key)}
-                    className={`w-full text-left px-4 py-1.5 flex items-center justify-between transition ${
-                      active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/25 hover:text-white/40 hover:bg-white/[0.02]"
+                  <button key={m.key} onClick={() => { setPage(m.key); setSidebarOpen(false); }}
+                    className={`w-full text-left px-4 py-2.5 flex items-center justify-between transition ${
+                      active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/30 hover:text-white/50 hover:bg-white/[0.02]"
                     } ${locked ? "opacity-40" : ""}`}>
-                    <span className="text-[10px] truncate">{m.label}</span>
-                    {m.tier === "premium" && <span className="text-[6px] text-amber-400/40 ml-1">PRO</span>}
-                    {locked && <span className="text-[6px] text-white/10">🔒</span>}
+                    <span className="text-sm truncate">{m.label}</span>
+                    {m.tier === "premium" && <span className="text-[10px] text-amber-400/40 ml-1">PRO</span>}
+                    {locked && <span className="text-xs text-white/10">🔒</span>}
                   </button>
                 );
               })}
@@ -135,32 +141,32 @@ export default function App() {
         </nav>
 
         {/* User */}
-        <div className="p-3 border-t border-white/[0.04]">
-          <p className="text-[9px] text-white/20 truncate">{user?.email || "Demo"}</p>
-          <div className="flex gap-2 mt-1">
-            <button onClick={() => setPage("settings")} className="text-[8px] text-white/10 hover:text-white/30">Settings</button>
-            <button onClick={() => setPage("billing")} className="text-[8px] text-white/10 hover:text-white/30">Billing</button>
-            <button onClick={() => { setUser(null); setView("landing"); }} className="text-[8px] text-white/10 hover:text-white/30">Logout</button>
+        <div className="p-4 border-t border-white/[0.04]">
+          <p className="text-xs text-white/25 truncate">{user?.email || "Demo"}</p>
+          <div className="flex gap-3 mt-2">
+            <button onClick={() => { setPage("settings"); setSidebarOpen(false); }} className="text-xs text-white/15 hover:text-white/40">Settings</button>
+            <button onClick={() => { setPage("billing"); setSidebarOpen(false); }} className="text-xs text-white/15 hover:text-white/40">Billing</button>
+            <button onClick={() => { setUser(null); setView("landing"); }} className="text-xs text-white/15 hover:text-white/40">Logout</button>
           </div>
         </div>
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto w-full">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.04] sticky top-0 bg-[#0a0b10]/90 backdrop-blur-sm z-10">
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/15 hover:text-white/30 text-sm">
-            {sidebarOpen ? "◁" : "▷"}
+        <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-white/[0.04] sticky top-0 bg-[#0a0b10]/90 backdrop-blur-sm z-10">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/20 hover:text-white/40 text-lg p-1">
+            {sidebarOpen ? "X" : "☰"}
           </button>
-          <p className="text-[10px] text-white/15">{modMeta?.label || "Dashboard"}</p>
+          <p className="text-xs md:text-sm text-white/20 font-medium">{modMeta?.label || "Dashboard"}</p>
           <div className="flex items-center gap-2">
             <Badge color="#34d399">{profile.specialty}</Badge>
-            <span className="text-[9px] text-white/15">{profile.state}</span>
+            <span className="text-xs text-white/20 hidden md:inline">{profile.state}</span>
           </div>
         </div>
 
         {/* Module render */}
-        <div className="p-5 max-w-2xl mx-auto">
+        <div className="p-4 md:p-6 max-w-3xl mx-auto">
           {!hasAccess ? (
             <PaywallLock tier={modMeta?.tier || "pro"} onUpgrade={() => setPage("billing")} />
           ) : ModuleComp ? (
