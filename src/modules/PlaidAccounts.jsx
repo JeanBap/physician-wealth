@@ -1,132 +1,136 @@
 import { useState } from "react";
-import { fmt, fN } from "../lib/data";
+import { BANK_REGISTRY, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert } from "../components/ui";
+import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-const BANKS = [
-  {
-    id: "mercury", name: "Mercury", logo: "M", color: "#6366f1",
-    desc: "Business banking for startups",
-    accounts: [
-      { n: "Mercury Business Checking", type: "checking", bal: 124800 },
-      { n: "Mercury Treasury", type: "savings", bal: 250000 },
-    ]
-  },
-  {
-    id: "brex", name: "Brex", logo: "B", color: "#f97316",
-    desc: "Corporate cards and spend management",
-    accounts: [
-      { n: "Brex Business Account", type: "checking", bal: 87500 },
-      { n: "Brex Credit Line", type: "credit", bal: -12400 },
-    ]
-  },
+const Tip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+};
+
+// Simulated accounts (in production: real Mercury/Brex API data)
+const MOCK_ACCOUNTS = [
+  { id: "merc1", bank: "Mercury", name: "Practice Checking", balance: 85400, type: "checking", color: "#34d399" },
+  { id: "merc2", bank: "Mercury", name: "Savings Reserve", balance: 150000, type: "savings", color: "#60a5fa" },
+  { id: "brex1", bank: "Brex", name: "Business Credit", balance: -12300, type: "credit", color: "#a78bfa" },
 ];
 
-const TYPE_COLORS = { checking: "#34d399", savings: "#60a5fa", credit: "#f87171", retirement: "#a78bfa", investment: "#fbbf24" };
+const MOCK_TXN = [
+  { date: "2026-05-20", desc: "Hospital Payroll", amount: 25000, cat: "Income" },
+  { date: "2026-05-18", desc: "Malpractice Premium", amount: -2800, cat: "Insurance" },
+  { date: "2026-05-15", desc: "Office Lease", amount: -4200, cat: "Rent" },
+  { date: "2026-05-12", desc: "Lab Equipment", amount: -1500, cat: "Equipment" },
+  { date: "2026-05-10", desc: "Telehealth Revenue", amount: 3200, cat: "Income" },
+  { date: "2026-05-08", desc: "CME Conference", amount: -950, cat: "Education" },
+  { date: "2026-05-05", desc: "Medical Supplies", amount: -780, cat: "Supplies" },
+];
 
 export default function PlaidAccounts({ profile }) {
-  const [connected, setConnected] = useState([]);
-  const [linking, setLinking] = useState(null);
+  const [connected, setConnected] = useState(false);
+  const [accounts, setAccounts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const allAccounts = connected.flatMap(id => {
-    const bank = BANKS.find(b => b.id === id);
-    return bank ? bank.accounts.map(a => ({ ...a, bankId: id, bankName: bank.name, bankColor: bank.color, bankLogo: bank.logo })) : [];
-  });
-
-  const totalAssets = allAccounts.reduce((s, a) => s + (a.bal > 0 ? a.bal : 0), 0);
-  const totalDebt = allAccounts.reduce((s, a) => s + (a.bal < 0 ? Math.abs(a.bal) : 0), 0);
-
-  const connectBank = (bank) => {
-    setLinking(bank.id);
-    // In production: OAuth flow with Mercury/Brex API
+  const connectBank = (bankKey) => {
+    setLoading(true);
+    // Simulate OAuth connection
     setTimeout(() => {
-      setConnected(prev => [...prev, bank.id]);
-      setLinking(null);
-    }, 1200);
+      setAccounts(MOCK_ACCOUNTS.filter(a => a.bank === bankKey));
+      setConnected(true);
+      setLoading(false);
+    }, 1500);
   };
 
-  const disconnectBank = (bankId) => {
-    setConnected(prev => prev.filter(id => id !== bankId));
-  };
+  const totalBal = accounts.reduce((s, a) => s + a.balance, 0);
+  const catData = MOCK_TXN.reduce((acc, t) => {
+    const existing = acc.find(a => a.name === t.cat);
+    if (existing) existing.value += Math.abs(t.amount);
+    else acc.push({ name: t.cat, value: Math.abs(t.amount), color: t.amount > 0 ? "#34d399" : "#f87171" });
+    return acc;
+  }, []);
+
+  if (!connected) {
+    return (
+      <div className="space-y-5 animate-in">
+        <Section title="Bank Connections" sub="Mercury & Brex Integration" />
+        <Alert type="info">Connect your business banking for automatic transaction categorization, cash flow tracking, and tax-ready reporting.</Alert>
+        <div className="grid grid-cols-2 gap-4">
+          {Object.entries(BANK_REGISTRY).map(([key, bank]) => (
+            <button key={key} onClick={() => connectBank(key)} disabled={loading}
+              className="group p-6 rounded-xl text-center transition-all hover:scale-[1.02]"
+              style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = `${bank.color}40`; e.currentTarget.style.background = `${bank.color}08`; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}>
+              <div className="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center" style={{ background: `${bank.color}15`, border: `1px solid ${bank.color}20` }}>
+                <span className="text-2xl opacity-50">🏦</span>
+              </div>
+              <p className="text-sm font-bold text-white/60">{bank.name}</p>
+              <p className="text-[9px] text-white/20 mt-1">{bank.desc || "Business banking"}</p>
+              <div className="mt-3 py-1.5 rounded-lg text-[9px] font-bold transition" style={{ background: `${bank.color}10`, color: bank.color, border: `1px solid ${bank.color}20` }}>
+                {loading ? "Connecting..." : "Connect"}
+              </div>
+            </button>
+          ))}
+        </div>
+        <p className="text-[8px] text-white/10 text-center">Direct API integration. No Plaid middleman. Your data stays encrypted.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-5 animate-in">
-      <Section title="Bank Accounts" sub="Mercury & Brex" />
-
+      <Section title="Connected Accounts" sub="Mercury & Brex" />
       <div className="grid grid-cols-3 gap-2">
-        <Stat label="Assets" value={fmt(totalAssets)} color="#34d399" />
-        <Stat label="Debt" value={fmt(totalDebt)} color="#f87171" />
-        <Stat label="Net" value={fmt(totalAssets - totalDebt)} color={totalAssets - totalDebt >= 0 ? "#34d399" : "#f87171"} />
+        <Stat label="Total balance" value={fmt(totalBal)} color={totalBal >= 0 ? "#34d399" : "#f87171"} />
+        <Stat label="Accounts" value={accounts.length} color="#60a5fa" />
+        <Stat label="This month" value={fN(MOCK_TXN.reduce((s,t)=>s+t.amount,0))} color="#fbbf24" />
       </div>
 
-      {/* Account list */}
-      {allAccounts.length > 0 && (
-        <div className="space-y-1.5">
-          {allAccounts.map((a, i) => (
-            <div key={i} className="bg-white/[0.03] border border-white/[0.05] rounded-xl p-3 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-black text-white"
-                  style={{ background: a.bankColor }}>
-                  {a.bankLogo}
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-white/80">{a.n}</p>
-                  <p className="text-[9px] text-white/20">{a.bankName} - {a.type}</p>
-                </div>
-              </div>
-              <p className="text-sm font-black tabular-nums"
-                style={{ color: a.bal < 0 ? "#f87171" : (TYPE_COLORS[a.type] || "#fff") }}>
-                {a.bal < 0 ? "-" : ""}{fN(Math.abs(a.bal))}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Connected bank badges */}
-      {connected.length > 0 && (
-        <div className="flex gap-2">
-          {connected.map(id => {
-            const b = BANKS.find(x => x.id === id);
-            if (!b) return null;
-            return (
-              <div key={id} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06]">
-                <div className="w-4 h-4 rounded flex items-center justify-center text-[7px] font-black text-white"
-                  style={{ background: b.color }}>{b.logo}</div>
-                <span className="text-[10px] text-white/40 font-medium">{b.name}</span>
-                <button onClick={() => disconnectBank(id)} className="text-[10px] text-white/15 hover:text-red-400 ml-1">x</button>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Bank connection cards */}
+      {/* Account cards */}
       <div className="space-y-2">
-        {BANKS.filter(b => !connected.includes(b.id)).map(bank => (
-          <button key={bank.id} onClick={() => connectBank(bank)} disabled={linking === bank.id}
-            className="w-full flex items-center gap-3 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] transition text-left disabled:opacity-40">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black text-white flex-shrink-0"
-              style={{ background: bank.color }}>
-              {bank.logo}
+        {accounts.map(a => (
+          <Card key={a.id}>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[11px] text-white/60 font-bold">{a.name}</p>
+                <p className="text-[8px] text-white/15">{a.bank} | {a.type}</p>
+              </div>
+              <p className="text-lg font-black tabular-nums" style={{ color: a.balance >= 0 ? "#34d399" : "#f87171" }}>{fmt(a.balance)}</p>
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-bold text-white/70">{bank.name}</p>
-              <p className="text-[9px] text-white/20">{bank.desc}</p>
-            </div>
-            <span className="text-[10px] text-emerald-400/60 font-medium">
-              {linking === bank.id ? "Connecting..." : "Connect"}
-            </span>
-          </button>
+          </Card>
         ))}
       </div>
 
-      {connected.length === 0 && (
-        <Alert type="info">Connect your Mercury and Brex accounts to see balances, track spending, and get personalized insights.</Alert>
-      )}
+      {/* Spending by category */}
+      <Card>
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Spending by Category</p>
+        <ResponsiveContainer width="100%" height={140}>
+          <BarChart data={catData.filter(d => d.color === "#f87171")} barCategoryGap="20%">
+            <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+            <Tooltip content={<Tip/>}/>
+            <Bar dataKey="value" name="Spent" radius={[4,4,0,0]} fill="#f8717180"/>
+          </BarChart>
+        </ResponsiveContainer>
+      </Card>
 
-      {connected.length === BANKS.length && (
-        <Alert type="success">All accounts connected. Balances update automatically.</Alert>
-      )}
+      {/* Recent transactions */}
+      <Card>
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">Recent Transactions</p>
+        <div className="space-y-1">
+          {MOCK_TXN.map((t, i) => (
+            <div key={i} className="flex items-center justify-between py-1.5 border-b border-white/[0.02] last:border-0">
+              <div>
+                <p className="text-[10px] text-white/40">{t.desc}</p>
+                <p className="text-[8px] text-white/10">{t.date} | {t.cat}</p>
+              </div>
+              <span className={`text-[11px] font-bold tabular-nums ${t.amount > 0 ? "text-emerald-400" : "text-red-400/60"}`}>
+                {t.amount > 0 ? "+" : ""}{fN(t.amount)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }

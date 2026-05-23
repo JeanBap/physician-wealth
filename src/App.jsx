@@ -164,7 +164,7 @@ export default function App() {
           {!hasAccess ? (
             <PaywallLock tier={modMeta?.tier || "pro"} onUpgrade={() => setPage("billing")} />
           ) : ModuleComp ? (
-            <ModuleComp profile={profile} setProfile={setProfile} navigate={navigate} user={user} />
+            <ModuleComp profile={profile} setProfile={setProfile} navigate={navigate} user={user} standalone={true} />
           ) : (
             <div className="text-center py-20 text-white/15">
               <p className="text-sm">Module not found</p>

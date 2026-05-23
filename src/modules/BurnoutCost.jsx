@@ -1,6 +1,13 @@
-import { useState } from "react";
-import { SPECIALTIES, fmt, fN, STATE_TAX } from "../lib/data";
-import { Section, Stat, Inp, Card, Alert } from "../components/ui";
+import { useState, useMemo } from "react";
+import { SPECIALTIES, fmt, fN } from "../lib/data";
+import { Section, Stat, Card, Alert } from "../components/ui";
+import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+
+const Tip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: {p.value}</p>)}</div>);
+};
 
 export default function BurnoutCost({ profile }) {
   const spec = SPECIALTIES[profile.specialty] || SPECIALTIES["Cardiology"];
@@ -9,14 +16,27 @@ export default function BurnoutCost({ profile }) {
   const [cog, setCog] = useState(3);
   const [soc, setSoc] = useState(4);
   const score = Math.round((emo + phys + cog + soc) / 4 * 10);
-
   const sal = profile.salary || spec.m;
+
   const prodLoss = Math.round(sal * (score / 100) * 0.3);
-  const turnoverCost = Math.round(sal * 0.25);
   const healthCost = Math.round(score * 120);
+  const turnoverRisk = Math.round(sal * 0.25 * (score / 100));
+  const totalCost = prodLoss + healthCost + turnoverRisk;
   const divRisk = (spec.divRate * (1 + score / 200) * 100).toFixed(0);
-  const totalCost = prodLoss + healthCost;
   const claimRisk = (spec.claimRate * (1 + score / 300) * 100).toFixed(1);
+
+  const radarData = [
+    { dim: "Emotional", you: emo * 10, avg: spec.burn },
+    { dim: "Physical", you: phys * 10, avg: spec.burn * 0.85 },
+    { dim: "Cognitive", you: cog * 10, avg: spec.burn * 0.9 },
+    { dim: "Social", you: soc * 10, avg: spec.burn * 0.75 },
+  ];
+
+  const costData = [
+    { name: "Productivity", value: prodLoss, color: "#f87171" },
+    { name: "Health", value: healthCost, color: "#fbbf24" },
+    { name: "Turnover Risk", value: turnoverRisk, color: "#a78bfa" },
+  ];
 
   const dims = [
     { label: "Emotional exhaustion", val: emo, set: setEmo, desc: "Feeling drained, overwhelmed" },
@@ -25,39 +45,104 @@ export default function BurnoutCost({ profile }) {
     { label: "Social withdrawal", val: soc, set: setSoc, desc: "Avoiding colleagues, isolation" },
   ];
 
+  // Top 8 specialties by burnout
+  const burnRank = useMemo(() =>
+    Object.entries(SPECIALTIES).sort((a,b) => b[1].burn - a[1].burn).slice(0,8).map(([k,s]) => ({
+      name: k.length > 14 ? k.slice(0,13)+"." : k, burn: s.burn, yours: k === profile.specialty
+    })), [profile.specialty]);
+
   return (
     <div className="space-y-5 animate-in">
       <Section title="Burnout Cost Calculator" sub="Hidden Financial Impact" />
+
+      {/* Score gauge */}
+      <div className="flex items-center justify-center py-3">
+        <div className="relative w-32 h-32">
+          <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="8"/>
+            <circle cx="50" cy="50" r="42" fill="none"
+              stroke={score > 60 ? "#f87171" : score > 40 ? "#fbbf24" : "#34d399"}
+              strokeWidth="8" strokeDasharray={`${score * 2.64} 264`} strokeLinecap="round"
+              style={{ transition: "stroke-dasharray 0.5s ease" }}/>
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="text-3xl font-black" style={{ color: score > 60 ? "#f87171" : score > 40 ? "#fbbf24" : "#34d399" }}>{score}</p>
+            <p className="text-[7px] text-white/15 uppercase">Burnout Score</p>
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-3 gap-2">
-        <Stat label="Burnout score" value={`${score}/100`} color={score > 60 ? "#f87171" : score > 40 ? "#fbbf24" : "#34d399"} />
         <Stat label="Annual cost" value={fmt(totalCost)} color="#f87171" />
         <Stat label="Specialty avg" value={`${spec.burn}%`} color="#a78bfa" />
+        <Stat label="Divorce risk" value={`${divRisk}%`} color="#f472b6" />
       </div>
+
+      {/* Sliders */}
       <Card>
-        <h3 className="text-[10px] text-white/40 uppercase tracking-widest mb-3">Self-Assessment (1-10)</h3>
-        <div className="space-y-3">
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-3">Self-Assessment (1-10)</p>
+        <div className="space-y-4">
           {dims.map((d, i) => (
             <div key={i}>
               <div className="flex items-center justify-between mb-1">
-                <div>
-                  <p className="text-[11px] text-white/50 font-medium">{d.label}</p>
-                  <p className="text-[8px] text-white/20">{d.desc}</p>
-                </div>
-                <span className="text-sm font-bold text-white/60 tabular-nums w-6 text-right">{d.val}</span>
+                <div><p className="text-[10px] text-white/50 font-medium">{d.label}</p><p className="text-[8px] text-white/15">{d.desc}</p></div>
+                <span className="text-sm font-black tabular-nums w-6 text-right" style={{ color: d.val > 7 ? "#f87171" : d.val > 4 ? "#fbbf24" : "#34d399" }}>{d.val}</span>
               </div>
               <input type="range" min="1" max="10" value={d.val} onChange={e => d.set(+e.target.value)}
-                className="w-full h-1 bg-white/[0.06] rounded-full appearance-none cursor-pointer accent-emerald-500" />
+                className="w-full h-1.5 bg-white/[0.06] rounded-full appearance-none cursor-pointer accent-emerald-500"
+                style={{ accentColor: d.val > 7 ? "#f87171" : d.val > 4 ? "#fbbf24" : "#34d399" }} />
             </div>
           ))}
         </div>
       </Card>
-      <div className="grid grid-cols-2 gap-2">
-        <Stat label="Productivity loss" value={fmt(prodLoss)} sub="Reduced patient volume" color="#f87171" />
-        <Stat label="Health costs" value={fmt(healthCost)} sub="Therapy, medication, sick days" color="#fbbf24" />
-        <Stat label="Divorce risk" value={`${divRisk}%`} sub={`${profile.specialty} baseline: ${(spec.divRate*100).toFixed(0)}%`} color="#f87171" />
-        <Stat label="Malpractice risk" value={`+${claimRisk}%`} sub="Burnout increases claim probability" color="#f87171" />
+
+      {/* Radar + Cost bar side by side */}
+      <div className="grid grid-cols-2 gap-3">
+        <Card>
+          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">You vs Specialty Average</p>
+          <ResponsiveContainer width="100%" height={180}>
+            <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="65%">
+              <PolarGrid stroke="rgba(255,255,255,0.04)"/>
+              <PolarAngleAxis dataKey="dim" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }}/>
+              <PolarRadiusAxis tick={false} axisLine={false} domain={[0,100]}/>
+              <Radar name="You" dataKey="you" stroke="#f87171" fill="#f87171" fillOpacity={0.15} strokeWidth={2} dot={{ r:3, fill:"#f87171" }}/>
+              <Radar name="Specialty" dataKey="avg" stroke="#a78bfa" fill="none" strokeWidth={1.5} strokeDasharray="4 4"/>
+            </RadarChart>
+          </ResponsiveContainer>
+        </Card>
+        <Card>
+          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Financial Impact</p>
+          <ResponsiveContainer width="100%" height={140}>
+            <BarChart data={costData} barCategoryGap="25%">
+              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <Tooltip content={<Tip/>}/>
+              <Bar dataKey="value" name="Cost" radius={[4,4,0,0]}>{costData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <p className="text-center text-xs font-bold text-red-400 mt-1">Total: {fmt(totalCost)}/yr</p>
+        </Card>
       </div>
-      {score > 50 && <Alert type="danger">Your burnout score is elevated. Consider reducing call shifts, engaging peer support, or consulting a physician wellness program.</Alert>}
+
+      {/* Specialty burnout ranking */}
+      <Card>
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Burnout by Specialty (Top 8)</p>
+        <ResponsiveContainer width="100%" height={180}>
+          <BarChart data={burnRank} layout="vertical" barCategoryGap="12%">
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false}/>
+            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="%"/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false} width={90}/>
+            <Bar dataKey="burn" name="Burnout %" radius={[0,4,4,0]}>{burnRank.map((d,i)=><Cell key={i} fill={d.yours?"#f87171":"rgba(255,255,255,0.06)"}/>)}</Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </Card>
+
+      <div className="grid grid-cols-2 gap-2">
+        <Stat label="Malpractice risk" value={`+${claimRisk}%`} sub="Burnout correlation" color="#f87171" />
+        <Stat label="Replacement cost" value={fmt(Math.round(sal * 0.25))} sub="If you leave" color="#a78bfa" />
+      </div>
+
+      {score > 50 && <Alert type="danger">Elevated burnout. Consider reducing call, peer support, or physician wellness program. Costing you {fmt(totalCost)}/yr.</Alert>}
     </div>
   );
 }

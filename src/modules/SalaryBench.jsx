@@ -1,6 +1,13 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp } from "../components/ui";
+import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+
+const Tip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value}K</p>)}</div>);
+};
 
 export default function SalaryBench({ profile }) {
   const [salary, setSalary] = useState(profile.salary || 0);
@@ -9,10 +16,19 @@ export default function SalaryBench({ profile }) {
 
   const pctile = displaySal <= spec.lo ? 25 : displaySal >= spec.hi ? 75 :
     25 + ((displaySal - spec.lo) / (spec.hi - spec.lo)) * 50;
-
   const sorted = Object.entries(SPECIALTIES).sort((a, b) => b[1].m - a[1].m);
   const rank = sorted.findIndex(([k]) => k === profile.specialty) + 1;
   const gap = spec.hi - displaySal;
+
+  const chartData = useMemo(() =>
+    sorted.map(([k, s]) => ({
+      name: k.length > 14 ? k.slice(0, 13) + "." : k,
+      salary: Math.round(s.m / 1000),
+      yours: k === profile.specialty,
+    })), [profile.specialty]);
+
+  // Range chart for your specialty
+  const rangeData = [{ name: profile.specialty, lo: Math.round(spec.lo/1000), med: Math.round(spec.m/1000), hi: Math.round(spec.hi/1000), you: Math.round(displaySal/1000) }];
 
   return (
     <div className="space-y-5 animate-in">
@@ -22,36 +38,48 @@ export default function SalaryBench({ profile }) {
         <Stat label="Percentile" value={`${pctile.toFixed(0)}th`} color={pctile > 50 ? "#34d399" : "#fbbf24"} />
         <Stat label="Gap to 75th" value={gap > 0 ? fmt(gap) : "Above"} color={gap > 0 ? "#f87171" : "#34d399"} />
       </div>
+
+      <Inp label="Enter your salary" value={salary} onChange={setSalary} type="number" pre="$" />
+
+      {/* Percentile gauge */}
       <Card>
-        <h3 className="text-[10px] text-white/40 uppercase tracking-widest mb-2">{profile.specialty} Range</h3>
-        <div className="relative h-6 bg-white/[0.04] rounded-full overflow-hidden">
-          <div className="absolute h-full bg-emerald-500/20 rounded-full" style={{ left: "0%", width: "100%" }} />
-          <div className="absolute top-0 h-full w-1 bg-emerald-400 rounded-full"
-            style={{ left: `${Math.min(100, pctile)}%` }} />
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">{profile.specialty} Salary Range</p>
+        <div className="relative h-8 bg-white/[0.04] rounded-full overflow-visible mx-4">
+          {/* 25th-75th range */}
+          <div className="absolute h-full bg-gradient-to-r from-emerald-500/10 to-emerald-500/20 rounded-full" style={{ left: "0%", width: "100%" }} />
+          {/* Your position marker */}
+          <div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-[#0d0e14] z-10" style={{
+            left: `${Math.min(100, Math.max(0, pctile / 75 * 100))}%`,
+            borderColor: pctile > 50 ? "#34d399" : "#fbbf24",
+            boxShadow: `0 0 8px ${pctile > 50 ? "#34d39940" : "#fbbf2440"}`
+          }} />
+          {/* Median marker */}
+          <div className="absolute top-0 h-full w-0.5 bg-white/15" style={{ left: "50%" }} />
         </div>
-        <div className="flex justify-between mt-1 text-[8px] text-white/20">
+        <div className="flex justify-between mt-2 text-[8px] text-white/15 mx-4">
           <span>{fN(spec.lo)} (25th)</span>
-          <span>{fN(spec.m)} (median)</span>
+          <span>{fN(spec.m)} (50th)</span>
           <span>{fN(spec.hi)} (75th)</span>
         </div>
       </Card>
-      <Inp label="Enter your salary to compare" value={salary} onChange={setSalary} type="number" pre="$" />
+
+      {/* All specialties chart */}
       <Card>
-        <h3 className="text-[10px] text-white/40 uppercase tracking-widest mb-2">All Specialties (Ranked #{rank}/20)</h3>
-        <div className="space-y-1 max-h-60 overflow-y-auto">
-          {sorted.map(([k, s], i) => {
-            const isYou = k === profile.specialty;
-            return (
-              <div key={k} className={`flex items-center justify-between py-1 border-b border-white/[0.02] last:border-0 ${isYou ? "bg-emerald-500/[0.05] rounded-lg px-2 -mx-2" : ""}`}>
-                <div className="flex items-center gap-2">
-                  <span className="text-[8px] text-white/15 w-4 text-right">{i+1}</span>
-                  <span className={`text-[10px] ${isYou ? "text-emerald-400 font-bold" : "text-white/40"}`}>{k}</span>
-                </div>
-                <span className="text-[10px] text-white/30 tabular-nums">{fN(s.m)}</span>
-              </div>
-            );
-          })}
-        </div>
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">All Specialties - Median Salary ($K)</p>
+        <p className="text-[8px] text-white/8 mb-2">Rank #{rank}/20</p>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={chartData} layout="vertical" barCategoryGap="8%">
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false} />
+            <XAxis type="number" tick={{ fontSize: 8, fill: "rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="K" />
+            <YAxis type="category" dataKey="name" tick={{ fontSize: 8, fill: "rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} width={100} />
+            <Tooltip content={<Tip />} />
+            <Bar dataKey="salary" name="Median" radius={[0, 4, 4, 0]} animationDuration={800}>
+              {chartData.map((d, i) => (
+                <Cell key={i} fill={d.yours ? "#34d399" : "rgba(255,255,255,0.06)"} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
       </Card>
     </div>
   );

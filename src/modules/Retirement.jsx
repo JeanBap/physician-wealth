@@ -1,6 +1,15 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Donut, Alert } from "../components/ui";
+import { AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+
+const Tip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl">
+    <p className="text-[9px] text-white/30 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}
+  </div>);
+};
 
 export default function Retirement({ profile }) {
   const spec = SPECIALTIES[profile.specialty] || SPECIALTIES["Cardiology"];
@@ -17,15 +26,27 @@ export default function Retirement({ profile }) {
   const totalCurrent = current401k + currentIRA + currentTax;
   const fiTarget = sal * 0.6 / 0.04;
 
-  // Project future value
-  let fv = totalCurrent;
-  for (let y = 0; y < yearsToRetire; y++) {
-    fv = fv * (1 + returnRate / 100) + annualSave;
-  }
+  const projection = useMemo(() => {
+    let bal = totalCurrent;
+    return Array.from({ length: yearsToRetire + 1 }, (_, i) => {
+      const d = { age: age + i, balance: Math.round(bal), target: fiTarget, contributions: Math.round(annualSave * i) };
+      bal = bal * (1 + returnRate / 100) + annualSave;
+      return d;
+    });
+  }, [totalCurrent, yearsToRetire, age, returnRate, annualSave, fiTarget]);
 
+  const fv = projection[projection.length - 1]?.balance || 0;
   const gap = fiTarget - fv;
   const funded = Math.min(100, Math.round((fv / fiTarget) * 100));
   const monthlyIncome = Math.round(fv * 0.04 / 12);
+
+  const contribData = [
+    { name: "401(k)", value: 23500, max: 23500, color: "#34d399" },
+    { name: "Employer", value: 46500, max: 46500, color: "#60a5fa" },
+    { name: "Roth IRA", value: 7000, max: 7000, color: "#a78bfa" },
+    { name: "HSA", value: 8300, max: 8300, color: "#fbbf24" },
+    ...(age >= 50 ? [{ name: "Catch-up", value: 7500, max: 7500, color: "#f472b6" }] : []),
+  ];
 
   return (
     <div className="space-y-5 animate-in">
@@ -38,33 +59,59 @@ export default function Retirement({ profile }) {
         <Inp label="Taxable investments" value={currentTax} onChange={setCurrentTax} type="number" pre="$" />
         <Inp label="Annual savings" value={annualSave} onChange={setAnnualSave} type="number" pre="$" />
       </div>
-      <div className="flex justify-center py-3">
-        <Donut value={funded} max={100} size={120} sw={8} color={funded >= 100 ? "#34d399" : funded > 60 ? "#fbbf24" : "#f87171"}>
+
+      {/* Funded donut */}
+      <div className="flex justify-center py-2">
+        <Donut value={funded} max={100} size={120} sw={9} color={funded >= 100 ? "#34d399" : funded > 60 ? "#fbbf24" : "#f87171"}>
           <p className="text-2xl font-black" style={{ color: funded >= 100 ? "#34d399" : funded > 60 ? "#fbbf24" : "#f87171" }}>{funded}%</p>
-          <p className="text-[7px] text-white/20">FUNDED</p>
+          <p className="text-[7px] text-white/15 uppercase">Funded</p>
         </Donut>
       </div>
+
       <div className="grid grid-cols-3 gap-2">
-        <Stat label="Projected at retire" value={fmt(fv)} color="#34d399" />
+        <Stat label="Projected" value={fmt(fv)} color="#34d399" />
         <Stat label="FI target" value={fmt(fiTarget)} color="#60a5fa" />
         <Stat label={gap > 0 ? "Gap" : "Surplus"} value={fmt(Math.abs(gap))} color={gap > 0 ? "#f87171" : "#34d399"} />
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Stat label="Monthly retirement income" value={fN(monthlyIncome)} sub="4% withdrawal rate" color="#a78bfa" />
-        <Stat label="Years to retire" value={yearsToRetire} sub={`At age ${retireAge}`} color="#fbbf24" />
-      </div>
+
+      {/* Growth projection chart */}
       <Card>
-        <h3 className="text-[10px] text-white/40 uppercase tracking-widest mb-2">Contribution Limits (2025)</h3>
-        <div className="space-y-1 text-[10px]">
-          <div className="flex justify-between"><span className="text-white/30">401(k) elective</span><span className="text-white/60">$23,500</span></div>
-          <div className="flex justify-between"><span className="text-white/30">401(k) total (incl employer)</span><span className="text-white/60">$70,000</span></div>
-          <div className="flex justify-between"><span className="text-white/30">Backdoor Roth IRA</span><span className="text-white/60">$7,000</span></div>
-          <div className="flex justify-between"><span className="text-white/30">HSA (family)</span><span className="text-white/60">$8,300</span></div>
-          {age >= 50 && <div className="flex justify-between"><span className="text-white/30">Catch-up (50+)</span><span className="text-emerald-400">+$7,500</span></div>}
-        </div>
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Growth Projection to Age {retireAge}</p>
+        <ResponsiveContainer width="100%" height={200}>
+          <AreaChart data={projection}>
+            <defs>
+              <linearGradient id="retG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.3}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
+            <XAxis dataKey="age" tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+            <Tooltip content={<Tip/>}/>
+            <Area type="monotone" dataKey="balance" name="Portfolio" stroke="#34d399" fill="url(#retG)" strokeWidth={2.5} dot={false}/>
+            <Area type="monotone" dataKey="target" name="FI Target" stroke="#fbbf24" fill="none" strokeWidth={1.5} strokeDasharray="6 4" dot={false}/>
+          </AreaChart>
+        </ResponsiveContainer>
       </Card>
-      {gap > 0 && <Alert type="warn">Gap of {fmt(gap)}. Increase annual savings by {fN(Math.round(gap / yearsToRetire))} or delay retirement by {Math.ceil(gap / (annualSave + totalCurrent * returnRate / 100))} years.</Alert>}
-      {gap <= 0 && <Alert type="success">On track! Projected surplus of {fmt(Math.abs(gap))} at retirement.</Alert>}
+
+      {/* Contribution limits */}
+      <Card>
+        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">2025 Contribution Limits</p>
+        <ResponsiveContainer width="100%" height={contribData.length * 35 + 10}>
+          <BarChart data={contribData} layout="vertical" barCategoryGap="20%">
+            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} width={60}/>
+            <Tooltip content={<Tip/>}/>
+            <Bar dataKey="value" name="Limit" radius={[0,4,4,0]}>{contribData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </Card>
+
+      <div className="grid grid-cols-2 gap-2">
+        <Stat label="Monthly retirement income" value={fN(monthlyIncome)} sub="4% withdrawal" color="#a78bfa" />
+        <Stat label="Years to retire" value={yearsToRetire} sub={`Age ${retireAge}`} color="#fbbf24" />
+      </div>
+
+      {gap > 0 && <Alert type="warn">Gap of {fmt(gap)}. Increase savings by {fN(Math.round(gap / yearsToRetire))}/yr or delay {Math.ceil(gap / (annualSave + totalCurrent * returnRate / 100))} years.</Alert>}
+      {gap <= 0 && <Alert type="success">On track. Surplus of {fmt(Math.abs(gap))} at age {retireAge}.</Alert>}
     </div>
   );
 }
