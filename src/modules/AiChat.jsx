@@ -1,84 +1,92 @@
-import { useState } from "react";
-import { SPECIALTIES, fN } from "../lib/data";
-import { Section, Card, Alert } from "../components/ui";
+import { useState, useEffect, useRef } from "react";
+import { SPECIALTIES, fmt } from "../lib/data";
+import { Section, Card, Btn } from "../components/ui";
+import { analyzeWithContext } from "../lib/ai";
+import { getUserContext } from "../lib/supabase";
 
-export default function AiChat({ profile }) {
+export default function AiChat({ profile, user }) {
   const [messages, setMessages] = useState([
-    { role: "assistant", content: `Welcome! I'm your AI financial advisor. I know you're a ${profile.specialty} physician in ${profile.state}. How can I help with your finances today?` }
+    { role: "assistant", content: "I'm your AI financial advisor. I have access to your complete financial profile and uploaded documents. Ask me anything about tax optimization, loan strategies, insurance, retirement planning, or real estate." }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [contextMd, setContextMd] = useState("");
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await getUserContext(user?.id || "local");
+      if (data?.context_md) setContextMd(data.context_md);
+    })();
+  }, [user]);
+
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
   const send = async () => {
     if (!input.trim() || loading) return;
-    const userMsg = { role: "user", content: input };
-    setMessages(prev => [...prev, userMsg]);
+    const userMsg = input.trim();
     setInput("");
+    setMessages(prev => [...prev, { role: "user", content: userMsg }]);
     setLoading(true);
 
-    // In production: call Claude API with physician financial context
-    // const response = await fetch("/api/ai/chat", {
-    //   method: "POST",
-    //   body: JSON.stringify({ messages: [...messages, userMsg], profile })
-    // });
+    try {
+      const systemPrompt = `You are a physician financial advisor AI for PhysicianWealth. You specialize in tax optimization, student loan strategies, insurance, retirement planning, real estate investing, and asset protection for high-income US physicians. Be specific with numbers. Reference the user's actual financial data when available. Give actionable advice.`;
 
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        role: "assistant",
-        content: "I'd analyze that based on your specialty, income level, and state tax situation. In production, this connects to the Claude API with full context about your financial profile, including salary benchmarks, tax optimization strategies, and loan repayment options specific to physicians."
-      }]);
-      setLoading(false);
-    }, 1500);
+      const conversationContext = messages.slice(-6).map(m => `${m.role}: ${m.content}`).join("\n");
+      const fullQuery = `Previous conversation:\n${conversationContext}\n\nUser question: ${userMsg}`;
+
+      const result = await analyzeWithContext(systemPrompt, fullQuery, contextMd);
+      setMessages(prev => [...prev, { role: "assistant", content: result }]);
+    } catch (err) {
+      setMessages(prev => [...prev, { role: "assistant", content: "AI analysis requires the ANTHROPIC_API_KEY to be configured. In the meantime, I can help you navigate the calculator modules which work offline." }]);
+    }
+    setLoading(false);
   };
 
   return (
     <div className="space-y-4 animate-in">
-      <Section title="AI Financial Advisor" sub="Claude-Powered" />
-      <div className="bg-white/[0.02] border border-white/[0.05] rounded-2xl overflow-hidden">
-        <div className="h-80 overflow-y-auto p-4 space-y-3">
-          {messages.map((m, i) => (
-            <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm leading-relaxed ${
-                m.role === "user"
-                  ? "bg-emerald-500/15 text-emerald-200/80"
-                  : "bg-white/[0.04] text-white/65"
-              }`}>
-                {m.content}
-              </div>
-            </div>
-          ))}
-          {loading && (
-            <div className="flex justify-start">
-              <div className="bg-white/[0.04] px-3 py-2 rounded-xl">
-                <div className="flex gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white/20 animate-bounce" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-white/20 animate-bounce" style={{ animationDelay: "0.1s" }} />
-                  <div className="w-1.5 h-1.5 rounded-full bg-white/20 animate-bounce" style={{ animationDelay: "0.2s" }} />
-                </div>
-              </div>
-            </div>
-          )}
+      <Section title="AI Financial Advisor" sub="Claude-Powered with Your Context" />
+
+      {contextMd && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-500/[0.06] border border-emerald-500/15">
+          <span className="text-sm">🧠</span>
+          <p className="text-xs text-emerald-400/70">Context loaded: profile + {contextMd.split("###").length - 1} documents. AI responses are personalized.</p>
         </div>
-        <div className="border-t border-white/[0.05] p-3 flex gap-2">
-          <input value={input} onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && send()}
-            placeholder="Ask about taxes, loans, retirement..."
-            className="flex-1 bg-white/[0.04] border border-white/[0.06] rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-emerald-500/30 placeholder:text-white/55" />
-          <button onClick={send} disabled={loading || !input.trim()}
-            className="px-4 py-2 bg-emerald-500 text-white text-xs font-bold rounded-xl hover:bg-emerald-400 transition disabled:opacity-30">
-            Send
-          </button>
-        </div>
-      </div>
-      <div className="flex flex-wrap gap-1.5">
-        {["How can I reduce my tax bill?", "Should I pursue PSLF?", "Am I saving enough for retirement?", "Review my disability coverage"].map(q => (
-          <button key={q} onClick={() => { setInput(q); }}
-            className="px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/[0.05] text-xs text-white/65 hover:text-white/65 transition">
-            {q}
-          </button>
+      )}
+
+      {/* Chat messages */}
+      <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+        {messages.map((m, i) => (
+          <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div className={`max-w-[80%] rounded-xl px-4 py-3 ${
+              m.role === "user"
+                ? "bg-emerald-500/15 border border-emerald-500/20 text-white/65"
+                : "bg-white/[0.03] border border-white/[0.06] text-white/55"
+            }`}>
+              <p className="text-sm whitespace-pre-wrap leading-relaxed">{m.content}</p>
+            </div>
+          </div>
         ))}
+        {loading && (
+          <div className="flex justify-start">
+            <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3">
+              <p className="text-sm text-white/40 animate-pulse">Analyzing with double-pass AI...</p>
+            </div>
+          </div>
+        )}
+        <div ref={bottomRef} />
       </div>
-      <Alert type="info">Premium feature. Claude has context on your specialty, salary, state, and all financial data. Not a substitute for professional financial advice.</Alert>
+
+      {/* Input */}
+      <div className="flex gap-2">
+        <input value={input} onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}
+          placeholder="Ask about tax strategies, loan optimization, RE investing..."
+          className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-lg px-4 py-3 text-sm text-white/65 outline-none focus:border-emerald-500/30 placeholder:text-white/25" />
+        <Btn onClick={send} disabled={loading || !input.trim()}>Send</Btn>
+      </div>
+
+      <p className="text-xs text-white/40 text-center">AI uses your uploaded documents and profile data for personalized advice. Not a substitute for a licensed financial advisor.</p>
     </div>
   );
 }

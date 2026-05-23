@@ -114,6 +114,7 @@ export const MODULES = {
   moonlight:     { label:"Moonlighting",     icon:"◈", tier:"pro",     color:"#fbbf24", cat:"Career" },
   burnout:       { label:"Burnout Cost",     icon:"◉", tier:"pro",     color:"#f87171", cat:"Career" },
   plaid:         { label:"Linked Accounts",  icon:"◈", tier:"pro",     color:"#818cf8", cat:"Banking" },
+  vault:         { label:"Document Vault",   icon:"◆", tier:"pro",     color:"#60a5fa", cat:"Core" },
   docscan:       { label:"Doc Scanner",      icon:"◆", tier:"premium", color:"#60a5fa", cat:"AI" },
   aichat:        { label:"AI Advisor",       icon:"◎", tier:"premium", color:"#34d399", cat:"AI" },
   settings:      { label:"Settings",         icon:"◎", tier:"free",    always:true, cat:"System" },

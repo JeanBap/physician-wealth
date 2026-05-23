@@ -2,6 +2,7 @@ import { useState } from "react";
 import { fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn } from "../components/ui";
 import { analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
+import { saveDocument } from "../lib/supabase";
 
 export default function DocScanner({ profile }) {
   const [file, setFile] = useState(null);

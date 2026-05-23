@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SPECIALTIES, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn } from "../components/ui";
 import { analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
+import { saveDocument } from "../lib/supabase";
 
 const CLAUSES = [
   { name: "Non-compete radius", good: "< 10 miles", bad: "> 25 miles", weight: 3 },

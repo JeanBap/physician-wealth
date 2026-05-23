@@ -87,3 +87,11 @@ export function fileToBase64(file) {
 }
 
 export default { analyzeDouble, parseAIResponse, fileToBase64 };
+
+// Context-aware analysis: prepends user context .md to system prompt
+export async function analyzeWithContext(systemPrompt, userContent, userContextMd) {
+  const contextPrefix = userContextMd
+    ? `\n\n## USER FINANCIAL CONTEXT (use this to personalize your analysis):\n${userContextMd}\n\n---\n\n`
+    : "";
+  return analyzeDouble(systemPrompt + contextPrefix, userContent);
+}

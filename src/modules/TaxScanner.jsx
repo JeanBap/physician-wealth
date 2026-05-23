@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SPECIALTIES, STATE_TAX, fedTax, fica, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn } from "../components/ui";
 import { analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
+import { saveDocument } from "../lib/supabase";
 
 const FALLBACK_STRATEGIES = [
   { name:"S-Corp + Reasonable Salary", savings:"$15-40K", risk:"Medium", complexity:"High", desc:"Route 1099 income through S-Corp. Pay yourself 60% W-2, distribute 40%." },

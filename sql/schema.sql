@@ -218,3 +218,34 @@ create index idx_subscriptions_user on public.subscriptions(user_id);
 create index idx_subscriptions_stripe on public.subscriptions(stripe_customer_id);
 create index idx_saved_docs_user on public.saved_documents(user_id);
 create index idx_audit_user on public.audit_log(user_id);
+
+-- ============================================================
+-- 7. DOCUMENT VAULT (expanded)
+-- ============================================================
+-- Drop and recreate saved_documents with richer schema
+-- (Run this AFTER initial schema if upgrading)
+
+ALTER TABLE IF EXISTS public.saved_documents
+  ADD COLUMN IF NOT EXISTS content_text text,
+  ADD COLUMN IF NOT EXISTS ai_summary text,
+  ADD COLUMN IF NOT EXISTS ai_key_findings jsonb,
+  ADD COLUMN IF NOT EXISTS file_size integer,
+  ADD COLUMN IF NOT EXISTS source_module text,
+  ADD COLUMN IF NOT EXISTS status text DEFAULT 'uploaded';
+  -- status: uploaded, analyzing, analyzed, error
+
+-- ============================================================
+-- 8. USER CONTEXT (.md summary per user)
+-- ============================================================
+create table if not exists public.user_context (
+  user_id uuid references auth.users(id) on delete cascade primary key,
+  context_md text default '',
+  last_rebuilt timestamptz default now(),
+  doc_count integer default 0,
+  total_findings integer default 0,
+  updated_at timestamptz default now()
+);
+
+alter table public.user_context enable row level security;
+create policy "Users can view own context" on public.user_context for select using (auth.uid() = user_id);
+create policy "Users can manage own context" on public.user_context for all using (auth.uid() = user_id);

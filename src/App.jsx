@@ -30,6 +30,7 @@ import DocScanner from "./modules/DocScanner";
 import AiChat from "./modules/AiChat";
 import RealEstate from "./modules/RealEstate";
 import EstatePlan from "./modules/EstatePlan";
+import DocumentVault from "./modules/DocumentVault";
 
 const MODULE_COMPONENTS = {
   dashboard: Dashboard,
@@ -55,6 +56,7 @@ const MODULE_COMPONENTS = {
   aichat: AiChat,
   realestate: RealEstate,
   estateplan: EstatePlan,
+  vault: DocumentVault,
 };
 
 export default function App() {
