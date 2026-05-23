@@ -5,7 +5,7 @@ import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveCo
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
     {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
@@ -86,17 +86,17 @@ export default function EstatePlan({ profile }) {
       {/* 529 projection */}
       {kids > 0 && (
         <Card>
-          <p className="text-xs text-white/15 uppercase tracking-widest mb-1">529 Growth (${monthly529}/mo per child, {yearsToCollege}yr)</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">529 Growth (${monthly529}/mo per child, {yearsToCollege}yr)</p>
           <ResponsiveContainer width="100%" height={160}>
             <BarChart data={shelterData} barCategoryGap="20%">
-              <XAxis dataKey="name" tick={{ fontSize:10, fill:"rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <XAxis dataKey="name" tick={{ fontSize:10, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="value" name="Annual" radius={[4,4,0,0]}>{shelterData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
           </ResponsiveContainer>
           <div className="mt-2 flex justify-between text-xs">
-            <span className="text-white/20">Total sheltered/yr</span>
+            <span className="text-white/55">Total sheltered/yr</span>
             <span className="text-emerald-400 font-bold">{fN(shelterData.reduce((s,d) => s + d.value, 0))}</span>
           </div>
         </Card>
@@ -104,23 +104,23 @@ export default function EstatePlan({ profile }) {
 
       {/* Asset protection checklist */}
       <Card>
-        <p className="text-xs text-white/15 uppercase tracking-widest mb-2">Asset Protection Checklist</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Asset Protection Checklist</p>
         <div className="space-y-2">
           {protectionItems.map((p, i) => (
             <div key={i} className="flex items-start gap-3 py-2 border-b border-white/[0.03] last:border-0">
-              <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-xs ${p.done ? "bg-emerald-500/20 text-emerald-400" : "bg-white/[0.04] text-white/15"}`}>
+              <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-xs ${p.done ? "bg-emerald-500/20 text-emerald-400" : "bg-white/[0.04] text-white/55"}`}>
                 {p.done ? "O" : ""}
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <p className={`text-sm font-medium ${p.done ? "text-white/30 line-through" : "text-white/50"}`}>{p.name}</p>
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                  <p className={`text-sm font-medium ${p.done ? "text-white/75 line-through" : "text-white/65"}`}>{p.name}</p>
+                  <span className={`text-sm px-1.5 py-0.5 rounded-full font-bold ${
                     p.priority === "Critical" ? "bg-red-500/10 text-red-400" :
                     p.priority === "High" ? "bg-amber-500/10 text-amber-400" :
                     "bg-blue-500/10 text-blue-400"}`}>{p.priority}</span>
                 </div>
-                <p className="text-xs text-white/15 mt-0.5">{p.desc}</p>
-                <p className="text-[10px] text-white/10">Cost: {p.cost}</p>
+                <p className="text-xs text-white/55 mt-0.5">{p.desc}</p>
+                <p className="text-sm text-white/65">Cost: {p.cost}</p>
               </div>
             </div>
           ))}
@@ -130,14 +130,14 @@ export default function EstatePlan({ profile }) {
       {/* College costs */}
       {kids > 0 && (
         <Card>
-          <p className="text-xs text-white/15 uppercase tracking-widest mb-2">College Cost Estimates (per child)</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-2">College Cost Estimates (per child)</p>
           <div className="space-y-1.5 text-sm">
-            <div className="flex justify-between"><span className="text-white/25">Public in-state (4yr)</span><span className="text-white/50">{fN(110000)}</span></div>
-            <div className="flex justify-between"><span className="text-white/25">Public out-of-state</span><span className="text-white/50">{fN(180000)}</span></div>
-            <div className="flex justify-between"><span className="text-white/25">Private (4yr)</span><span className="text-white/50">{fN(340000)}</span></div>
-            <div className="flex justify-between"><span className="text-white/25">Medical school (4yr)</span><span className="text-red-400/60">{fN(280000)}</span></div>
+            <div className="flex justify-between"><span className="text-white/65">Public in-state (4yr)</span><span className="text-white/65">{fN(110000)}</span></div>
+            <div className="flex justify-between"><span className="text-white/65">Public out-of-state</span><span className="text-white/65">{fN(180000)}</span></div>
+            <div className="flex justify-between"><span className="text-white/65">Private (4yr)</span><span className="text-white/65">{fN(340000)}</span></div>
+            <div className="flex justify-between"><span className="text-white/65">Medical school (4yr)</span><span className="text-red-400/80">{fN(280000)}</span></div>
             <div className="flex justify-between border-t border-white/[0.05] pt-1.5 mt-1.5">
-              <span className="text-white/40 font-bold">529 projected at 18</span>
+              <span className="text-white/55 font-bold">529 projected at 18</span>
               <span className={`font-bold ${finalBal >= collegeCost ? "text-emerald-400" : "text-fbbf24"}`}>{fmt(finalBal)}</span>
             </div>
           </div>

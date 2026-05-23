@@ -5,8 +5,8 @@ import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, Cartes
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 const GIGS = [
@@ -50,7 +50,7 @@ export default function Moonlighting({ profile }) {
 
       {/* Net income comparison */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Net Annual Income by Gig ($K)</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Net Annual Income by Gig ($K)</p>
         <ResponsiveContainer width="100%" height={160}>
           <BarChart data={chartData} barCategoryGap="20%">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" />
@@ -70,16 +70,16 @@ export default function Moonlighting({ profile }) {
           <Card key={g.id} className={i === 0 ? "border-emerald-500/15 bg-emerald-500/[0.02]" : ""}>
             <div className="flex items-center justify-between mb-1">
               <div>
-                <p className="text-[11px] text-white/60 font-bold">{g.name} {i === 0 && <span className="text-emerald-400 text-[8px]">TOP</span>}</p>
-                <p className="text-[8px] text-white/15">{g.desc} | {g.hrsPerWk}hr/wk @ ${g.hrRate}/hr</p>
+                <p className="text-sm text-white/75 font-bold">{g.name} {i === 0 && <span className="text-emerald-400 text-xs">TOP</span>}</p>
+                <p className="text-xs text-white/55">{g.desc} | {g.hrsPerWk}hr/wk @ ${g.hrRate}/hr</p>
               </div>
               <p className="text-sm font-black text-emerald-400 tabular-nums">{fmt(g.net)}</p>
             </div>
-            <div className="flex gap-3 text-[8px] text-white/15">
+            <div className="flex gap-3 text-xs text-white/55">
               <span>Gross: {fN(g.gross)}</span>
               <span>Tax: {fN(g.tax)}</span>
               <span>Eff: {g.effectiveRate}%</span>
-              <span className="text-emerald-400/50">Net/hr: ${g.netPerHr}</span>
+              <span className="text-emerald-400/70">Net/hr: ${g.netPerHr}</span>
             </div>
             <div className="mt-1.5 h-1 bg-white/[0.03] rounded-full overflow-hidden">
               <div className="h-full bg-emerald-500/40 rounded-full" style={{ width: `${(g.net / bestGig.net) * 100}%` }} />

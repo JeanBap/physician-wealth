@@ -25,7 +25,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
       <div className="w-full max-w-lg space-y-5">
         <div className="text-center">
           <p className="text-emerald-400 text-lg font-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>PhysicianWealth</p>
-          <p className="text-sm text-white/20 mt-1">Step {step + 1} of {STEPS.length}: {STEPS[step]}</p>
+          <p className="text-sm text-white/55 mt-1">Step {step + 1} of {STEPS.length}: {STEPS[step]}</p>
         </div>
 
         {/* Progress bar */}
@@ -38,13 +38,13 @@ export default function Onboarding({ profile, setProfile, navigate }) {
         {/* Step 0: Basics */}
         {step === 0 && (
           <Card>
-            <p className="text-sm text-white/40 font-bold mb-4">Career Stage</p>
+            <p className="text-sm text-white/55 font-bold mb-4">Career Stage</p>
             <div className="grid grid-cols-2 gap-2 mb-4">
               {Object.entries(STAGES).map(([k, s]) => (
                 <button key={k} onClick={() => applyStage(k)}
                   className={`p-3 rounded-xl text-left transition ${profile.stage === k ? "bg-emerald-500/10 border-emerald-500/25" : "bg-white/[0.03] border-white/[0.06]"} border`}>
-                  <p className="text-sm text-white/60 font-bold">{s.label}</p>
-                  <p className="text-xs text-white/20">{s.sub}</p>
+                  <p className="text-sm text-white/75 font-bold">{s.label}</p>
+                  <p className="text-xs text-white/55">{s.sub}</p>
                 </button>
               ))}
             </div>
@@ -69,13 +69,13 @@ export default function Onboarding({ profile, setProfile, navigate }) {
         {/* Step 1: Income & Debt */}
         {step === 1 && (
           <Card>
-            <p className="text-sm text-white/40 font-bold mb-4">Income</p>
+            <p className="text-sm text-white/55 font-bold mb-4">Income</p>
             <div className="grid grid-cols-2 gap-3">
               <Inp label="W-2 salary" value={profile.salary} onChange={v => update("salary", +v)} type="number" pre="$" />
               <Inp label="Moonlighting income" value={profile.moonlightIncome} onChange={v => update("moonlightIncome", +v)} type="number" pre="$" />
               <Inp label="Rental income (annual)" value={profile.rentalIncome} onChange={v => update("rentalIncome", +v)} type="number" pre="$" />
             </div>
-            <p className="text-sm text-white/40 font-bold mt-5 mb-4">Debt</p>
+            <p className="text-sm text-white/55 font-bold mt-5 mb-4">Debt</p>
             <div className="grid grid-cols-2 gap-3">
               <Inp label="Student loans" value={profile.loans} onChange={v => update("loans", +v)} type="number" pre="$" />
               <Inp label="Mortgage balance" value={profile.mortgageBalance} onChange={v => update("mortgageBalance", +v)} type="number" pre="$" />
@@ -88,7 +88,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
         {/* Step 2: Assets & Insurance */}
         {step === 2 && (
           <Card>
-            <p className="text-sm text-white/40 font-bold mb-4">Assets</p>
+            <p className="text-sm text-white/55 font-bold mb-4">Assets</p>
             <div className="grid grid-cols-2 gap-3">
               <Inp label="Liquid savings" value={profile.savings} onChange={v => update("savings", +v)} type="number" pre="$" />
               <Inp label="Retirement accounts" value={profile.retirement} onChange={v => update("retirement", +v)} type="number" pre="$" />
@@ -97,13 +97,13 @@ export default function Onboarding({ profile, setProfile, navigate }) {
               <Inp label="529 plans" value={profile.plan529} onChange={v => update("plan529", +v)} type="number" pre="$" />
               <Inp label="Crypto / alt assets" value={profile.cryptoAssets} onChange={v => update("cryptoAssets", +v)} type="number" pre="$" />
             </div>
-            <p className="text-sm text-white/40 font-bold mt-5 mb-4">Real Estate</p>
+            <p className="text-sm text-white/55 font-bold mt-5 mb-4">Real Estate</p>
             <div className="grid grid-cols-2 gap-3">
               <Inp label="Primary home value" value={profile.homeValue} onChange={v => update("homeValue", +v)} type="number" pre="$" />
               <Inp label="Rental property value" value={profile.rentalPropertyValue} onChange={v => update("rentalPropertyValue", +v)} type="number" pre="$" />
               <Inp label="Rental equity" value={profile.rentalPropertyEquity} onChange={v => update("rentalPropertyEquity", +v)} type="number" pre="$" />
             </div>
-            <p className="text-sm text-white/40 font-bold mt-5 mb-4">Insurance</p>
+            <p className="text-sm text-white/55 font-bold mt-5 mb-4">Insurance</p>
             <div className="space-y-1">
               <Toggle label="Own-occupation disability" value={profile.hasDI} onChange={v => update("hasDI", v)} />
               <Toggle label="Umbrella policy ($2M+)" value={profile.hasUmbrella} onChange={v => update("hasUmbrella", v)} />
@@ -115,7 +115,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
         {/* Step 3: Family & Estate */}
         {step === 3 && (
           <Card>
-            <p className="text-sm text-white/40 font-bold mb-4">Family</p>
+            <p className="text-sm text-white/55 font-bold mb-4">Family</p>
             <div className="grid grid-cols-2 gap-3">
               <Inp label="Number of children" value={profile.kids} onChange={v => update("kids", +v)} type="number" />
               <Inp label="Target retire age" value={profile.retireAge} onChange={v => update("retireAge", +v)} type="number" />
@@ -128,7 +128,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
                 <Inp label="Spouse loans" value={profile.spouseLoans} onChange={v => update("spouseLoans", +v)} type="number" pre="$" />
               </div>
             )}
-            <p className="text-sm text-white/40 font-bold mt-5 mb-4">Estate Planning</p>
+            <p className="text-sm text-white/55 font-bold mt-5 mb-4">Estate Planning</p>
             <div className="space-y-1">
               <Toggle label="Will / testament" value={profile.hasWill} onChange={v => update("hasWill", v)} />
               <Toggle label="Revocable living trust" value={profile.hasTrust} onChange={v => update("hasTrust", v)} />
@@ -141,8 +141,8 @@ export default function Onboarding({ profile, setProfile, navigate }) {
         {/* Step 4: Module selection */}
         {step === 4 && (
           <Card>
-            <p className="text-sm text-white/40 font-bold mb-2">Choose your focus areas</p>
-            <p className="text-xs text-white/15 mb-4">We'll customize your dashboard. You can change this later in Settings.</p>
+            <p className="text-sm text-white/55 font-bold mb-2">Choose your focus areas</p>
+            <p className="text-xs text-white/55 mb-4">We'll customize your dashboard. You can change this later in Settings.</p>
             <div className="grid grid-cols-2 gap-2">
               {[
                 { k:"tax", l:"Tax Optimization", icon:"📊" },
@@ -162,7 +162,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
                     ...prev, priorities: sel ? prev.priorities.filter(p => p !== m.k) : [...(prev.priorities || []), m.k]
                   }))} className={`p-3 rounded-xl text-left transition border ${sel ? "bg-emerald-500/10 border-emerald-500/25" : "bg-white/[0.03] border-white/[0.06]"}`}>
                     <span className="text-lg">{m.icon}</span>
-                    <p className={`text-sm mt-1 font-medium ${sel ? "text-emerald-400" : "text-white/30"}`}>{m.l}</p>
+                    <p className={`text-sm mt-1 font-medium ${sel ? "text-emerald-400" : "text-white/75"}`}>{m.l}</p>
                   </button>
                 );
               })}

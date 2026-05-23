@@ -5,8 +5,8 @@ import { AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, Responsive
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 export default function LoanOptimizer({ profile }) {
@@ -85,11 +85,11 @@ export default function LoanOptimizer({ profile }) {
 
       {/* Total cost comparison */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Total Cost Comparison ($K)</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Total Cost Comparison ($K)</p>
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={compData} barCategoryGap="25%">
-            <XAxis dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="K"/>
+            <XAxis dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="K"/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="total" name="Total Paid ($K)" radius={[4,4,0,0]}>{compData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
           </BarChart>
@@ -104,17 +104,17 @@ export default function LoanOptimizer({ profile }) {
             <Card key={r.id} className={isBest ? "border-emerald-500/20 bg-emerald-500/[0.02]" : ""}>
               <div className="flex items-center justify-between mb-1">
                 <div>
-                  <p className="text-[11px] text-white/60 font-bold">
-                    {r.name} {isBest && <span className="text-emerald-400 text-[8px] ml-1">BEST</span>}
+                  <p className="text-sm text-white/75 font-bold">
+                    {r.name} {isBest && <span className="text-emerald-400 text-xs ml-1">BEST</span>}
                   </p>
-                  <p className="text-[8px] text-white/15">{r.desc}</p>
+                  <p className="text-xs text-white/55">{r.desc}</p>
                 </div>
                 <div className="w-3 h-8 rounded-full" style={{ background: r.color, opacity: 0.5 }} />
               </div>
               <div className="grid grid-cols-3 gap-2 mt-2">
-                <div><p className="text-[8px] text-white/15">Monthly</p><p className="text-xs font-bold text-white/50 tabular-nums">{fN(r.monthlyPmt)}</p></div>
-                <div><p className="text-[8px] text-white/15">Total paid</p><p className="text-xs font-bold text-white/50 tabular-nums">{fmt(r.totalPaid)}</p></div>
-                <div><p className="text-[8px] text-white/15">{r.id === "pslf" ? "Forgiven" : "vs Standard"}</p>
+                <div><p className="text-xs text-white/55">Monthly</p><p className="text-xs font-bold text-white/65 tabular-nums">{fN(r.monthlyPmt)}</p></div>
+                <div><p className="text-xs text-white/55">Total paid</p><p className="text-xs font-bold text-white/65 tabular-nums">{fmt(r.totalPaid)}</p></div>
+                <div><p className="text-xs text-white/55">{r.id === "pslf" ? "Forgiven" : "vs Standard"}</p>
                   <p className={`text-xs font-bold tabular-nums ${r.savings > 0 ? "text-emerald-400" : "text-red-400"}`}>{r.savings > 0 ? "+" : ""}{fmt(r.savings)}</p>
                 </div>
               </div>
@@ -122,7 +122,7 @@ export default function LoanOptimizer({ profile }) {
               <div className="mt-2 h-1 bg-white/[0.04] rounded-full overflow-hidden">
                 <div className="h-full rounded-full" style={{ width: `${Math.min(100, r.months / 180 * 100)}%`, background: r.color, opacity: 0.6 }} />
               </div>
-              <p className="text-[7px] text-white/10 mt-0.5 text-right">{(r.months / 12).toFixed(1)} years</p>
+              <p className="text-sm text-white/65 mt-0.5 text-right">{(r.months / 12).toFixed(1)} years</p>
             </Card>
           );
         })}

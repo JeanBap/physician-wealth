@@ -9,9 +9,9 @@ const ChartTip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl">
-      <p className="text-[9px] text-white/30 mb-1">{label}</p>
+      <p className="text-xs text-white/75 mb-1">{label}</p>
       {payload.map((p, i) => (
-        <p key={i} className="text-[11px] font-bold" style={{ color: p.color }}>{p.name}: ${p.value?.toLocaleString()}</p>
+        <p key={i} className="text-sm font-bold" style={{ color: p.color }}>{p.name}: ${p.value?.toLocaleString()}</p>
       ))}
     </div>
   );
@@ -73,14 +73,14 @@ export default function StateArbitrage({ profile }) {
       {/* Toggle COL adjustment */}
       <div className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/[0.05]">
         <button onClick={() => setShowCOL(false)}
-          className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition ${!showCOL ? "bg-emerald-500/15 text-emerald-400" : "text-white/20"}`}>
+          className={`px-3 py-1.5 rounded-lg text-sm font-bold transition ${!showCOL ? "bg-emerald-500/15 text-emerald-400" : "text-white/55"}`}>
           Tax Only
         </button>
         <button onClick={() => setShowCOL(true)}
-          className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition ${showCOL ? "bg-emerald-500/15 text-emerald-400" : "text-white/20"}`}>
+          className={`px-3 py-1.5 rounded-lg text-sm font-bold transition ${showCOL ? "bg-emerald-500/15 text-emerald-400" : "text-white/55"}`}>
           Tax + Cost of Living
         </button>
-        <p className="text-[8px] text-white/15 ml-auto">MERIC 2025 Index (100 = US avg)</p>
+        <p className="text-xs text-white/55 ml-auto">MERIC 2025 Index (100 = US avg)</p>
       </div>
 
       <div className="grid grid-cols-2 gap-2">
@@ -90,7 +90,7 @@ export default function StateArbitrage({ profile }) {
 
       {/* Chart */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">
           Top 10 {showCOL ? "Real Income Gain" : "Tax Savings"} vs {currentState}
         </p>
         <ResponsiveContainer width="100%" height={200}>
@@ -111,28 +111,28 @@ export default function StateArbitrage({ profile }) {
 
       {/* State table */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">Detailed Comparison</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Detailed Comparison</p>
         <div className="space-y-1">
           {rankings.map((r, i) => (
             <div key={r.st} className={`flex items-center justify-between py-1.5 px-2 rounded-lg border-b border-white/[0.02] last:border-0 ${r.st === currentState ? "bg-white/[0.03]" : ""}`}>
               <div className="flex items-center gap-2">
-                <span className="text-[8px] text-white/10 w-4 text-right">{i+1}</span>
+                <span className="text-xs text-white/65 w-4 text-right">{i+1}</span>
                 <div>
-                  <p className="text-[11px] text-white/50 font-medium">
+                  <p className="text-sm text-white/65 font-medium">
                     {r.name} ({r.st})
-                    {r.st === currentState && <span className="text-[8px] text-blue-400 ml-1">you</span>}
-                    {NO_TAX.includes(r.st) && <span className="text-[8px] text-emerald-400/40 ml-1">0% tax</span>}
+                    {r.st === currentState && <span className="text-xs text-blue-400 ml-1">you</span>}
+                    {NO_TAX.includes(r.st) && <span className="text-xs text-emerald-400/70 ml-1">0% tax</span>}
                   </p>
-                  <p className="text-[8px] text-white/15">
+                  <p className="text-xs text-white/55">
                     Tax: {(r.rate*100).toFixed(1)}% ({fN(r.tax)}) | COL: {r.col} ({r.colDiff > 0 ? `${r.colDiff}% cheaper` : `${Math.abs(r.colDiff)}% pricier`})
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <span className={`text-xs font-bold tabular-nums ${r.sortValue > 0 ? "text-emerald-400" : r.sortValue < 0 ? "text-red-400" : "text-white/20"}`}>
+                <span className={`text-xs font-bold tabular-nums ${r.sortValue > 0 ? "text-emerald-400" : r.sortValue < 0 ? "text-red-400" : "text-white/55"}`}>
                   {r.sortValue > 0 ? "+" : ""}{fmt(r.sortValue)}
                 </span>
-                <p className="text-[7px] text-white/10">{showCOL ? "real gain" : "tax savings"}/yr</p>
+                <p className="text-sm text-white/65">{showCOL ? "real gain" : "tax savings"}/yr</p>
               </div>
             </div>
           ))}
@@ -141,7 +141,7 @@ export default function StateArbitrage({ profile }) {
 
       <div className="flex flex-wrap gap-1">
         {NO_TAX.map(st => (
-          <span key={st} className="text-[8px] px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400/50 font-medium">
+          <span key={st} className="text-xs px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400/70 font-medium">
             {STATE_NAMES[st]} (0%)
           </span>
         ))}

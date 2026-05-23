@@ -116,27 +116,27 @@ export default function App() {
             <p className="text-emerald-400 text-base font-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
               PhysicianWealth
             </p>
-            {user?.isAdmin ? <p className="text-xs text-emerald-400/50 mt-0.5">Admin</p> : trialDays > 0 && <p className="text-xs text-amber-400/50 mt-0.5">{trialDays}d trial</p>}
+            {user?.isAdmin ? <p className="text-xs text-emerald-400/70 mt-0.5">Admin</p> : trialDays > 0 && <p className="text-xs text-amber-400/50 mt-0.5">{trialDays}d trial</p>}
           </div>
-          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-white/20 text-lg">X</button>
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-white/55 text-lg">X</button>
         </div>
 
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto py-2">
           {Object.entries(sidebarSections).map(([cat, items]) => (
             <div key={cat} className="mb-2">
-              <p className="text-[10px] text-white/10 uppercase tracking-widest px-4 py-1.5">{cat}</p>
+              <p className="text-sm text-white/65 uppercase tracking-widest px-4 py-1.5">{cat}</p>
               {items.map(m => {
                 const active = page === m.key;
                 const locked = !canAccessModule(m.tier, userTier, trialExpired);
                 return (
                   <button key={m.key} onClick={() => { setPage(m.key); setSidebarOpen(false); }}
                     className={`w-full text-left px-4 py-2.5 flex items-center justify-between transition ${
-                      active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/30 hover:text-white/50 hover:bg-white/[0.02]"
+                      active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/75 hover:text-white/65 hover:bg-white/[0.02]"
                     } ${locked ? "opacity-40" : ""}`}>
                     <span className="text-sm truncate">{m.label}</span>
-                    {m.tier === "premium" && <span className="text-[10px] text-amber-400/40 ml-1">PRO</span>}
-                    {locked && <span className="text-xs text-white/10">🔒</span>}
+                    {m.tier === "premium" && <span className="text-sm text-amber-400/70 ml-1">PRO</span>}
+                    {locked && <span className="text-xs text-white/65">🔒</span>}
                   </button>
                 );
               })}
@@ -146,11 +146,11 @@ export default function App() {
 
         {/* User */}
         <div className="p-4 border-t border-white/[0.04]">
-          <p className="text-xs text-white/25 truncate">{user?.email || "Demo"}</p>
+          <p className="text-xs text-white/65 truncate">{user?.email || "Demo"}</p>
           <div className="flex gap-3 mt-2">
-            <button onClick={() => { setPage("settings"); setSidebarOpen(false); }} className="text-xs text-white/15 hover:text-white/40">Settings</button>
-            <button onClick={() => { setPage("billing"); setSidebarOpen(false); }} className="text-xs text-white/15 hover:text-white/40">Billing</button>
-            <button onClick={() => { setUser(null); setView("landing"); }} className="text-xs text-white/15 hover:text-white/40">Logout</button>
+            <button onClick={() => { setPage("settings"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Settings</button>
+            <button onClick={() => { setPage("billing"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Billing</button>
+            <button onClick={() => { setUser(null); setView("landing"); }} className="text-xs text-white/55 hover:text-white/55">Logout</button>
           </div>
         </div>
       </aside>
@@ -159,13 +159,13 @@ export default function App() {
       <main className="flex-1 overflow-y-auto w-full">
         {/* Top bar */}
         <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-white/[0.04] sticky top-0 bg-[#0a0b10]/90 backdrop-blur-sm z-10">
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/20 hover:text-white/40 text-lg p-1">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/55 hover:text-white/55 text-lg p-1">
             {sidebarOpen ? "X" : "☰"}
           </button>
-          <p className="text-xs md:text-sm text-white/20 font-medium">{modMeta?.label || "Dashboard"}</p>
+          <p className="text-xs md:text-sm text-white/55 font-medium">{modMeta?.label || "Dashboard"}</p>
           <div className="flex items-center gap-2">
             <Badge color="#34d399">{profile.specialty}</Badge>
-            <span className="text-xs text-white/20 hidden md:inline">{profile.state}</span>
+            <span className="text-xs text-white/55 hidden md:inline">{profile.state}</span>
           </div>
         </div>
 
@@ -176,9 +176,9 @@ export default function App() {
           ) : ModuleComp ? (
             <ModuleComp profile={profile} setProfile={setProfile} navigate={navigate} user={user} standalone={true} />
           ) : (
-            <div className="text-center py-20 text-white/15">
+            <div className="text-center py-20 text-white/55">
               <p className="text-sm">Module not found</p>
-              <button onClick={() => setPage("dashboard")} className="text-emerald-400/50 text-xs mt-2">Back to Dashboard</button>
+              <button onClick={() => setPage("dashboard")} className="text-emerald-400/70 text-xs mt-2">Back to Dashboard</button>
             </div>
           )}
         </div>

@@ -64,11 +64,11 @@ Identify the document type and provide a thorough analysis. Return ONLY valid JS
         <Card className="text-center py-8" style={{
           background: "radial-gradient(ellipse at 50% 0%, rgba(96,165,250,0.06) 0%, transparent 60%)",
         }}>
-          <p className="text-white/40 text-sm font-bold mb-1">Upload Any Financial Document</p>
-          <p className="text-[9px] text-white/15 mb-4">Contracts, insurance, tax returns, loan statements, benefits packages. AI analyzes twice for accuracy.</p>
+          <p className="text-white/55 text-sm font-bold mb-1">Upload Any Financial Document</p>
+          <p className="text-xs text-white/55 mb-4">Contracts, insurance, tax returns, loan statements, benefits packages. AI analyzes twice for accuracy.</p>
           <input type="file" accept=".pdf,.png,.jpg,.jpeg,.docx,.csv,.txt" onChange={e => setFile(e.target.files[0])}
             className="hidden" id="doc-upload" />
-          <label htmlFor="doc-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/50 hover:bg-white/[0.08] transition inline-block">
+          <label htmlFor="doc-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/65 hover:bg-white/[0.08] transition inline-block">
             {file ? file.name : "Choose File"}
           </label>
           {file && !analyzing && (
@@ -77,7 +77,7 @@ Identify the document type and provide a thorough analysis. Return ONLY valid JS
           {analyzing && (
             <div className="mt-4 flex flex-col items-center gap-2">
               <div className="w-5 h-5 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
-              <p className="text-[10px] text-blue-400/50">{progress}</p>
+              <p className="text-sm text-blue-400/70">{progress}</p>
             </div>
           )}
           {error && <Alert type="danger">{error}</Alert>}
@@ -92,23 +92,23 @@ Identify the document type and provide a thorough analysis. Return ONLY valid JS
 
           {result.summary && (
             <Card style={{ borderColor: "rgba(96,165,250,0.15)", background: "rgba(96,165,250,0.03)" }}>
-              <p className="text-[10px] text-blue-400/50 uppercase tracking-widest mb-1">AI Summary (Double-Verified)</p>
-              <p className="text-[11px] text-white/50 leading-relaxed">{result.summary}</p>
+              <p className="text-sm text-blue-400/70 uppercase tracking-widest mb-1">AI Summary (Double-Verified)</p>
+              <p className="text-sm text-white/65 leading-relaxed">{result.summary}</p>
             </Card>
           )}
 
           {result.keyFindings?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-white/40 uppercase tracking-widest mb-2">Key Findings</p>
+              <p className="text-sm text-white/55 uppercase tracking-widest mb-2">Key Findings</p>
               {result.keyFindings.map((f, i) => (
                 <div key={i} className="py-1.5 border-b border-white/[0.03] last:border-0">
                   <div className="flex items-center gap-1.5">
-                    <span className={`text-[8px] ${f.impact==="positive"?"text-emerald-400":f.impact==="negative"?"text-red-400":"text-white/20"}`}>
+                    <span className={`text-xs ${f.impact==="positive"?"text-emerald-400":f.impact==="negative"?"text-red-400":"text-white/55"}`}>
                       {f.impact==="positive"?"+":f.impact==="negative"?"!":"~"}
                     </span>
-                    <p className="text-[10px] text-white/50">{f.finding}</p>
+                    <p className="text-sm text-white/65">{f.finding}</p>
                   </div>
-                  <p className="text-[8px] text-white/15 ml-4">{f.details}</p>
+                  <p className="text-xs text-white/55 ml-4">{f.details}</p>
                 </div>
               ))}
             </Card>
@@ -116,20 +116,20 @@ Identify the document type and provide a thorough analysis. Return ONLY valid JS
 
           {result.redFlags?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-red-400/60 uppercase tracking-widest mb-2">Red Flags</p>
+              <p className="text-sm text-red-400/80 uppercase tracking-widest mb-2">Red Flags</p>
               {result.redFlags.map((f, i) => (
-                <p key={i} className="text-[10px] text-red-300/50 mb-1 flex gap-1.5"><span className="text-red-400">!</span> {f}</p>
+                <p key={i} className="text-sm text-red-300/50 mb-1 flex gap-1.5"><span className="text-red-400">!</span> {f}</p>
               ))}
             </Card>
           )}
 
           {result.recommendations?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-emerald-400/60 uppercase tracking-widest mb-2">Recommendations</p>
+              <p className="text-sm text-emerald-400/60 uppercase tracking-widest mb-2">Recommendations</p>
               {result.recommendations.map((r, i) => (
                 <div key={i} className="py-1.5 border-b border-white/[0.03] last:border-0">
-                  <div className="flex justify-between"><p className="text-[10px] text-white/50">{r.action}</p><span className={`text-[8px] ${r.priority==="High"?"text-red-400":"text-amber-400"}`}>{r.priority}</span></div>
-                  <p className="text-[8px] text-white/15">{r.reasoning}</p>
+                  <div className="flex justify-between"><p className="text-sm text-white/65">{r.action}</p><span className={`text-xs ${r.priority==="High"?"text-red-400":"text-amber-400"}`}>{r.priority}</span></div>
+                  <p className="text-xs text-white/55">{r.reasoning}</p>
                 </div>
               ))}
             </Card>
@@ -137,9 +137,9 @@ Identify the document type and provide a thorough analysis. Return ONLY valid JS
 
           {result.nextSteps?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-white/40 uppercase tracking-widest mb-2">Next Steps</p>
+              <p className="text-sm text-white/55 uppercase tracking-widest mb-2">Next Steps</p>
               {result.nextSteps.map((s, i) => (
-                <p key={i} className="text-[10px] text-white/30 mb-1 flex gap-1.5"><span className="text-emerald-400/40">{i+1}.</span> {s}</p>
+                <p key={i} className="text-sm text-white/75 mb-1 flex gap-1.5"><span className="text-emerald-400/70">{i+1}.</span> {s}</p>
               ))}
             </Card>
           )}

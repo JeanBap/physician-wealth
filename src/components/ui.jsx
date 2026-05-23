@@ -3,9 +3,9 @@ import { useState } from "react";
 // --- STAT ---
 export const Stat = ({ label, value, sub, color = "#34d399" }) => (
   <div className="p-3 md:p-4 rounded-xl bg-white/[0.025] border border-white/[0.05]">
-    <p className="text-[11px] md:text-xs text-white/25 uppercase tracking-wider">{label}</p>
+    <p className="text-sm md:text-xs text-white/65 uppercase tracking-wider">{label}</p>
     <p className="text-lg md:text-xl font-black tabular-nums mt-0.5" style={{ color }}>{value}</p>
-    {sub && <p className="text-[11px] md:text-xs text-white/25 mt-0.5">{sub}</p>}
+    {sub && <p className="text-sm md:text-xs text-white/65 mt-0.5">{sub}</p>}
   </div>
 );
 
@@ -13,7 +13,7 @@ export const Stat = ({ label, value, sub, color = "#34d399" }) => (
 export const Section = ({ title, sub }) => (
   <div className="mb-1">
     <h2 className="text-xl md:text-2xl font-black text-white/80" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>{title}</h2>
-    <p className="text-white/30 text-xs md:text-sm font-medium tracking-widest uppercase">{sub}</p>
+    <p className="text-white/75 text-xs md:text-sm font-medium tracking-widest uppercase">{sub}</p>
   </div>
 );
 
@@ -35,18 +35,18 @@ export const Card = ({ children, className = "" }) => (
 // --- INPUT ---
 export const Inp = ({ label, value, onChange, type = "text", pre, options }) => (
   <div>
-    <label className="block text-[11px] md:text-xs text-white/25 uppercase tracking-wider font-medium mb-1.5">{label}</label>
+    <label className="block text-sm md:text-xs text-white/65 uppercase tracking-wider font-medium mb-1.5">{label}</label>
     {options ? (
       <select value={value} onChange={e => onChange(e.target.value)}
-        className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2.5 text-sm text-white/60 outline-none focus:border-emerald-500/30">
+        className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2.5 text-sm text-white/75 outline-none focus:border-emerald-500/30">
         {options.map(o => <option key={o.v || o} value={o.v || o} className="bg-[#13141c]">{o.l || o}</option>)}
       </select>
     ) : (
       <div className="relative">
-        {pre && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/20 text-xs">{pre}</span>}
+        {pre && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/55 text-xs">{pre}</span>}
         <input type={type} value={value}
           onChange={e => onChange(type === "number" ? +e.target.value : e.target.value)}
-          className={`w-full bg-white/[0.04] border border-white/[0.08] rounded-lg py-2.5 text-sm text-white/60 outline-none focus:border-emerald-500/30 ${pre ? "pl-7 pr-3" : "px-3"}`} />
+          className={`w-full bg-white/[0.04] border border-white/[0.08] rounded-lg py-2.5 text-sm text-white/75 outline-none focus:border-emerald-500/30 ${pre ? "pl-7 pr-3" : "px-3"}`} />
       </div>
     )}
   </div>
@@ -78,8 +78,8 @@ export const Bar = ({ data, highlight }) => (
         <div className={`w-full rounded-t ${d.id === highlight ? "bg-emerald-400" : "bg-white/10"}`}
           style={{ height: `${(d.v / Math.max(...data.map(x => x.v))) * 100}%`, minHeight: 2 }} />
         <div className="w-full text-center">
-          <div className="text-xs text-white/40 truncate">{d.l}</div>
-          <div className={`text-right text-xs font-semibold tabular-nums ${d.id === highlight ? "text-emerald-400" : "text-white/40"}`}>
+          <div className="text-xs text-white/55 truncate">{d.l}</div>
+          <div className={`text-right text-xs font-semibold tabular-nums ${d.id === highlight ? "text-emerald-400" : "text-white/55"}`}>
             {d.v}
           </div>
         </div>
@@ -92,8 +92,8 @@ export const Bar = ({ data, highlight }) => (
 export const Toggle = ({ label, sub, value, onChange }) => (
   <div className="flex items-center justify-between py-2.5">
     <div>
-      <p className="text-sm text-white/60">{label}</p>
-      {sub && <p className="text-[11px] md:text-xs text-white/20">{sub}</p>}
+      <p className="text-sm text-white/75">{label}</p>
+      {sub && <p className="text-sm md:text-xs text-white/55">{sub}</p>}
     </div>
     <button onClick={() => onChange(!value)}
       className={`w-11 h-6 rounded-full transition-all ${value ? "bg-emerald-500/40" : "bg-white/10"}`}>
@@ -104,7 +104,7 @@ export const Toggle = ({ label, sub, value, onChange }) => (
 
 // --- BADGE ---
 export const Badge = ({ children, color = "#34d399" }) => (
-  <span className="text-[11px] md:text-xs font-bold px-2 py-1 rounded-full"
+  <span className="text-sm md:text-xs font-bold px-2 py-1 rounded-full"
     style={{ background: `${color}15`, color, border: `1px solid ${color}25` }}>
     {children}
   </span>
@@ -114,7 +114,7 @@ export const Badge = ({ children, color = "#34d399" }) => (
 export const Btn = ({ children, onClick, variant = "primary", disabled, className = "" }) => {
   const styles = {
     primary: "bg-emerald-500 hover:bg-emerald-400 text-black font-bold",
-    secondary: "bg-white/[0.06] hover:bg-white/[0.1] text-white/50 border border-white/[0.08]",
+    secondary: "bg-white/[0.06] hover:bg-white/[0.1] text-white/65 border border-white/[0.08]",
     danger: "bg-red-500/15 hover:bg-red-500/25 text-red-400 border border-red-500/20",
   };
   return (
@@ -138,8 +138,8 @@ export const Spark = ({ data, color = "#34d399", w = 60, h = 20 }) => {
 export const PaywallLock = ({ tier, navigate }) => (
   <div className="flex flex-col items-center justify-center py-16 text-center">
     <div className="w-16 h-16 rounded-full bg-white/[0.04] flex items-center justify-center mb-4 text-2xl">🔒</div>
-    <p className="text-sm text-white/40 font-bold mb-1">{tier === "premium" ? "Premium" : "Pro"} Feature</p>
-    <p className="text-xs text-white/20 mb-4">Upgrade to access {tier} features</p>
+    <p className="text-sm text-white/55 font-bold mb-1">{tier === "premium" ? "Premium" : "Pro"} Feature</p>
+    <p className="text-xs text-white/55 mb-4">Upgrade to access {tier} features</p>
     <Btn onClick={() => navigate("billing")}>View Plans</Btn>
   </div>
 );
@@ -151,8 +151,8 @@ export const Widget = ({ id, title, visible, onToggle, onMoveUp, onMoveDown, isF
     <div className={`relative group transition-all ${!visible ? "opacity-30" : ""}`}>
       {editing && (
         <div className="absolute -left-10 top-0 bottom-0 flex flex-col items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition z-10">
-          {!isFirst && <button onClick={onMoveUp} className="w-7 h-7 rounded bg-white/[0.06] text-xs text-white/30 hover:text-white/60 hover:bg-white/[0.1]">^</button>}
-          {!isLast && <button onClick={onMoveDown} className="w-7 h-7 rounded bg-white/[0.06] text-xs text-white/30 hover:text-white/60 hover:bg-white/[0.1]">v</button>}
+          {!isFirst && <button onClick={onMoveUp} className="w-7 h-7 rounded bg-white/[0.06] text-xs text-white/75 hover:text-white/75 hover:bg-white/[0.1]">^</button>}
+          {!isLast && <button onClick={onMoveDown} className="w-7 h-7 rounded bg-white/[0.06] text-xs text-white/75 hover:text-white/75 hover:bg-white/[0.1]">v</button>}
         </div>
       )}
       {editing && (

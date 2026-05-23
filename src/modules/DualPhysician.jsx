@@ -5,8 +5,8 @@ import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveCo
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 export default function DualPhysician({ profile }) {
@@ -50,13 +50,13 @@ export default function DualPhysician({ profile }) {
 
       <div className="grid grid-cols-2 gap-2">
         <div className="space-y-2 p-3 rounded-xl bg-emerald-500/[0.03] border border-emerald-500/10">
-          <p className="text-[9px] text-emerald-400/50 uppercase font-bold">Physician A</p>
+          <p className="text-xs text-emerald-400/70 uppercase font-bold">Physician A</p>
           <Inp label="Salary" value={salA} onChange={setSalA} type="number" pre="$" />
           <Inp label="Loans" value={loansA} onChange={setLoansA} type="number" pre="$" />
-          <p className="text-[8px] text-white/15">{profile.specialty}</p>
+          <p className="text-xs text-white/55">{profile.specialty}</p>
         </div>
         <div className="space-y-2 p-3 rounded-xl bg-blue-500/[0.03] border border-blue-500/10">
-          <p className="text-[9px] text-blue-400/50 uppercase font-bold">Physician B</p>
+          <p className="text-xs text-blue-400/70 uppercase font-bold">Physician B</p>
           <Inp label="Salary" value={salB} onChange={setSalB} type="number" pre="$" />
           <Inp label="Loans" value={loansB} onChange={setLoansB} type="number" pre="$" />
           <Inp label="Specialty" value={specBKey} onChange={setSpecBKey}
@@ -73,7 +73,7 @@ export default function DualPhysician({ profile }) {
       <div className="grid grid-cols-2 gap-3">
         {/* Income split */}
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Income Split ($K)</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Income Split ($K)</p>
           <ResponsiveContainer width="100%" height={150}>
             <PieChart>
               <Pie data={incomeData} cx="50%" cy="50%" innerRadius={35} outerRadius={60} paddingAngle={4} dataKey="value" stroke="none">
@@ -85,11 +85,11 @@ export default function DualPhysician({ profile }) {
         </Card>
         {/* Tax sheltering */}
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Annual Sheltering</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Annual Sheltering</p>
           <ResponsiveContainer width="100%" height={120}>
             <BarChart data={shelterData} barCategoryGap="20%">
-              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Bar dataKey="value" name="Max" radius={[4,4,0,0]}>{shelterData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
           </ResponsiveContainer>
@@ -99,12 +99,12 @@ export default function DualPhysician({ profile }) {
 
       {(loansA > 0 || loansB > 0) && (
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">PSLF Strategy (File Separately)</p>
-          <div className="space-y-1.5 text-[10px]">
-            {loansA > 0 && <div className="flex justify-between"><span className="text-white/25">A: 10yr payment</span><span className="text-emerald-400">{fN(pslfA)} | Forgiven: {fmt(loansA - pslfA)}</span></div>}
-            {loansB > 0 && <div className="flex justify-between"><span className="text-white/25">B: 10yr payment</span><span className="text-emerald-400">{fN(pslfB)} | Forgiven: {fmt(loansB - pslfB)}</span></div>}
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-2">PSLF Strategy (File Separately)</p>
+          <div className="space-y-1.5 text-sm">
+            {loansA > 0 && <div className="flex justify-between"><span className="text-white/65">A: 10yr payment</span><span className="text-emerald-400">{fN(pslfA)} | Forgiven: {fmt(loansA - pslfA)}</span></div>}
+            {loansB > 0 && <div className="flex justify-between"><span className="text-white/65">B: 10yr payment</span><span className="text-emerald-400">{fN(pslfB)} | Forgiven: {fmt(loansB - pslfB)}</span></div>}
           </div>
-          <p className="text-[8px] text-white/10 mt-2">Filing MFS lowers PSLF payments but may increase tax. Run both scenarios.</p>
+          <p className="text-xs text-white/65 mt-2">Filing MFS lowers PSLF payments but may increase tax. Run both scenarios.</p>
         </Card>
       )}
 

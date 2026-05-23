@@ -4,8 +4,8 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">Age {label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">Age {label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 export default function FICountdown({ profile: p, standalone }) {
@@ -73,7 +73,7 @@ export default function FICountdown({ profile: p, standalone }) {
         {/* Glowing orb */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-60 h-60 rounded-full opacity-10" style={{ background: "radial-gradient(circle, rgba(52,211,153,0.4), transparent 70%)" }} />
 
-        <p className="text-[9px] text-emerald-400/50 uppercase tracking-[0.25em] font-bold mb-3 relative">
+        <p className="text-xs text-emerald-400/70 uppercase tracking-[0.25em] font-bold mb-3 relative">
           Financial Independence In
         </p>
 
@@ -86,7 +86,7 @@ export default function FICountdown({ profile: p, standalone }) {
                   {String(v).padStart(l === "years" ? 1 : 2, "0")}
                 </p>
               </div>
-              <p className="text-[8px] text-emerald-400/25 uppercase mt-1.5 tracking-wider">{l}</p>
+              <p className="text-xs text-emerald-400/60 uppercase mt-1.5 tracking-wider">{l}</p>
             </div>
           ))}
         </div>
@@ -102,17 +102,17 @@ export default function FICountdown({ profile: p, standalone }) {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <p className="text-lg font-black text-emerald-400">{pct}%</p>
-              <p className="text-[6px] text-emerald-400/20 uppercase">Complete</p>
+              <p className="text-sm text-emerald-400/20 uppercase">Complete</p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-5 text-[9px] relative">
-          <div><p className="text-white/10 text-[7px] uppercase">Current</p><p className="text-white/30 font-bold">{fmt(nw)}</p></div>
+        <div className="flex items-center justify-center gap-5 text-xs relative">
+          <div><p className="text-white/65 text-sm uppercase">Current</p><p className="text-white/75 font-bold">{fmt(nw)}</p></div>
           <div className="w-px h-5 bg-white/5"/>
-          <div><p className="text-white/10 text-[7px] uppercase">Target</p><p className="text-emerald-400/40 font-bold">{fmt(fi)}</p></div>
+          <div><p className="text-white/65 text-sm uppercase">Target</p><p className="text-emerald-400/70 font-bold">{fmt(fi)}</p></div>
           <div className="w-px h-5 bg-white/5"/>
-          <div><p className="text-white/10 text-[7px] uppercase">FI Age</p><p className="text-emerald-400/60 font-bold">{nw >= fi ? "NOW" : fiAge}</p></div>
+          <div><p className="text-white/65 text-sm uppercase">FI Age</p><p className="text-emerald-400/60 font-bold">{nw >= fi ? "NOW" : fiAge}</p></div>
         </div>
 
         {/* Full-width progress bar */}
@@ -130,7 +130,7 @@ export default function FICountdown({ profile: p, standalone }) {
         <div className="space-y-4 mt-5">
           {/* Journey chart */}
           <div className="rounded-xl p-4 bg-white/[0.025] border border-white/[0.05]">
-            <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Wealth Journey</p>
+            <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Wealth Journey</p>
             <ResponsiveContainer width="100%" height={200}>
               <AreaChart data={journey}>
                 <defs>
@@ -140,8 +140,8 @@ export default function FICountdown({ profile: p, standalone }) {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-                <XAxis dataKey="age" tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false}/>
-                <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+                <XAxis dataKey="age" tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
+                <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
                 <Tooltip content={<Tip/>}/>
                 <ReferenceLine y={fi} stroke="#fbbf24" strokeDasharray="6 4" strokeWidth={1.5}/>
                 <Area type="monotone" dataKey="netWorth" name="Net Worth" stroke="#34d399" fill="url(#fiJourney)" strokeWidth={2.5} dot={false}/>
@@ -151,14 +151,14 @@ export default function FICountdown({ profile: p, standalone }) {
 
           {/* Milestones */}
           <div className="rounded-xl p-4 bg-white/[0.025] border border-white/[0.05]">
-            <p className="text-[9px] text-white/15 uppercase tracking-widest mb-3">Milestones</p>
+            <p className="text-xs text-white/55 uppercase tracking-widest mb-3">Milestones</p>
             <div className="space-y-2">
               {milestones.map((ms, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 ${ms.reached ? "bg-emerald-400" : "bg-white/10"}`} style={ms.reached ? { boxShadow:"0 0 6px #34d399" } : {}} />
                   <div className="flex-1 flex items-center justify-between">
-                    <span className={`text-[10px] font-medium ${ms.reached ? "text-emerald-400/70 line-through" : "text-white/30"}`}>{fN(ms.target)}</span>
-                    <span className="text-[9px] text-white/15">{ms.reached ? "Reached" : `Age ${ms.age} (${ms.years}yr)`}</span>
+                    <span className={`text-sm font-medium ${ms.reached ? "text-emerald-400/70 line-through" : "text-white/75"}`}>{fN(ms.target)}</span>
+                    <span className="text-xs text-white/55">{ms.reached ? "Reached" : `Age ${ms.age} (${ms.years}yr)`}</span>
                   </div>
                   <div className="w-16 h-1 bg-white/[0.04] rounded-full overflow-hidden">
                     <div className="h-full rounded-full bg-emerald-500/40" style={{ width: `${Math.min(100, (nw / ms.target) * 100)}%` }} />

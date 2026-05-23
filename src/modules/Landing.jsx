@@ -25,13 +25,13 @@ export default function Landing({ navigate }) {
         <div className="absolute inset-0" style={{ background:"radial-gradient(ellipse at 30% 20%, rgba(52,211,153,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(96,165,250,0.05) 0%, transparent 50%)" }} />
         <div className="max-w-4xl mx-auto px-6 pt-20 pb-16 relative">
           <div className="flex items-center gap-2 mb-4">
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] font-bold">BETA</span>
-            <span className="text-[9px] text-white/15">Built for physicians, by a finance professional</span>
+            <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold">BETA</span>
+            <span className="text-xs text-white/55">Built for physicians, by a finance professional</span>
           </div>
           <h1 className="text-5xl lg:text-6xl font-black text-white leading-tight" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>
             Your Financial<br/><span className="text-emerald-400">Command Center</span>
           </h1>
-          <p className="text-lg text-white/30 mt-4 max-w-xl leading-relaxed">
+          <p className="text-lg text-white/75 mt-4 max-w-xl leading-relaxed">
             AI-powered tax analysis, specialty-specific benchmarks, and real-time FI tracking.
             Physicians overpay $15-50K/yr in taxes. Stop.
           </p>
@@ -41,7 +41,7 @@ export default function Landing({ navigate }) {
               Start Free Trial
             </button>
             <button onClick={() => navigate("auth")}
-              className="px-6 py-3 rounded-xl border border-white/10 text-white/40 font-medium text-sm hover:border-white/20 hover:text-white/60 transition">
+              className="px-6 py-3 rounded-xl border border-white/10 text-white/55 font-medium text-sm hover:border-white/20 hover:text-white/75 transition">
               Sign In
             </button>
           </div>
@@ -54,8 +54,8 @@ export default function Landing({ navigate }) {
           {STATS.map((s, i) => (
             <div key={i} className="text-center">
               <p className="text-2xl font-black text-emerald-400">{s.v}</p>
-              <p className="text-[10px] text-white/30 mt-1">{s.l}</p>
-              <p className="text-[8px] text-white/10">{s.s}</p>
+              <p className="text-sm text-white/75 mt-1">{s.l}</p>
+              <p className="text-xs text-white/65">{s.s}</p>
             </div>
           ))}
         </div>
@@ -63,7 +63,7 @@ export default function Landing({ navigate }) {
 
       {/* Features grid */}
       <div className="max-w-4xl mx-auto px-6 py-16">
-        <p className="text-[10px] text-emerald-400/40 uppercase tracking-[0.2em] font-bold mb-2">Features</p>
+        <p className="text-sm text-emerald-400/70 uppercase tracking-[0.2em] font-bold mb-2">Features</p>
         <h2 className="text-3xl font-black text-white mb-8" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>
           Everything in one place
         </h2>
@@ -74,8 +74,8 @@ export default function Landing({ navigate }) {
               onMouseEnter={e => { e.currentTarget.style.borderColor = `${f.color}30`; e.currentTarget.style.background = `${f.color}05`; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)"; e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}>
               <p className="text-2xl mb-3 opacity-30 group-hover:opacity-60 transition">{f.icon}</p>
-              <h3 className="text-sm font-bold text-white/60 mb-1">{f.title}</h3>
-              <p className="text-[10px] text-white/20 leading-relaxed">{f.desc}</p>
+              <h3 className="text-sm font-bold text-white/75 mb-1">{f.title}</h3>
+              <p className="text-sm text-white/55 leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -83,7 +83,7 @@ export default function Landing({ navigate }) {
 
       {/* Pricing */}
       <div className="max-w-4xl mx-auto px-6 py-16 border-t border-white/[0.04]">
-        <p className="text-[10px] text-emerald-400/40 uppercase tracking-[0.2em] font-bold mb-2 text-center">Pricing</p>
+        <p className="text-sm text-emerald-400/70 uppercase tracking-[0.2em] font-bold mb-2 text-center">Pricing</p>
         <h2 className="text-3xl font-black text-white mb-8 text-center" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>
           Pay less than you save
         </h2>
@@ -95,20 +95,20 @@ export default function Landing({ navigate }) {
           ].map((p, i) => (
             <div key={i} className={`relative rounded-xl p-6 ${p.popular ? "scale-[1.02]" : ""}`}
               style={{ background: p.popular ? `linear-gradient(180deg, ${p.color}08 0%, transparent 100%)` : "rgba(255,255,255,0.02)", border: `1px solid ${p.border}` }}>
-              {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-blue-500 text-[8px] text-white font-bold">POPULAR</div>}
-              <p className="text-[10px] text-white/20 uppercase font-bold tracking-wider">{p.tier}</p>
+              {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-blue-500 text-xs text-white font-bold">POPULAR</div>}
+              <p className="text-sm text-white/55 uppercase font-bold tracking-wider">{p.tier}</p>
               <p className="text-3xl font-black mt-2" style={{ color: p.color }}>{p.price}</p>
-              <p className="text-[10px] text-white/15 mt-1 mb-4">{p.desc}</p>
+              <p className="text-sm text-white/55 mt-1 mb-4">{p.desc}</p>
               <div className="space-y-1.5">
                 {p.features.map((f, j) => (
                   <div key={j} className="flex items-center gap-2">
                     <div className="w-1 h-1 rounded-full" style={{ background: p.color, opacity: 0.4 }} />
-                    <span className="text-[10px] text-white/25">{f}</span>
+                    <span className="text-sm text-white/65">{f}</span>
                   </div>
                 ))}
               </div>
               <button onClick={() => navigate("auth")}
-                className="w-full mt-5 py-2.5 rounded-lg text-[10px] font-bold transition" style={{
+                className="w-full mt-5 py-2.5 rounded-lg text-sm font-bold transition" style={{
                   background: p.popular ? `${p.color}15` : "rgba(255,255,255,0.04)",
                   border: `1px solid ${p.border}`,
                   color: p.color === "#ffffff" ? "rgba(255,255,255,0.4)" : p.color,
@@ -123,7 +123,7 @@ export default function Landing({ navigate }) {
       {/* Footer */}
       <div className="border-t border-white/[0.04] py-8 text-center">
         <p className="text-emerald-400 text-sm font-bold" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>PhysicianWealth</p>
-        <p className="text-[8px] text-white/10 mt-1">Not financial advice. Educational tool for physician financial planning.</p>
+        <p className="text-xs text-white/65 mt-1">Not financial advice. Educational tool for physician financial planning.</p>
       </div>
     </div>
   );

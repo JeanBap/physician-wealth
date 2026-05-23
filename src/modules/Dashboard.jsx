@@ -19,9 +19,9 @@ const Tip = ({ active, payload, label, pre="$" }) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl backdrop-blur-sm">
-      <p className="text-[9px] text-white/30 mb-1">{label}</p>
+      <p className="text-xs text-white/75 mb-1">{label}</p>
       {payload.map((p, i) => (
-        <p key={i} className="text-[11px] font-bold" style={{ color: p.color }}>
+        <p key={i} className="text-sm font-bold" style={{ color: p.color }}>
           {p.name}: {pre}{typeof p.value === "number" ? p.value.toLocaleString() : p.value}
         </p>
       ))}
@@ -208,17 +208,17 @@ export default function Dashboard({ profile, navigate }) {
       <div className="relative overflow-hidden rounded-2xl p-6" style={{ background:"radial-gradient(ellipse at 30% 0%, rgba(52,211,153,0.08) 0%, transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%)", border:`1px solid ${C.border}` }}>
         <div className="absolute top-0 right-0 w-80 h-80 rounded-full opacity-15" style={{ background:"radial-gradient(circle, rgba(52,211,153,0.2), transparent 70%)" }} />
         <div className="absolute bottom-0 left-1/3 w-60 h-60 rounded-full opacity-10" style={{ background:"radial-gradient(circle, rgba(96,165,250,0.15), transparent 70%)" }} />
-        <p className="text-[10px] text-white/20 uppercase tracking-[0.15em]">{greeting()}</p>
+        <p className="text-sm text-white/55 uppercase tracking-[0.15em]">{greeting()}</p>
         <h1 className="text-2xl font-black text-white mt-1" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Dr. {profile.lastName || "Physician"}</h1>
         <div className="flex items-center gap-3 mt-1.5">
           <Badge color={C.emerald}>{profile.specialty}</Badge>
-          <span className="text-[9px] text-white/15">{STATE_NAMES[state]||state}</span>
-          <span className="text-[9px] text-white/15">#{rank}/20</span>
+          <span className="text-xs text-white/55">{STATE_NAMES[state]||state}</span>
+          <span className="text-xs text-white/55">#{rank}/20</span>
         </div>
         <div className="absolute top-6 right-6 text-center">
           <Donut value={healthScore} max={100} size={64} sw={5} color={healthScore>70?C.emerald:healthScore>50?C.amber:C.red}>
             <p className="text-sm font-black" style={{ color:healthScore>70?C.emerald:healthScore>50?C.amber:C.red }}>{healthScore}</p>
-            <p className="text-[5px] text-white/15 uppercase">Score</p>
+            <p className="text-[5px] text-white/55 uppercase">Score</p>
           </Donut>
         </div>
       </div>
@@ -228,10 +228,10 @@ export default function Dashboard({ profile, navigate }) {
       <Card>
         <div className="flex items-center gap-2 mb-3">
           <div className="w-1.5 h-8 rounded-full bg-gradient-to-b from-emerald-400 to-blue-400" />
-          <p className="text-sm font-bold text-white/60" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Executive Summary</p>
+          <p className="text-sm font-bold text-white/75" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Executive Summary</p>
         </div>
-        <p className="text-[11px] text-white/35 leading-relaxed">
-          As a <span className="text-white/60 font-medium">{profile.specialty}</span> with total income <span className="text-emerald-400/70 font-bold">{fmt(totalIncome)}</span> in {STATE_NAMES[state]||state} (COL index: {STATE_COL[state]||100}), you rank <span className="text-white/60 font-medium">#{rank}/20</span>.
+        <p className="text-sm text-white/65 leading-relaxed">
+          As a <span className="text-white/75 font-medium">{profile.specialty}</span> with total income <span className="text-emerald-400/70 font-bold">{fmt(totalIncome)}</span> in {STATE_NAMES[state]||state} (COL index: {STATE_COL[state]||100}), you rank <span className="text-white/75 font-medium">#{rank}/20</span>.
           Effective tax rate: <span className="text-red-400/70 font-bold">{((totalTax/sal)*100).toFixed(1)}%</span>, take-home {fmt(takeHome)}.
           {totalDebt > 0 && <> Total debt <span className="text-red-400/70 font-bold">{fmt(totalDebt)}</span> (total assets {fmt(totalAssets)}), net worth <span style={{ color:netWorth>=0?C.emerald:C.red }} className="font-bold">{fmt(netWorth)}</span>.</>}
           {" "}<span className="text-emerald-400/70 font-bold">{fiPct}%</span> to FI ({fmt(fiTarget)}).
@@ -252,17 +252,17 @@ export default function Dashboard({ profile, navigate }) {
           { l:"Total Debt", v:fmt(totalDebt), c:totalDebt>0?C.red:C.emerald, s:totalDebt>0?`${Math.round(totalDebt/totalIncome*100)}% DTI`:"Debt free" },
         ].map((s, i) => (
           <div key={i} className="rounded-xl p-4" style={{ background:C.card, border:`1px solid ${C.border}` }}>
-            <p className="text-[8px] text-white/15 uppercase tracking-wider">{s.l}</p>
+            <p className="text-xs text-white/55 uppercase tracking-wider">{s.l}</p>
             <p className="text-xl font-black tabular-nums mt-1" style={{ color:s.c }}>{s.v}</p>
-            <p className="text-[8px] text-white/10 mt-0.5">{s.s}</p>
+            <p className="text-xs text-white/65 mt-0.5">{s.s}</p>
           </div>
         ))}
       </div>
     ),
     wealthChart: (
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">10-Year Wealth Projection</p>
-        <p className="text-[8px] text-white/8 mb-3">7% return, 20% savings rate</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">10-Year Wealth Projection</p>
+        <p className="text-xs text-white/55 mb-3">7% return, 20% savings rate</p>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={wealthProjection}>
             <defs>
@@ -281,7 +281,7 @@ export default function Dashboard({ profile, navigate }) {
     ),
     taxPie: (
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Income Allocation</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Income Allocation</p>
         <ResponsiveContainer width="100%" height={180}>
           <PieChart>
             <Pie data={taxData} cx="50%" cy="50%" innerRadius={50} outerRadius={75} paddingAngle={3} dataKey="value" stroke="none" animationDuration={800}>
@@ -292,14 +292,14 @@ export default function Dashboard({ profile, navigate }) {
         </ResponsiveContainer>
         <div className="flex flex-wrap gap-x-3 gap-y-1 justify-center mt-1">
           {taxData.map((d,i)=>(
-            <div key={i} className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full" style={{ background:d.color }}/><span className="text-[8px] text-white/20">{d.name}: {fN(d.value)}</span></div>
+            <div key={i} className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full" style={{ background:d.color }}/><span className="text-xs text-white/55">{d.name}: {fN(d.value)}</span></div>
           ))}
         </div>
       </Card>
     ),
     peerLine: (
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Income vs Peers</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Income vs Peers</p>
         <ResponsiveContainer width="100%" height={180}>
           <LineChart data={peerTrend}>
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid}/>
@@ -315,7 +315,7 @@ export default function Dashboard({ profile, navigate }) {
     ),
     cashFlow: (
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Monthly Cash Flow</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Monthly Cash Flow</p>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={monthlyFlow} layout="vertical" barCategoryGap="20%">
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid} horizontal={false}/>
@@ -329,7 +329,7 @@ export default function Dashboard({ profile, navigate }) {
     ),
     radar: (
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Financial Health Radar</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Financial Health Radar</p>
         <ResponsiveContainer width="100%" height={210}>
           <RadarChart data={healthRadar} cx="50%" cy="50%" outerRadius="70%">
             <PolarGrid stroke={C.grid}/>
@@ -342,7 +342,7 @@ export default function Dashboard({ profile, navigate }) {
     ),
     specBar: (
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Specialty Compensation ($K)</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Specialty Compensation ($K)</p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={specComp} layout="vertical" barCategoryGap="15%">
             <CartesianGrid strokeDasharray="3 3" stroke={C.grid} horizontal={false}/>
@@ -356,17 +356,17 @@ export default function Dashboard({ profile, navigate }) {
     ),
     allocation: (
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-3">Asset Allocation</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-3">Asset Allocation</p>
         <div className="flex items-center gap-6">
           <Donut value={fiPct} max={100} size={100} sw={8} color={C.emerald}>
             <p className="text-lg font-black text-emerald-400">{fiPct}%</p>
-            <p className="text-[6px] text-white/12">FI</p>
+            <p className="text-sm text-white/75">FI</p>
           </Donut>
           <div className="flex-1 space-y-2.5">
             {[{ l:"Retirement",v:retirement,c:C.emerald },{ l:"Investments",v:investments,c:C.blue },{ l:"Savings",v:savings,c:C.purple },{ l:"Real Estate",v:homeEquity+rentalEquity,c:C.amber },{ l:"Other",v:hsa+plan529+crypto,c:C.pink },{ l:"Debt",v:-totalDebt,c:C.red }].filter(a=>a.v!==0).map((a,i)=>(
               <div key={i} className="flex items-center justify-between">
-                <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full" style={{ background:a.c }}/><span className="text-[10px] text-white/30">{a.l}</span></div>
-                <span className="text-[10px] font-bold tabular-nums" style={{ color:a.c }}>{fN(a.v)}</span>
+                <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full" style={{ background:a.c }}/><span className="text-sm text-white/75">{a.l}</span></div>
+                <span className="text-sm font-bold tabular-nums" style={{ color:a.c }}>{fN(a.v)}</span>
               </div>
             ))}
           </div>
@@ -377,8 +377,8 @@ export default function Dashboard({ profile, navigate }) {
       <div>
         <div className="flex items-center gap-2 mb-3">
           <div className="w-1.5 h-6 rounded-full bg-gradient-to-b from-amber-400 to-red-400"/>
-          <p className="text-sm font-bold text-white/50" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Action Plan</p>
-          <span className="text-[9px] text-white/15 ml-auto">{actions.length} items</span>
+          <p className="text-sm font-bold text-white/65" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Action Plan</p>
+          <span className="text-xs text-white/55 ml-auto">{actions.length} items</span>
         </div>
         <div className="space-y-2">
           {actions.map((a,i)=>(
@@ -390,13 +390,13 @@ export default function Dashboard({ profile, navigate }) {
                 <div className="w-1.5 h-10 rounded-full flex-shrink-0 mt-0.5" style={{ background:a.p==="high"?C.red:a.p==="medium"?C.amber:C.blue }}/>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-[11px] text-white/60 font-bold truncate">{a.a}</p>
+                    <p className="text-sm text-white/75 font-bold truncate">{a.a}</p>
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-[8px] text-white/15">{fmtDate(a.due)}</span>
-                      <span className={`text-[7px] px-1.5 py-0.5 rounded-full font-bold ${a.p==="high"?"bg-red-500/10 text-red-400":a.p==="medium"?"bg-amber-500/10 text-amber-400":"bg-blue-500/10 text-blue-400"}`}>{a.p}</span>
+                      <span className="text-xs text-white/55">{fmtDate(a.due)}</span>
+                      <span className={`text-sm px-1.5 py-0.5 rounded-full font-bold ${a.p==="high"?"bg-red-500/10 text-red-400":a.p==="medium"?"bg-amber-500/10 text-amber-400":"bg-blue-500/10 text-blue-400"}`}>{a.p}</span>
                     </div>
                   </div>
-                  <p className="text-[9px] text-white/20 mt-0.5">{a.d}</p>
+                  <p className="text-xs text-white/55 mt-0.5">{a.d}</p>
                 </div>
               </div>
             </button>
@@ -406,14 +406,14 @@ export default function Dashboard({ profile, navigate }) {
     ),
     nav: (
       <div className="no-print">
-        <p className="text-[8px] text-white/10 uppercase tracking-[0.2em] mb-3">All Modules</p>
+        <p className="text-xs text-white/65 uppercase tracking-[0.2em] mb-3">All Modules</p>
         <div className="grid grid-cols-4 gap-2">
           {Object.entries(MODULES).filter(([k,m])=>!m.always).map(([k,m])=>(
             <button key={k} onClick={()=>navigate(k)} className="group p-3 rounded-xl text-center transition-all duration-200 hover:scale-[1.03]" style={{ background:C.card, border:`1px solid ${C.border}` }}
               onMouseEnter={e=>{e.currentTarget.style.background=`${m.color||C.emerald}10`;e.currentTarget.style.borderColor=`${m.color||C.emerald}25`}}
               onMouseLeave={e=>{e.currentTarget.style.background=C.card;e.currentTarget.style.borderColor=C.border}}>
               <p className="text-lg mb-1 opacity-20">{m.icon}</p>
-              <p className="text-[9px] text-white/25 group-hover:text-white/60 font-medium transition">{m.label}</p>
+              <p className="text-xs text-white/65 group-hover:text-white/75 font-medium transition">{m.label}</p>
             </button>
           ))}
         </div>
@@ -430,17 +430,17 @@ export default function Dashboard({ profile, navigate }) {
       {/* Controls */}
       <div className="flex justify-end gap-2 no-print">
         <button onClick={() => setEditing(!editing)}
-          className={`px-3 py-1.5 rounded-lg text-[10px] border transition ${editing ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-400" : "bg-white/[0.04] border-white/[0.06] text-white/25 hover:text-white/50"}`}>
+          className={`px-3 py-1.5 rounded-lg text-sm border transition ${editing ? "bg-emerald-500/15 border-emerald-500/30 text-emerald-400" : "bg-white/[0.04] border-white/[0.06] text-white/65 hover:text-white/65"}`}>
           {editing ? "Done Editing" : "Customize"}
         </button>
         {editing && (
           <button onClick={() => { setWidgets(DEFAULT_WIDGETS); }}
-            className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[10px] text-white/25 hover:text-white/50">
+            className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm text-white/65 hover:text-white/65">
             Reset Layout
           </button>
         )}
         <button onClick={handlePrint}
-          className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[10px] text-white/25 hover:text-white/50 hover:bg-white/[0.06]">
+          className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm text-white/65 hover:text-white/65 hover:bg-white/[0.06]">
           Export PDF
         </button>
       </div>
@@ -480,7 +480,7 @@ export default function Dashboard({ profile, navigate }) {
         );
       })}
 
-      <p className="text-[7px] text-white/8 text-center pt-4">
+      <p className="text-sm text-white/55 text-center pt-4">
         PhysicianWealth | {new Date().toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" })} | Not financial advice
       </p>
     </div>

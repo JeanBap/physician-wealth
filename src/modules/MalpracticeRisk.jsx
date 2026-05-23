@@ -5,8 +5,8 @@ import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, Cartes
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: {p.value}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: {p.value}</p>)}</div>);
 };
 
 const CARRIERS = [
@@ -65,7 +65,7 @@ export default function MalpracticeRisk({ profile }) {
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <p className="text-3xl font-black" style={{ color: riskScore > 70 ? "#f87171" : riskScore > 40 ? "#fbbf24" : "#34d399" }}>{riskScore}</p>
-            <p className="text-[7px] text-white/15 uppercase">Risk Score</p>
+            <p className="text-sm text-white/55 uppercase">Risk Score</p>
           </div>
         </div>
       </div>
@@ -79,11 +79,11 @@ export default function MalpracticeRisk({ profile }) {
       <div className="grid grid-cols-2 gap-3">
         {/* Risk factors radar */}
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Risk Factors</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Risk Factors</p>
           <ResponsiveContainer width="100%" height={180}>
             <RadarChart data={riskRadar} cx="50%" cy="50%" outerRadius="65%">
               <PolarGrid stroke="rgba(255,255,255,0.04)"/>
-              <PolarAngleAxis dataKey="factor" tick={{ fontSize:7, fill:"rgba(255,255,255,0.25)" }}/>
+              <PolarAngleAxis dataKey="factor" tick={{ fontSize:7, fill:"rgba(255,255,255,0.5)" }}/>
               <PolarRadiusAxis tick={false} axisLine={false} domain={[0,100]}/>
               <Radar name="Risk" dataKey="value" stroke="#f87171" fill="#f87171" fillOpacity={0.15} strokeWidth={2} dot={{ r:2, fill:"#f87171" }}/>
             </RadarChart>
@@ -91,11 +91,11 @@ export default function MalpracticeRisk({ profile }) {
         </Card>
         {/* Carrier premiums */}
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Carrier Premiums ($K/yr)</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Carrier Premiums ($K/yr)</p>
           <ResponsiveContainer width="100%" height={150}>
             <BarChart data={carrierData} barCategoryGap="20%">
-              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="K"/>
+              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="K"/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="premium" name="Premium ($K)" radius={[4,4,0,0]}>{carrierData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
@@ -105,12 +105,12 @@ export default function MalpracticeRisk({ profile }) {
 
       {/* Claim rates by specialty */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Claim Rates by Specialty (%)</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Claim Rates by Specialty (%)</p>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={claimRank} layout="vertical" barCategoryGap="12%">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false}/>
-            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="%"/>
-            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false} width={90}/>
+            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="%"/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false} width={90}/>
             <Bar dataKey="rate" name="Claim Rate" radius={[0,4,4,0]}>{claimRank.map((d,i)=><Cell key={i} fill={d.yours?"#f87171":"rgba(255,255,255,0.06)"}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>

@@ -23,11 +23,11 @@ export default function Billing({ profile, navigate, user }) {
       <Card>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[9px] text-white/15 uppercase">Current Plan</p>
+            <p className="text-xs text-white/55 uppercase">Current Plan</p>
             <p className="text-xl font-black" style={{ color: plans.find(p => p.id === plan)?.color }}>{isAdmin ? "Admin" : plans.find(p => p.id === plan)?.name}</p>
           </div>
           <div className="text-right">
-            <p className="text-2xl font-black text-white/50">${isAdmin ? 0 : plans.find(p => p.id === plan)?.price}<span className="text-[9px] text-white/15">/mo</span></p>
+            <p className="text-2xl font-black text-white/65">${isAdmin ? 0 : plans.find(p => p.id === plan)?.price}<span className="text-xs text-white/55">/mo</span></p>
           </div>
         </div>
       </Card>
@@ -42,21 +42,21 @@ export default function Billing({ profile, navigate, user }) {
                 background: isCurrent ? `linear-gradient(180deg, ${p.color}08 0%, transparent 100%)` : "rgba(255,255,255,0.02)",
                 border: `1px solid ${isCurrent ? `${p.color}30` : "rgba(255,255,255,0.05)"}`,
               }}>
-              {p.id === "pro" && !isAdmin && <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-blue-500 text-[7px] text-white font-bold">POPULAR</div>}
-              <p className="text-[9px] text-white/20 uppercase font-bold tracking-wider">{p.name}</p>
-              <p className="text-2xl font-black mt-1.5" style={{ color: p.color }}>${p.price}<span className="text-[10px] text-white/15">/mo</span></p>
-              {p.savings && <p className="text-[8px] text-emerald-400/40 mt-0.5">{p.savings} with annual</p>}
-              <p className="text-[8px] text-white/15 mt-0.5">{p.limit}</p>
+              {p.id === "pro" && !isAdmin && <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-blue-500 text-sm text-white font-bold">POPULAR</div>}
+              <p className="text-xs text-white/55 uppercase font-bold tracking-wider">{p.name}</p>
+              <p className="text-2xl font-black mt-1.5" style={{ color: p.color }}>${p.price}<span className="text-sm text-white/55">/mo</span></p>
+              {p.savings && <p className="text-xs text-emerald-400/70 mt-0.5">{p.savings} with annual</p>}
+              <p className="text-xs text-white/55 mt-0.5">{p.limit}</p>
               <div className="mt-3 space-y-1">
                 {p.features.map((f, j) => (
                   <div key={j} className="flex items-center gap-1.5">
                     <div className="w-1 h-1 rounded-full" style={{ background: p.color, opacity: 0.4 }} />
-                    <span className="text-[9px] text-white/20">{f}</span>
+                    <span className="text-xs text-white/55">{f}</span>
                   </div>
                 ))}
               </div>
               <button onClick={() => !isAdmin && setPlan(p.id)} disabled={isCurrent || isAdmin}
-                className="w-full mt-4 py-2 rounded-lg text-[9px] font-bold transition" style={{
+                className="w-full mt-4 py-2 rounded-lg text-xs font-bold transition" style={{
                   background: isCurrent ? `${p.color}15` : "rgba(255,255,255,0.04)",
                   border: `1px solid ${isCurrent ? `${p.color}30` : "rgba(255,255,255,0.06)"}`,
                   color: isCurrent ? p.color : "rgba(255,255,255,0.3)",
@@ -70,14 +70,14 @@ export default function Billing({ profile, navigate, user }) {
       </div>
 
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">Payment Methods</p>
-        <p className="text-[10px] text-white/20">Managed through Stripe. Click below to update.</p>
-        <button className="mt-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-[10px] text-white/30 hover:text-white/50 transition">
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Payment Methods</p>
+        <p className="text-sm text-white/55">Managed through Stripe. Click below to update.</p>
+        <button className="mt-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm text-white/75 hover:text-white/65 transition">
           Manage Payment Method
         </button>
       </Card>
 
-      <p className="text-[7px] text-white/8 text-center">Cancel anytime. 14-day free trial on Pro and Premium. No questions asked.</p>
+      <p className="text-sm text-white/55 text-center">Cancel anytime. 14-day free trial on Pro and Premium. No questions asked.</p>
     </div>
   );
 }

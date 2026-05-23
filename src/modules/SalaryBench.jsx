@@ -5,8 +5,8 @@ import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, Cartes
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value}K</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value}K</p>)}</div>);
 };
 
 export default function SalaryBench({ profile }) {
@@ -43,7 +43,7 @@ export default function SalaryBench({ profile }) {
 
       {/* Percentile gauge */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">{profile.specialty} Salary Range</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">{profile.specialty} Salary Range</p>
         <div className="relative h-8 bg-white/[0.04] rounded-full overflow-visible mx-4">
           {/* 25th-75th range */}
           <div className="absolute h-full bg-gradient-to-r from-emerald-500/10 to-emerald-500/20 rounded-full" style={{ left: "0%", width: "100%" }} />
@@ -56,7 +56,7 @@ export default function SalaryBench({ profile }) {
           {/* Median marker */}
           <div className="absolute top-0 h-full w-0.5 bg-white/15" style={{ left: "50%" }} />
         </div>
-        <div className="flex justify-between mt-2 text-[8px] text-white/15 mx-4">
+        <div className="flex justify-between mt-2 text-xs text-white/55 mx-4">
           <span>{fN(spec.lo)} (25th)</span>
           <span>{fN(spec.m)} (50th)</span>
           <span>{fN(spec.hi)} (75th)</span>
@@ -65,8 +65,8 @@ export default function SalaryBench({ profile }) {
 
       {/* All specialties chart */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">All Specialties - Median Salary ($K)</p>
-        <p className="text-[8px] text-white/8 mb-2">Rank #{rank}/20</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">All Specialties - Median Salary ($K)</p>
+        <p className="text-xs text-white/55 mb-2">Rank #{rank}/20</p>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData} layout="vertical" barCategoryGap="8%">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false} />

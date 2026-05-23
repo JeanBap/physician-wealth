@@ -5,8 +5,8 @@ import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: {p.value}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: {p.value}</p>)}</div>);
 };
 
 export default function BurnoutCost({ profile }) {
@@ -67,7 +67,7 @@ export default function BurnoutCost({ profile }) {
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <p className="text-3xl font-black" style={{ color: score > 60 ? "#f87171" : score > 40 ? "#fbbf24" : "#34d399" }}>{score}</p>
-            <p className="text-[7px] text-white/15 uppercase">Burnout Score</p>
+            <p className="text-sm text-white/55 uppercase">Burnout Score</p>
           </div>
         </div>
       </div>
@@ -80,12 +80,12 @@ export default function BurnoutCost({ profile }) {
 
       {/* Sliders */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-3">Self-Assessment (1-10)</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-3">Self-Assessment (1-10)</p>
         <div className="space-y-4">
           {dims.map((d, i) => (
             <div key={i}>
               <div className="flex items-center justify-between mb-1">
-                <div><p className="text-[10px] text-white/50 font-medium">{d.label}</p><p className="text-[8px] text-white/15">{d.desc}</p></div>
+                <div><p className="text-sm text-white/65 font-medium">{d.label}</p><p className="text-xs text-white/55">{d.desc}</p></div>
                 <span className="text-sm font-black tabular-nums w-6 text-right" style={{ color: d.val > 7 ? "#f87171" : d.val > 4 ? "#fbbf24" : "#34d399" }}>{d.val}</span>
               </div>
               <input type="range" min="1" max="10" value={d.val} onChange={e => d.set(+e.target.value)}
@@ -99,11 +99,11 @@ export default function BurnoutCost({ profile }) {
       {/* Radar + Cost bar side by side */}
       <div className="grid grid-cols-2 gap-3">
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">You vs Specialty Average</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">You vs Specialty Average</p>
           <ResponsiveContainer width="100%" height={180}>
             <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="65%">
               <PolarGrid stroke="rgba(255,255,255,0.04)"/>
-              <PolarAngleAxis dataKey="dim" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }}/>
+              <PolarAngleAxis dataKey="dim" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }}/>
               <PolarRadiusAxis tick={false} axisLine={false} domain={[0,100]}/>
               <Radar name="You" dataKey="you" stroke="#f87171" fill="#f87171" fillOpacity={0.15} strokeWidth={2} dot={{ r:3, fill:"#f87171" }}/>
               <Radar name="Specialty" dataKey="avg" stroke="#a78bfa" fill="none" strokeWidth={1.5} strokeDasharray="4 4"/>
@@ -111,11 +111,11 @@ export default function BurnoutCost({ profile }) {
           </ResponsiveContainer>
         </Card>
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Financial Impact</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Financial Impact</p>
           <ResponsiveContainer width="100%" height={140}>
             <BarChart data={costData} barCategoryGap="25%">
-              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="value" name="Cost" radius={[4,4,0,0]}>{costData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
@@ -126,12 +126,12 @@ export default function BurnoutCost({ profile }) {
 
       {/* Specialty burnout ranking */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Burnout by Specialty (Top 8)</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Burnout by Specialty (Top 8)</p>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={burnRank} layout="vertical" barCategoryGap="12%">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false}/>
-            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="%"/>
-            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false} width={90}/>
+            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="%"/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false} width={90}/>
             <Bar dataKey="burn" name="Burnout %" radius={[0,4,4,0]}>{burnRank.map((d,i)=><Cell key={i} fill={d.yours?"#f87171":"rgba(255,255,255,0.06)"}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>

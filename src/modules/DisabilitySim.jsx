@@ -5,8 +5,8 @@ import { BarChart, Bar, Cell, AreaChart, Area, XAxis, YAxis, Tooltip, Responsive
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 const CARRIERS = [
@@ -63,15 +63,15 @@ export default function DisabilitySim({ profile }) {
       {/* Savings depletion chart */}
       {monthlyGap > 0 && (
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Savings Depletion Without DI</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Savings Depletion Without DI</p>
           <ResponsiveContainer width="100%" height={150}>
             <AreaChart data={runwayData}>
               <defs>
                 <linearGradient id="depG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#f87171" stopOpacity={0.3}/><stop offset="100%" stopColor="#f87171" stopOpacity={0}/></linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-              <XAxis dataKey="month" tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} label={{ value:"Months", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.15)" }}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <XAxis dataKey="month" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} label={{ value:"Months", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.15)" }}/>
+              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Area type="monotone" dataKey="savings" name="Savings" stroke="#f87171" fill="url(#depG)" strokeWidth={2} dot={false}/>
             </AreaChart>
@@ -81,20 +81,20 @@ export default function DisabilitySim({ profile }) {
 
       {/* Carrier comparison */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Carrier Premiums (Monthly)</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Carrier Premiums (Monthly)</p>
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={carrierData} barCategoryGap="20%">
-            <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${v}`}/>
+            <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${v}`}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="premium" name="Premium" radius={[4,4,0,0]}>{carrierData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>
         <div className="mt-2 space-y-1">
           {carrierData.map((c,i) => (
-            <div key={i} className="flex items-center justify-between text-[8px]">
-              <span className="text-white/25">{c.name}</span>
-              <span className="text-white/15">{c.wait}d wait | Max {fN(c.max)}/mo | {c.ownOcc ? <span className="text-emerald-400/50">Own-occ</span> : <span className="text-white/15">Any-occ</span>}</span>
+            <div key={i} className="flex items-center justify-between text-xs">
+              <span className="text-white/65">{c.name}</span>
+              <span className="text-white/55">{c.wait}d wait | Max {fN(c.max)}/mo | {c.ownOcc ? <span className="text-emerald-400/70">Own-occ</span> : <span className="text-white/55">Any-occ</span>}</span>
             </div>
           ))}
         </div>

@@ -5,7 +5,7 @@ import { AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tool
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
     {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
@@ -86,11 +86,11 @@ export default function RealEstate({ profile }) {
 
       {/* Monthly breakdown */}
       <Card>
-        <p className="text-xs text-white/15 uppercase tracking-widest mb-1">Monthly Breakdown</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Monthly Breakdown</p>
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={incomeData} barCategoryGap="20%">
-            <XAxis dataKey="name" tick={{ fontSize:10, fill:"rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+            <XAxis dataKey="name" tick={{ fontSize:10, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="value" name="Amount" radius={[4,4,0,0]}>{incomeData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
           </BarChart>
@@ -99,7 +99,7 @@ export default function RealEstate({ profile }) {
 
       {/* 10-year equity + cash flow projection */}
       <Card>
-        <p className="text-xs text-white/15 uppercase tracking-widest mb-1">10-Year Projection</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">10-Year Projection</p>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={projection}>
             <defs>
@@ -107,8 +107,8 @@ export default function RealEstate({ profile }) {
               <linearGradient id="cfRe" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#60a5fa" stopOpacity={0.2}/><stop offset="100%" stopColor="#60a5fa" stopOpacity={0}/></linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="year" tick={{ fontSize:10, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+            <XAxis dataKey="year" tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="value" name="Property Value" stroke="#fbbf24" fill="none" strokeWidth={1.5} strokeDasharray="4 4" dot={false}/>
             <Area type="monotone" dataKey="equity" name="Equity" stroke="#34d399" fill="url(#eqRe)" strokeWidth={2} dot={false}/>
@@ -119,13 +119,13 @@ export default function RealEstate({ profile }) {
 
       {/* Investment comparison */}
       <Card>
-        <p className="text-xs text-white/15 uppercase tracking-widest mb-2">Investment Vehicle Comparison</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Investment Vehicle Comparison</p>
         <div className="space-y-1.5">
           {compareData.map((c, i) => (
             <div key={i} className="flex items-center justify-between py-2 border-b border-white/[0.03] last:border-0">
               <div>
-                <p className="text-sm text-white/50 font-medium">{c.name}</p>
-                <p className="text-xs text-white/15">Min: {c.minInvest} | Effort: {c.effort} | Tax: {c.tax}</p>
+                <p className="text-sm text-white/65 font-medium">{c.name}</p>
+                <p className="text-xs text-white/55">Min: {c.minInvest} | Effort: {c.effort} | Tax: {c.tax}</p>
               </div>
               <span className="text-sm font-bold text-emerald-400 tabular-nums">{c.cashReturn}%</span>
             </div>
@@ -135,7 +135,7 @@ export default function RealEstate({ profile }) {
 
       {/* Physician-specific RE strategies */}
       <Card>
-        <p className="text-xs text-white/15 uppercase tracking-widest mb-2">Physician RE Strategies</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Physician RE Strategies</p>
         <div className="space-y-2">
           {[
             { name: "Physician Mortgage (0% down)", desc: "No PMI, 100% financing for MDs. Chase, BofA, SoFi offer these.", color: "#34d399" },
@@ -145,7 +145,7 @@ export default function RealEstate({ profile }) {
           ].map((s, i) => (
             <div key={i} className="flex items-start gap-2">
               <div className="w-1.5 h-8 rounded-full flex-shrink-0 mt-1" style={{ background: s.color, opacity: 0.5 }} />
-              <div><p className="text-sm text-white/50 font-medium">{s.name}</p><p className="text-xs text-white/20">{s.desc}</p></div>
+              <div><p className="text-sm text-white/65 font-medium">{s.name}</p><p className="text-xs text-white/55">{s.desc}</p></div>
             </div>
           ))}
         </div>

@@ -92,11 +92,11 @@ Return ONLY valid JSON:
       <Card className="text-center py-6" style={{
         background: "radial-gradient(ellipse at 50% 0%, rgba(244,114,182,0.06) 0%, transparent 60%)",
       }}>
-        <p className="text-white/40 text-sm font-bold mb-1">Upload Employment Contract</p>
-        <p className="text-[9px] text-white/15 mb-4">PDF or image. AI reviews every clause twice for accuracy.</p>
+        <p className="text-white/55 text-sm font-bold mb-1">Upload Employment Contract</p>
+        <p className="text-xs text-white/55 mb-4">PDF or image. AI reviews every clause twice for accuracy.</p>
         <input type="file" accept=".pdf,.png,.jpg,.jpeg,.docx" onChange={e => setFile(e.target.files[0])}
           className="hidden" id="contract-upload" />
-        <label htmlFor="contract-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/50 hover:bg-white/[0.08] transition inline-block">
+        <label htmlFor="contract-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/65 hover:bg-white/[0.08] transition inline-block">
           {file ? file.name : "Choose File"}
         </label>
         {file && !analyzing && (
@@ -105,7 +105,7 @@ Return ONLY valid JSON:
         {analyzing && (
           <div className="mt-4 flex flex-col items-center gap-2">
             <div className="w-5 h-5 border-2 border-pink-500/30 border-t-pink-500 rounded-full animate-spin" />
-            <p className="text-[10px] text-pink-400/50">{progress}</p>
+            <p className="text-sm text-pink-400/50">{progress}</p>
           </div>
         )}
         {error && <Alert type="danger">{error}</Alert>}
@@ -122,24 +122,24 @@ Return ONLY valid JSON:
 
           {result.summary && (
             <Card style={{ borderColor: "rgba(244,114,182,0.15)", background: "rgba(244,114,182,0.03)" }}>
-              <p className="text-[10px] text-pink-400/50 uppercase tracking-widest mb-1">AI Summary (Double-Verified)</p>
-              <p className="text-[11px] text-white/50 leading-relaxed">{result.summary}</p>
+              <p className="text-sm text-pink-400/50 uppercase tracking-widest mb-1">AI Summary (Double-Verified)</p>
+              <p className="text-sm text-white/65 leading-relaxed">{result.summary}</p>
             </Card>
           )}
 
           {result.clauses?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-white/40 uppercase tracking-widest mb-2">Clause Analysis</p>
+              <p className="text-sm text-white/55 uppercase tracking-widest mb-2">Clause Analysis</p>
               {result.clauses.map((c, i) => (
                 <div key={i} className="py-2 border-b border-white/[0.03] last:border-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-[11px] text-white/60 font-medium">{c.name}</p>
-                    <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-bold ${c.rating==="good"?"bg-emerald-500/15 text-emerald-400":c.rating==="bad"?"bg-red-500/15 text-red-400":"bg-white/[0.05] text-white/25"}`}>
+                    <p className="text-sm text-white/75 font-medium">{c.name}</p>
+                    <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${c.rating==="good"?"bg-emerald-500/15 text-emerald-400":c.rating==="bad"?"bg-red-500/15 text-red-400":"bg-white/[0.05] text-white/65"}`}>
                       {c.rating}
                     </span>
                   </div>
-                  <p className="text-[9px] text-white/20 mt-0.5">{c.found}</p>
-                  {c.suggestion && <p className="text-[8px] text-emerald-400/40 mt-0.5">Negotiate: {c.suggestion}</p>}
+                  <p className="text-xs text-white/55 mt-0.5">{c.found}</p>
+                  {c.suggestion && <p className="text-xs text-emerald-400/70 mt-0.5">Negotiate: {c.suggestion}</p>}
                 </div>
               ))}
             </Card>
@@ -147,14 +147,14 @@ Return ONLY valid JSON:
 
           {result.negotiationPriorities?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-amber-400/60 uppercase tracking-widest mb-2">Negotiation Priorities</p>
+              <p className="text-sm text-amber-400/60 uppercase tracking-widest mb-2">Negotiation Priorities</p>
               {result.negotiationPriorities.map((n, i) => (
                 <div key={i} className="py-1.5 border-b border-white/[0.03] last:border-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-[10px] text-white/50 font-medium">{n.clause}</p>
-                    <span className={`text-[8px] ${n.impact==="High"?"text-red-400":n.impact==="Medium"?"text-amber-400":"text-blue-400"}`}>{n.impact}</span>
+                    <p className="text-sm text-white/65 font-medium">{n.clause}</p>
+                    <span className={`text-xs ${n.impact==="High"?"text-red-400":n.impact==="Medium"?"text-amber-400":"text-blue-400"}`}>{n.impact}</span>
                   </div>
-                  <p className="text-[8px] text-white/15">Current: {n.currentTerm} | Ask for: {n.suggestedTerm}</p>
+                  <p className="text-xs text-white/55">Current: {n.currentTerm} | Ask for: {n.suggestedTerm}</p>
                 </div>
               ))}
             </Card>
@@ -162,9 +162,9 @@ Return ONLY valid JSON:
 
           {result.redFlags?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-red-400/60 uppercase tracking-widest mb-2">Red Flags</p>
+              <p className="text-sm text-red-400/80 uppercase tracking-widest mb-2">Red Flags</p>
               {result.redFlags.map((f, i) => (
-                <p key={i} className="text-[10px] text-red-300/50 mb-1 flex gap-1.5"><span className="text-red-400">!</span> {f}</p>
+                <p key={i} className="text-sm text-red-300/50 mb-1 flex gap-1.5"><span className="text-red-400">!</span> {f}</p>
               ))}
             </Card>
           )}
@@ -178,21 +178,21 @@ Return ONLY valid JSON:
       {/* Manual scoring fallback */}
       {!result && !analyzing && (
         <>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest">Manual Scoring (upload for AI analysis)</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest">Manual Scoring (upload for AI analysis)</p>
           <div className="grid grid-cols-3 gap-2">
             <Stat label="Manual score" value={`${manualScore}/100`} color={manualScore > 70 ? "#34d399" : manualScore > 40 ? "#fbbf24" : "#f87171"} />
             <Stat label="Red flags" value={CLAUSES.filter((_, i) => scores[i] === 0 && CLAUSES[i].weight >= 2).length} color="#f87171" />
             <Stat label="Specialty median" value={fN(spec.m)} color="#60a5fa" />
           </div>
           <Card>
-            <p className="text-[10px] text-white/40 uppercase tracking-widest mb-2">Key Clauses (tap to rate)</p>
+            <p className="text-sm text-white/55 uppercase tracking-widest mb-2">Key Clauses (tap to rate)</p>
             {CLAUSES.map((c, i) => (
               <button key={i} onClick={() => toggleScore(i)} className="w-full flex items-center justify-between py-2 border-b border-white/[0.03] last:border-0 text-left">
                 <div>
-                  <p className="text-[11px] text-white/60 font-medium">{c.name}</p>
-                  <p className="text-[8px] text-white/20">Good: {c.good} | Bad: {c.bad}</p>
+                  <p className="text-sm text-white/75 font-medium">{c.name}</p>
+                  <p className="text-xs text-white/55">Good: {c.good} | Bad: {c.bad}</p>
                 </div>
-                <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-bold ${scores[i]===10?"bg-emerald-500/15 text-emerald-400":scores[i]===0?"bg-red-500/15 text-red-400":"bg-white/[0.05] text-white/25"}`}>
+                <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${scores[i]===10?"bg-emerald-500/15 text-emerald-400":scores[i]===0?"bg-red-500/15 text-red-400":"bg-white/[0.05] text-white/65"}`}>
                   {scores[i]===10?"Good":scores[i]===0?"Bad":"N/A"}
                 </span>
               </button>

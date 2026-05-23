@@ -5,8 +5,8 @@ import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from 
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 const MOCK_TXN = [
@@ -60,14 +60,14 @@ export default function PlaidAccounts({ profile }) {
               <div className="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center text-xl font-black" style={{ background:`${bank.color}15`, border:`1px solid ${bank.color}20`, color:bank.color }}>
                 {bank.logo}
               </div>
-              <p className="text-sm font-bold text-white/60">{bank.name}</p>
-              <div className="mt-3 py-1.5 rounded-lg text-[9px] font-bold" style={{ background:`${bank.color}10`, color:bank.color, border:`1px solid ${bank.color}20` }}>
+              <p className="text-sm font-bold text-white/75">{bank.name}</p>
+              <div className="mt-3 py-1.5 rounded-lg text-xs font-bold" style={{ background:`${bank.color}10`, color:bank.color, border:`1px solid ${bank.color}20` }}>
                 {loading ? "Connecting..." : "Connect"}
               </div>
             </button>
           ))}
         </div>
-        <p className="text-[8px] text-white/10 text-center">Direct API. No Plaid middleman. Data stays encrypted.</p>
+        <p className="text-xs text-white/65 text-center">Direct API. No Plaid middleman. Data stays encrypted.</p>
       </div>
     );
   }
@@ -84,18 +84,18 @@ export default function PlaidAccounts({ profile }) {
       {accounts.map(a => (
         <Card key={a.id}>
           <div className="flex items-center justify-between">
-            <div><p className="text-[11px] text-white/60 font-bold">{a.n}</p><p className="text-[8px] text-white/15">{a.bank} | {a.type}</p></div>
+            <div><p className="text-sm text-white/75 font-bold">{a.n}</p><p className="text-xs text-white/55">{a.bank} | {a.type}</p></div>
             <p className="text-lg font-black tabular-nums" style={{ color: a.bal >= 0 ? "#34d399" : "#f87171" }}>{fmt(a.bal)}</p>
           </div>
         </Card>
       ))}
 
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Spending by Category</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Spending by Category</p>
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={catData} barCategoryGap="20%">
-            <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+            <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="value" name="Spent" radius={[4,4,0,0]} fill="#f8717180"/>
           </BarChart>
@@ -103,12 +103,12 @@ export default function PlaidAccounts({ profile }) {
       </Card>
 
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">Recent Transactions</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Recent Transactions</p>
         <div className="space-y-1">
           {MOCK_TXN.map((t, i) => (
             <div key={i} className="flex items-center justify-between py-1.5 border-b border-white/[0.02] last:border-0">
-              <div><p className="text-[10px] text-white/40">{t.desc}</p><p className="text-[8px] text-white/10">{t.date} | {t.cat}</p></div>
-              <span className={`text-[11px] font-bold tabular-nums ${t.amount > 0 ? "text-emerald-400" : "text-red-400/60"}`}>
+              <div><p className="text-sm text-white/55">{t.desc}</p><p className="text-xs text-white/65">{t.date} | {t.cat}</p></div>
+              <span className={`text-sm font-bold tabular-nums ${t.amount > 0 ? "text-emerald-400" : "text-red-400/80"}`}>
                 {t.amount > 0 ? "+" : ""}{fN(t.amount)}
               </span>
             </div>

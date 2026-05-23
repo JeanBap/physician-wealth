@@ -5,8 +5,8 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 export default function PracticeBuyout({ profile }) {
@@ -58,7 +58,7 @@ export default function PracticeBuyout({ profile }) {
 
       {/* Projection chart */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">{term}-Year Ownership Projection</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">{term}-Year Ownership Projection</p>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={projection}>
             <defs>
@@ -66,8 +66,8 @@ export default function PracticeBuyout({ profile }) {
               <linearGradient id="incG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#60a5fa" stopOpacity={0.2}/><stop offset="100%" stopColor="#60a5fa" stopOpacity={0}/></linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="year" tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} label={{ value:"Year", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.1)" }}/>
-            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+            <XAxis dataKey="year" tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} label={{ value:"Year", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.1)" }}/>
+            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="cumIncome" name="Cumulative Income" stroke="#60a5fa" fill="url(#incG)" strokeWidth={2} dot={false}/>
             <Area type="monotone" dataKey="equity" name="Equity Buildup" stroke="#34d399" fill="url(#eqG)" strokeWidth={2} dot={false}/>
@@ -76,15 +76,15 @@ export default function PracticeBuyout({ profile }) {
       </Card>
 
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">Deal Summary</p>
-        <div className="space-y-1.5 text-[10px]">
-          <div className="flex justify-between"><span className="text-white/25">Down payment</span><span className="text-white/50">{fmt(down)}</span></div>
-          <div className="flex justify-between"><span className="text-white/25">Loan amount</span><span className="text-white/50">{fmt(loan)}</span></div>
-          <div className="flex justify-between"><span className="text-white/25">Monthly payment</span><span className="text-white/50">{fN(monthlyPmt)}</span></div>
-          <div className="flex justify-between"><span className="text-white/25">Total interest</span><span className="text-red-400/60">{fN(totalInterest)}</span></div>
-          <div className="flex justify-between"><span className="text-white/25">Net profit (35% margin)</span><span className="text-white/50">{fmt(netProfit)}/yr</span></div>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Deal Summary</p>
+        <div className="space-y-1.5 text-sm">
+          <div className="flex justify-between"><span className="text-white/65">Down payment</span><span className="text-white/65">{fmt(down)}</span></div>
+          <div className="flex justify-between"><span className="text-white/65">Loan amount</span><span className="text-white/65">{fmt(loan)}</span></div>
+          <div className="flex justify-between"><span className="text-white/65">Monthly payment</span><span className="text-white/65">{fN(monthlyPmt)}</span></div>
+          <div className="flex justify-between"><span className="text-white/65">Total interest</span><span className="text-red-400/80">{fN(totalInterest)}</span></div>
+          <div className="flex justify-between"><span className="text-white/65">Net profit (35% margin)</span><span className="text-white/65">{fmt(netProfit)}/yr</span></div>
           <div className="flex justify-between border-t border-white/[0.05] pt-1.5 mt-1.5">
-            <span className="text-white/50 font-bold">Net after debt service</span>
+            <span className="text-white/65 font-bold">Net after debt service</span>
             <span className={`font-bold ${netAfterDebt > 0 ? "text-emerald-400" : "text-red-400"}`}>{fmt(netAfterDebt)}/yr</span>
           </div>
         </div>

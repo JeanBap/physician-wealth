@@ -6,8 +6,8 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveCo
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl">
-    <p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}
+    <p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}
   </div>);
 };
 
@@ -69,7 +69,7 @@ export default function Spending({ profile }) {
 
       {/* Budget inputs */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-3">Monthly Expenses</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-3">Monthly Expenses</p>
         <div className="grid grid-cols-2 gap-2">
           <Inp label="Housing" value={housing} onChange={setHousing} type="number" pre="$" />
           <Inp label="Loan payments" value={loanPmt} onChange={setLoanPmt} type="number" pre="$" />
@@ -79,7 +79,7 @@ export default function Spending({ profile }) {
           <Inp label="Other" value={other} onChange={setOther} type="number" pre="$" />
         </div>
         <div className="mt-3 flex justify-between border-t border-white/[0.05] pt-2">
-          <span className="text-[10px] text-white/30">Monthly surplus</span>
+          <span className="text-sm text-white/75">Monthly surplus</span>
           <span className={`text-lg font-black tabular-nums ${surplus >= 0 ? "text-emerald-400" : "text-red-400"}`}>{fN(surplus)}</span>
         </div>
       </Card>
@@ -87,7 +87,7 @@ export default function Spending({ profile }) {
       {/* Spending pie chart */}
       <div className="grid grid-cols-2 gap-3">
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Budget Allocation</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Budget Allocation</p>
           <ResponsiveContainer width="100%" height={180}>
             <PieChart>
               <Pie data={pieData} cx="50%" cy="50%" innerRadius={40} outerRadius={70} paddingAngle={2} dataKey="value" stroke="none" animationDuration={800}>
@@ -98,38 +98,38 @@ export default function Spending({ profile }) {
           </ResponsiveContainer>
           <div className="flex flex-wrap gap-x-2 gap-y-1 justify-center">
             {pieData.map((d,i)=>(
-              <div key={i} className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full" style={{background:d.color}}/><span className="text-[7px] text-white/20">{d.name}</span></div>
+              <div key={i} className="flex items-center gap-1"><div className="w-1.5 h-1.5 rounded-full" style={{background:d.color}}/><span className="text-sm text-white/55">{d.name}</span></div>
             ))}
           </div>
         </Card>
 
         {/* Tax breakdown bar */}
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Monthly Tax Breakdown</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Monthly Tax Breakdown</p>
           <ResponsiveContainer width="100%" height={140}>
             <BarChart data={taxBreakdown} barCategoryGap="25%">
-              <XAxis dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+              <XAxis dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="value" name="Tax" radius={[4,4,0,0]}>{taxBreakdown.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
           </ResponsiveContainer>
-          <p className="text-[8px] text-white/10 text-center mt-1">Total: {fN(Math.round(totalTax/12))}/mo</p>
+          <p className="text-xs text-white/65 text-center mt-1">Total: {fN(Math.round(totalTax/12))}/mo</p>
         </Card>
       </div>
 
       {/* Financial rules */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">Financial Rules Check</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Financial Rules Check</p>
         <div className="space-y-3">
           {ruleResults.map((r, i) => (
             <div key={i}>
               <div className="flex items-center justify-between mb-1">
                 <div>
-                  <p className="text-[10px] text-white/50 font-medium">{r.name}</p>
-                  <p className="text-[8px] text-white/15">{r.desc}</p>
+                  <p className="text-sm text-white/65 font-medium">{r.name}</p>
+                  <p className="text-xs text-white/55">{r.desc}</p>
                 </div>
-                <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold ${r.pass ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"}`}>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${r.pass ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"}`}>
                   {r.pass ? "PASS" : "FAIL"}
                 </span>
               </div>
@@ -139,7 +139,7 @@ export default function Spending({ profile }) {
                   background: r.pass ? "#34d399" : "#f87171",
                 }} />
               </div>
-              <div className="flex justify-between text-[7px] text-white/10 mt-0.5">
+              <div className="flex justify-between text-sm text-white/65 mt-0.5">
                 <span>Actual: {fN(r.actual)}</span>
                 <span>Limit: {fN(r.limit)}</span>
               </div>

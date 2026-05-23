@@ -93,11 +93,11 @@ Return ONLY valid JSON:
         <Stat label="Take-home" value={fmt(sal - totalTax)} color="#34d399" />
       </div>
       <Card>
-        <h3 className="text-[10px] text-white/40 uppercase tracking-widest mb-2">Tax Breakdown</h3>
-        <div className="space-y-1 text-[10px]">
-          <div className="flex justify-between"><span className="text-white/30">Federal</span><span className="text-white/60">{fN(totalFed)}</span></div>
-          <div className="flex justify-between"><span className="text-white/30">State ({state})</span><span className="text-white/60">{fN(totalState)}</span></div>
-          <div className="flex justify-between"><span className="text-white/30">FICA + Medicare</span><span className="text-white/60">{fN(totalFica)}</span></div>
+        <h3 className="text-sm text-white/55 uppercase tracking-widest mb-2">Tax Breakdown</h3>
+        <div className="space-y-1 text-sm">
+          <div className="flex justify-between"><span className="text-white/75">Federal</span><span className="text-white/75">{fN(totalFed)}</span></div>
+          <div className="flex justify-between"><span className="text-white/75">State ({state})</span><span className="text-white/75">{fN(totalState)}</span></div>
+          <div className="flex justify-between"><span className="text-white/75">FICA + Medicare</span><span className="text-white/75">{fN(totalFica)}</span></div>
         </div>
       </Card>
 
@@ -105,11 +105,11 @@ Return ONLY valid JSON:
       <Card className="text-center py-6" style={{
         background: "radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.06) 0%, transparent 60%)",
       }}>
-        <p className="text-white/40 text-sm font-bold mb-1">Upload Tax Documents</p>
-        <p className="text-[9px] text-white/15 mb-4">W-2, 1099, tax returns, K-1s. AI analyzes twice for accuracy.</p>
+        <p className="text-white/55 text-sm font-bold mb-1">Upload Tax Documents</p>
+        <p className="text-xs text-white/55 mb-4">W-2, 1099, tax returns, K-1s. AI analyzes twice for accuracy.</p>
         <input type="file" accept=".pdf,.png,.jpg,.jpeg,.csv,.txt" onChange={e => setFile(e.target.files[0])}
           className="hidden" id="tax-upload" />
-        <label htmlFor="tax-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/50 hover:bg-white/[0.08] transition inline-block">
+        <label htmlFor="tax-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/65 hover:bg-white/[0.08] transition inline-block">
           {file ? file.name : "Choose File"}
         </label>
         {file && !analyzing && (
@@ -120,7 +120,7 @@ Return ONLY valid JSON:
         {analyzing && (
           <div className="mt-4 flex flex-col items-center gap-2">
             <div className="w-5 h-5 border-2 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
-            <p className="text-[10px] text-indigo-400/50">{progress}</p>
+            <p className="text-sm text-indigo-400/50">{progress}</p>
           </div>
         )}
         {error && <Alert type="danger">{error}</Alert>}
@@ -137,27 +137,27 @@ Return ONLY valid JSON:
 
           {result.summary && (
             <Card style={{ borderColor: "rgba(99,102,241,0.15)", background: "rgba(99,102,241,0.03)" }}>
-              <p className="text-[10px] text-indigo-400/50 uppercase tracking-widest mb-1">AI Summary (Double-Verified)</p>
-              <p className="text-[11px] text-white/50 leading-relaxed">{result.summary}</p>
+              <p className="text-sm text-indigo-400/50 uppercase tracking-widest mb-1">AI Summary (Double-Verified)</p>
+              <p className="text-sm text-white/65 leading-relaxed">{result.summary}</p>
             </Card>
           )}
 
           {result.strategies?.length > 0 && (
             <div className="space-y-2">
-              <p className="text-[9px] text-white/15 uppercase tracking-widest">Optimization Strategies</p>
+              <p className="text-xs text-white/55 uppercase tracking-widest">Optimization Strategies</p>
               {result.strategies.map((s, i) => (
                 <Card key={i}>
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-[11px] text-white/60 font-bold">{s.name}</p>
+                    <p className="text-sm text-white/75 font-bold">{s.name}</p>
                     <span className="text-sm font-black text-emerald-400 tabular-nums">{typeof s.estimatedSavings === "number" ? fmt(s.estimatedSavings) : s.estimatedSavings}/yr</span>
                   </div>
-                  <p className="text-[9px] text-white/25 mb-2">{s.description}</p>
-                  {s.action && <p className="text-[9px] text-emerald-400/50 font-medium">Next: {s.action}</p>}
-                  <div className="flex gap-2 mt-1.5 text-[8px]">
+                  <p className="text-xs text-white/65 mb-2">{s.description}</p>
+                  {s.action && <p className="text-xs text-emerald-400/70 font-medium">Next: {s.action}</p>}
+                  <div className="flex gap-2 mt-1.5 text-xs">
                     <span className={`px-1.5 py-0.5 rounded-full ${s.risk==="None"?"bg-emerald-500/10 text-emerald-400":s.risk==="Low"?"bg-blue-500/10 text-blue-400":s.risk==="Medium"?"bg-amber-500/10 text-amber-400":"bg-red-500/10 text-red-400"}`}>
                       {s.risk} risk
                     </span>
-                    <span className="text-white/20">{s.complexity} complexity</span>
+                    <span className="text-white/55">{s.complexity} complexity</span>
                   </div>
                 </Card>
               ))}
@@ -166,18 +166,18 @@ Return ONLY valid JSON:
 
           {result.redFlags?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-red-400/60 uppercase tracking-widest mb-2">Red Flags</p>
+              <p className="text-sm text-red-400/80 uppercase tracking-widest mb-2">Red Flags</p>
               {result.redFlags.map((f, i) => (
-                <p key={i} className="text-[10px] text-red-300/50 mb-1 flex gap-1.5"><span className="text-red-400">!</span> {f}</p>
+                <p key={i} className="text-sm text-red-300/50 mb-1 flex gap-1.5"><span className="text-red-400">!</span> {f}</p>
               ))}
             </Card>
           )}
 
           {result.missedDeductions?.length > 0 && (
             <Card>
-              <p className="text-[10px] text-amber-400/60 uppercase tracking-widest mb-2">Missed Deductions</p>
+              <p className="text-sm text-amber-400/60 uppercase tracking-widest mb-2">Missed Deductions</p>
               {result.missedDeductions.map((d, i) => (
-                <p key={i} className="text-[10px] text-amber-300/50 mb-1 flex gap-1.5"><span className="text-amber-400">+</span> {d}</p>
+                <p key={i} className="text-sm text-amber-300/50 mb-1 flex gap-1.5"><span className="text-amber-400">+</span> {d}</p>
               ))}
             </Card>
           )}
@@ -191,17 +191,17 @@ Return ONLY valid JSON:
       {/* Fallback: show general strategies if no upload */}
       {!result && !analyzing && (
         <>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest">General Strategies (upload docs for personalized analysis)</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest">General Strategies (upload docs for personalized analysis)</p>
           {FALLBACK_STRATEGIES.map((s, i) => (
             <Card key={i}>
               <div className="flex items-center justify-between mb-1">
-                <p className="text-[11px] text-white/60 font-bold">{s.name}</p>
+                <p className="text-sm text-white/75 font-bold">{s.name}</p>
                 <span className="text-xs font-bold text-emerald-400/60">{s.savings}/yr</span>
               </div>
-              <p className="text-[9px] text-white/20">{s.desc}</p>
-              <div className="flex gap-2 mt-1.5 text-[8px]">
+              <p className="text-xs text-white/55">{s.desc}</p>
+              <div className="flex gap-2 mt-1.5 text-xs">
                 <span className={`px-1.5 py-0.5 rounded-full ${s.risk==="None"?"bg-emerald-500/10 text-emerald-400":s.risk==="Low"?"bg-blue-500/10 text-blue-400":"bg-amber-500/10 text-amber-400"}`}>{s.risk} risk</span>
-                <span className="text-white/20">{s.complexity}</span>
+                <span className="text-white/55">{s.complexity}</span>
               </div>
             </Card>
           ))}

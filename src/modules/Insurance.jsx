@@ -6,8 +6,8 @@ import { analyzeDouble } from "../lib/ai";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
+  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>);
 };
 
 const POLICIES = [
@@ -60,11 +60,11 @@ export default function Insurance({ profile }) {
       <div className="grid grid-cols-2 gap-3">
         {/* Cost breakdown bar */}
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Annual Cost Breakdown</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Annual Cost Breakdown</p>
           <ResponsiveContainer width="100%" height={140}>
             <BarChart data={costData} barCategoryGap="20%">
-              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="value" name="Cost" radius={[4,4,0,0]}>{costData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
@@ -72,7 +72,7 @@ export default function Insurance({ profile }) {
         </Card>
         {/* Income share pie */}
         <Card>
-          <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Income Share</p>
+          <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Income Share</p>
           <ResponsiveContainer width="100%" height={140}>
             <PieChart>
               <Pie data={pieData} cx="50%" cy="50%" innerRadius={35} outerRadius={55} paddingAngle={3} dataKey="value" stroke="none">
@@ -91,17 +91,17 @@ export default function Insurance({ profile }) {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <p className="text-[11px] text-white/60 font-bold">{r.type}</p>
-                  <span className={`text-[7px] px-1.5 py-0.5 rounded-full font-bold ${
+                  <p className="text-sm text-white/75 font-bold">{r.type}</p>
+                  <span className={`text-sm px-1.5 py-0.5 rounded-full font-bold ${
                     r.status === "Critical" ? "bg-red-500/10 text-red-400" :
                     r.status === "Required" ? "bg-amber-500/10 text-amber-400" :
                     "bg-blue-500/10 text-blue-400"}`}>{r.status}</span>
                 </div>
-                <p className="text-[9px] text-white/20 mt-0.5">Coverage needed: {r.need}</p>
+                <p className="text-xs text-white/55 mt-0.5">Coverage needed: {r.need}</p>
               </div>
               <div className="text-right">
                 <p className="text-sm font-bold tabular-nums" style={{ color: r.color }}>{fN(r.cost)}</p>
-                <p className="text-[7px] text-white/10">/year</p>
+                <p className="text-sm text-white/65">/year</p>
               </div>
             </div>
           </Card>
@@ -110,12 +110,12 @@ export default function Insurance({ profile }) {
 
       {/* AI Upload */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">AI Policy Analysis</p>
-        <p className="text-[9px] text-white/20 mb-2">Upload your insurance policy for AI double-pass analysis.</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">AI Policy Analysis</p>
+        <p className="text-xs text-white/55 mb-2">Upload your insurance policy for AI double-pass analysis.</p>
         <input type="file" accept=".txt,.pdf" onChange={handleUpload}
-          className="text-[10px] text-white/30 file:mr-3 file:rounded-lg file:bg-emerald-500/10 file:border-emerald-500/20 file:border file:text-emerald-400 file:text-[9px] file:font-bold file:px-3 file:py-1.5 file:cursor-pointer" />
-        {loading && <p className="text-[9px] text-emerald-400/50 mt-2 animate-pulse">Analyzing with double-pass AI...</p>}
-        {analysis && <div className="mt-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05] text-[10px] text-white/40 whitespace-pre-wrap">{analysis}</div>}
+          className="text-sm text-white/75 file:mr-3 file:rounded-lg file:bg-emerald-500/10 file:border-emerald-500/20 file:border file:text-emerald-400 file:text-xs file:font-bold file:px-3 file:py-1.5 file:cursor-pointer" />
+        {loading && <p className="text-xs text-emerald-400/70 mt-2 animate-pulse">Analyzing with double-pass AI...</p>}
+        {analysis && <div className="mt-3 p-3 rounded-lg bg-white/[0.02] border border-white/[0.05] text-sm text-white/55 whitespace-pre-wrap">{analysis}</div>}
       </Card>
 
       <Alert type="info">Own-occupation disability is critical for physicians. If you can't perform YOUR specialty, it pays. Any-occ only pays if you can't work at all.</Alert>

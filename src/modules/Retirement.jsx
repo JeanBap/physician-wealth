@@ -6,8 +6,8 @@ import { AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, Responsive
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl">
-    <p className="text-[9px] text-white/30 mb-1">{label}</p>
-    {payload.map((p,i)=><p key={i} className="text-[11px] font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}
+    <p className="text-xs text-white/75 mb-1">{label}</p>
+    {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}
   </div>);
 };
 
@@ -70,11 +70,11 @@ export default function Retirement({ profile }) {
         <Inp label="Home equity" value={homeEquity} onChange={setHomeEquity} type="number" pre="$" />
       </div>
       <div className="flex gap-4 px-1">
-        <label className="flex items-center gap-2 text-xs text-white/30 cursor-pointer">
+        <label className="flex items-center gap-2 text-xs text-white/75 cursor-pointer">
           <input type="checkbox" checked={sellREAtRetire} onChange={e => setSellREAtRetire(e.target.checked)} className="accent-emerald-500" />
           Sell rental at retirement (+{fmt(reAtRetire)} projected)
         </label>
-        <label className="flex items-center gap-2 text-xs text-white/30 cursor-pointer">
+        <label className="flex items-center gap-2 text-xs text-white/75 cursor-pointer">
           <input type="checkbox" checked={sellHomeAtRetire} onChange={e => setSellHomeAtRetire(e.target.checked)} className="accent-emerald-500" />
           Downsize home (+{fmt(homeAtRetire)} projected)
         </label>
@@ -84,7 +84,7 @@ export default function Retirement({ profile }) {
       <div className="flex justify-center py-2">
         <Donut value={funded} max={100} size={120} sw={9} color={funded >= 100 ? "#34d399" : funded > 60 ? "#fbbf24" : "#f87171"}>
           <p className="text-2xl font-black" style={{ color: funded >= 100 ? "#34d399" : funded > 60 ? "#fbbf24" : "#f87171" }}>{funded}%</p>
-          <p className="text-[7px] text-white/15 uppercase">Funded</p>
+          <p className="text-sm text-white/55 uppercase">Funded</p>
         </Donut>
       </div>
 
@@ -96,15 +96,15 @@ export default function Retirement({ profile }) {
 
       {/* Growth projection chart */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-1">Growth Projection to Age {retireAge}</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Growth Projection to Age {retireAge}</p>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={projection}>
             <defs>
               <linearGradient id="retG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.3}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="age" tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+            <XAxis dataKey="age" tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="balance" name="Portfolio" stroke="#34d399" fill="url(#retG)" strokeWidth={2.5} dot={false}/>
             <Area type="monotone" dataKey="target" name="FI Target" stroke="#fbbf24" fill="none" strokeWidth={1.5} strokeDasharray="6 4" dot={false}/>
@@ -114,11 +114,11 @@ export default function Retirement({ profile }) {
 
       {/* Contribution limits */}
       <Card>
-        <p className="text-[9px] text-white/15 uppercase tracking-widest mb-2">2025 Contribution Limits</p>
+        <p className="text-xs text-white/55 uppercase tracking-widest mb-2">2025 Contribution Limits</p>
         <ResponsiveContainer width="100%" height={contribData.length * 35 + 10}>
           <BarChart data={contribData} layout="vertical" barCategoryGap="20%">
-            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
-            <YAxis type="category" dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} width={60}/>
+            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false} width={60}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="value" name="Limit" radius={[0,4,4,0]}>{contribData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
           </BarChart>
