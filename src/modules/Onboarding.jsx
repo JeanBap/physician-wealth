@@ -174,6 +174,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
         <div className="flex gap-3">
           {step > 0 && <Btn variant="secondary" onClick={back}>Back</Btn>}
           <div className="flex-1" />
+          <button onClick={finish} className="text-xs text-white/40 hover:text-white/55 py-2 px-3">Skip All</button>
           <Btn onClick={next}>{step === STEPS.length - 1 ? "Launch Dashboard" : "Continue"}</Btn>
         </div>
       </div>

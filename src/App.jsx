@@ -1,4 +1,27 @@
 import { useState, useMemo, useCallback } from "react";
+
+import React from "react";
+
+class ErrorBoundary extends React.Component {
+  constructor(props) { super(props); this.state = { hasError: false, error: null }; }
+  static getDerivedStateFromError(error) { return { hasError: true, error }; }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 text-center">
+          <p className="text-xl text-red-400 font-bold mb-2">Something went wrong</p>
+          <p className="text-sm text-white/40 mb-4">{this.state.error?.message}</p>
+          <button onClick={() => this.setState({ hasError: false })}
+            className="px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-400 font-bold">
+            Try Again
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 import { MODULES, SPECIALTIES, DEFAULT_PROFILE, STAGES } from "./lib/data";
 import { PaywallLock, Badge } from "./components/ui";
 import { canAccessModule, getTrialDaysLeft, isTrialExpired } from "./lib/stripe";
@@ -31,6 +54,9 @@ import AiChat from "./modules/AiChat";
 import RealEstate from "./modules/RealEstate";
 import EstatePlan from "./modules/EstatePlan";
 import DocumentVault from "./modules/DocumentVault";
+import NetWorthTracker from "./modules/NetWorthTracker";
+import TaxCalendar from "./modules/TaxCalendar";
+import EmergencyFund from "./modules/EmergencyFund";
 
 const MODULE_COMPONENTS = {
   dashboard: Dashboard,
@@ -57,6 +83,9 @@ const MODULE_COMPONENTS = {
   realestate: RealEstate,
   estateplan: EstatePlan,
   vault: DocumentVault,
+  nwtracker: NetWorthTracker,
+  taxcalendar: TaxCalendar,
+  emergency: EmergencyFund,
 };
 
 export default function App() {
@@ -176,7 +205,7 @@ export default function App() {
           {!hasAccess ? (
             <PaywallLock tier={modMeta?.tier || "pro"} onUpgrade={() => setPage("billing")} />
           ) : ModuleComp ? (
-            <ModuleComp profile={profile} setProfile={setProfile} navigate={navigate} user={user} standalone={true} />
+            <ErrorBoundary><ModuleComp profile={profile} setProfile={setProfile} navigate={navigate} user={user} standalone={true} /></ErrorBoundary>
           ) : (
             <div className="text-center py-20 text-white/55">
               <p className="text-sm">Module not found</p>

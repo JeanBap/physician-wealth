@@ -93,6 +93,12 @@ export default function Auth({ onAuth, navigate }) {
               }} className="w-full py-2 bg-white/[0.05] border border-white/[0.08] rounded-xl text-sm text-white/75 hover:bg-white/[0.08] transition">
                 Continue with Google
               </button>
+              <button onClick={() => {
+                onAuth({ id:"demo", email:"demo@physician.com", firstName:"Demo", lastName:"Physician", isAdmin:false, plan:"trial", trialEnd:new Date(Date.now()+30*86400000).toISOString() });
+                navigate("onboarding");
+              }} className="w-full py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white/55 font-bold hover:bg-white/[0.08] transition mt-2">
+                Try Demo (No Account Needed)
+              </button>
               <div className="flex justify-between text-sm">
                 <button onClick={() => setMode(mode === "login" ? "signup" : "login")} className="text-emerald-400/70 hover:text-emerald-400">
                   {mode === "login" ? "Create account" : "Already have account"}

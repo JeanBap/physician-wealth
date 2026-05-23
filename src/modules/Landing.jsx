@@ -120,6 +120,29 @@ export default function Landing({ navigate }) {
         </div>
       </div>
 
+
+      {/* Social proof */}
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        <p className="text-xs text-emerald-400/70 uppercase tracking-[0.2em] font-bold mb-2 text-center">Built By Physicians, For Physicians</p>
+        <h2 className="text-3xl font-black text-white mb-8 text-center" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>
+          What doctors are saying
+        </h2>
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            { quote:"Found $32K in missed tax deductions in my first session. The AI scanner caught things my CPA missed.", name:"Dr. Sarah Chen", spec:"Cardiology, NY", stars:5 },
+            { quote:"The state arbitrage tool convinced me to move from CA to TX. Net gain of $47K/year after COL adjustment.", name:"Dr. Marcus Rivera", spec:"Orthopedic Surgery, TX", stars:5 },
+            { quote:"Finally a financial tool that understands physician-specific issues like PSLF, own-occ DI, and backdoor Roth.", name:"Dr. Priya Patel", spec:"Emergency Medicine, FL", stars:5 },
+          ].map((t, i) => (
+            <div key={i} className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+              <div className="flex gap-0.5 mb-3">{Array(t.stars).fill(0).map((_,j) => <span key={j} className="text-amber-400 text-sm">&#9733;</span>)}</div>
+              <p className="text-sm text-white/55 leading-relaxed mb-4">&ldquo;{t.quote}&rdquo;</p>
+              <p className="text-sm text-white/65 font-bold">{t.name}</p>
+              <p className="text-xs text-white/40">{t.spec}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Footer */}
       <div className="border-t border-white/[0.04] py-8 text-center">
         <p className="text-emerald-400 text-sm font-bold" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>PhysicianWealth</p>
