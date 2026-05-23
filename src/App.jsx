@@ -145,10 +145,37 @@ export default function App() {
       <div className="absolute inset-0 grid-bg pointer-events-none opacity-50" />
       
       {/* Mobile overlay */}
-      {sidebarOpen && <div className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-20" onClick={() => setSidebarOpen(false)} />}
+      {/* Mobile sidebar overlay */}
+      <div className={`md:hidden fixed inset-0 z-20 transition-opacity duration-300 ${sidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+        <aside className={`absolute left-0 top-0 h-full w-64 transition-transform duration-300 flex flex-col ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`} style={{ background:"rgba(8,9,14,0.95)", backdropFilter:"blur(20px)" }}>
+          <div className="p-4 border-b border-white/[0.04] flex items-center justify-between">
+            <p className="text-emerald-400 text-base font-black" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>PhysicianWealth</p>
+            <button onClick={() => setSidebarOpen(false)} className="text-white/40 text-lg">X</button>
+          </div>
+          <nav className="flex-1 overflow-y-auto py-2">
+            {Object.entries(sidebarSections).map(([cat, items]) => (
+              <div key={cat} className="mb-2">
+                <p className="text-sm text-white/40 uppercase tracking-widest px-4 py-1.5 font-bold">{cat}</p>
+                {items.map(m => {
+                  const active = page === m.key;
+                  const locked = !canAccessModule(m.tier, userTier, trialExpired);
+                  return (
+                    <button key={m.key} onClick={() => { setPage(m.key); setSidebarOpen(false); }}
+                      className={`w-full text-left px-4 py-2.5 flex items-center justify-between transition ${active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/50 hover:text-white/65 hover:bg-white/[0.02]"} ${locked ? "opacity-40" : ""}`}>
+                      <span className="text-sm truncate">{m.label}</span>
+                      {locked && <span className="text-xs text-white/40">&#128274;</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
+          </nav>
+        </aside>
+      </div>
 
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? "w-60 translate-x-0" : "-translate-x-full md:translate-x-0 md:w-0 md:overflow-hidden"} fixed md:relative z-30 h-full glass border-r border-white/[0.04] transition-all duration-300 flex-shrink-0 flex flex-col`} style={{ background:"rgba(8,9,14,0.85)", backdropFilter:"blur(20px)" }}>
+      <aside className={`${sidebarOpen ? "w-60" : "w-0 overflow-hidden"} hidden md:flex border-r border-white/[0.04] transition-all duration-300 flex-shrink-0 flex-col relative z-30`} style={{ background:"rgba(8,9,14,0.9)", backdropFilter:"blur(20px)" }}>
         {/* Logo */}
         <div className="p-4 border-b border-white/[0.04] flex items-center justify-between">
           <div>
@@ -195,11 +222,14 @@ export default function App() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto w-full">
+      <main className="flex-1 overflow-y-auto w-full relative">
         {/* Top bar */}
         <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-white/[0.04] sticky top-0 z-10" style={{ background:"rgba(6,7,11,0.8)", backdropFilter:"blur(16px)" }}>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/55 hover:text-white/55 text-lg p-1">
-            {sidebarOpen ? "X" : "☰"}
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden text-white/55 hover:text-white/70 text-xl p-1">
+            ☰
+          </button>
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="hidden md:block text-white/40 hover:text-white/55 text-sm p-1">
+            {sidebarOpen ? "◁" : "▷"}
           </button>
           <p className="text-xs md:text-sm text-white/55 font-medium">{modMeta?.label || "Dashboard"}</p>
           <div className="flex items-center gap-2">
@@ -209,7 +239,7 @@ export default function App() {
         </div>
 
         {/* Module render */}
-        <div className="p-4 md:p-6 max-w-3xl mx-auto">
+        <div className="p-4 md:p-6 pb-16 max-w-3xl mx-auto">
           {!hasAccess ? (
             <PaywallLock tier={modMeta?.tier || "pro"} onUpgrade={() => setPage("billing")} />
           ) : ModuleComp ? (

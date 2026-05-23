@@ -102,7 +102,6 @@ export default function FICountdown({ profile: p, standalone }) {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <p className="text-lg font-black text-emerald-400">{pct}%</p>
-              <p className="text-sm text-emerald-400/20 uppercase">Complete</p>
             </div>
           </div>
         </div>
