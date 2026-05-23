@@ -135,12 +135,20 @@ export default function App() {
   const hasAccess = modMeta ? canAccessModule(modMeta.tier, userTier, trialExpired) : true;
 
   return (
-    <div className="flex h-screen" style={{ background: "#0a0b10", color: "#fff", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div className="flex h-screen relative overflow-hidden" style={{ background: "#06070b", color: "#fff", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      {/* Animated background orbs */}
+      <div className="orb orb-1" style={{ top:"-10%", left:"-5%" }} />
+      <div className="orb orb-2" style={{ bottom:"-15%", right:"-10%" }} />
+      <div className="orb orb-3" style={{ top:"40%", right:"20%" }} />
+      
+      {/* Grid overlay */}
+      <div className="absolute inset-0 grid-bg pointer-events-none opacity-50" />
+      
       {/* Mobile overlay */}
-      {sidebarOpen && <div className="md:hidden fixed inset-0 bg-black/60 z-20" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="md:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-20" onClick={() => setSidebarOpen(false)} />}
 
       {/* Sidebar */}
-      <aside className={`${sidebarOpen ? "w-60 translate-x-0" : "-translate-x-full md:translate-x-0 md:w-0 md:overflow-hidden"} fixed md:relative z-30 h-full border-r border-white/[0.04] bg-[#08090e] transition-all flex-shrink-0 flex flex-col`}>
+      <aside className={`${sidebarOpen ? "w-60 translate-x-0" : "-translate-x-full md:translate-x-0 md:w-0 md:overflow-hidden"} fixed md:relative z-30 h-full glass border-r border-white/[0.04] transition-all duration-300 flex-shrink-0 flex flex-col`} style={{ background:"rgba(8,9,14,0.85)", backdropFilter:"blur(20px)" }}>
         {/* Logo */}
         <div className="p-4 border-b border-white/[0.04] flex items-center justify-between">
           <div>
@@ -189,7 +197,7 @@ export default function App() {
       {/* Main content */}
       <main className="flex-1 overflow-y-auto w-full">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-white/[0.04] sticky top-0 bg-[#0a0b10]/90 backdrop-blur-sm z-10">
+        <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-white/[0.04] sticky top-0 z-10" style={{ background:"rgba(6,7,11,0.8)", backdropFilter:"blur(16px)" }}>
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/55 hover:text-white/55 text-lg p-1">
             {sidebarOpen ? "X" : "☰"}
           </button>

@@ -244,7 +244,7 @@ export default function Dashboard({ profile, navigate }) {
       </Card>
     ),
     stats: (
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 gap-3 stagger">
         {[
           { l:"Net Worth", v:fmt(animNw), c:netWorth>=0?C.emerald:C.red, s:`${fiPct}% to FI` },
           { l:"Income", v:fmt(sal), c:C.blue, s:`#${rank}/20` },

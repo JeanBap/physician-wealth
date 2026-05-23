@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // --- STAT ---
 export const Stat = ({ label, value, sub, color = "#34d399" }) => (
-  <div className="p-3 md:p-4 rounded-xl bg-white/[0.025] border border-white/[0.05]">
+  <div className="p-3 md:p-4 rounded-xl glass border-glow transition-all duration-300 hover:scale-[1.02]">
     <p className="text-sm md:text-xs text-white/65 uppercase tracking-wider">{label}</p>
     <p className="text-lg md:text-xl font-black tabular-nums mt-0.5" style={{ color }}>{value}</p>
     {sub && <p className="text-sm md:text-xs text-white/65 mt-0.5">{sub}</p>}
@@ -29,7 +29,7 @@ export const Alert = ({ type = "info", children }) =>
 
 // --- CARD ---
 export const Card = ({ children, className = "" }) => (
-  <div className={`p-4 md:p-5 rounded-xl bg-white/[0.025] border border-white/[0.05] ${className}`}>{children}</div>
+  <div className={`p-4 md:p-5 rounded-xl glass border-glow transition-all duration-300 ${className}`}>{children}</div>
 );
 
 // --- INPUT ---
