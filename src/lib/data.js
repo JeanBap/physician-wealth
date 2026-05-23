@@ -54,6 +54,16 @@ export const STATE_NAMES = {
 };
 
 // --- CAREER STAGES ---
+export const STATE_COL = {
+  AL:87.9, AK:127.2, AZ:102.2, AR:89.0, CA:138.5, CO:105.0, CT:112.8, DE:102.5,
+  FL:102.8, GA:93.4, HI:183.9, ID:97.3, IL:93.4, IN:90.5, IA:89.4, KS:88.0,
+  KY:90.3, LA:91.2, ME:109.0, MD:112.7, MA:148.4, MI:91.0, MN:97.7, MS:85.7,
+  MO:88.4, MT:99.3, NE:91.8, NV:104.0, NH:112.4, NJ:115.2, NM:93.8, NY:128.7,
+  NC:95.7, ND:92.2, OH:91.0, OK:84.7, OR:113.1, PA:99.2, RI:109.5, SC:96.2,
+  SD:93.4, TN:91.1, TX:92.1, UT:100.7, VT:114.7, VA:103.0, WA:114.2, WV:86.2,
+  WI:95.0, WY:93.1, DC:148.7
+};
+
 export const STAGES = {
   resident: {
     label: "Resident/Fellow",

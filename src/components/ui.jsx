@@ -198,3 +198,27 @@ export const PaywallLock = ({ tier, currentPlan, onUpgrade }) => {
     </div>
   );
 };
+
+// Widget wrapper with drag handle and visibility toggle
+export const Widget = ({ id, title, visible, onToggle, onMoveUp, onMoveDown, isFirst, isLast, editing, children }) => {
+  if (!visible && !editing) return null;
+  return (
+    <div className={`relative group transition-all ${!visible ? "opacity-30" : ""}`}>
+      {editing && (
+        <div className="absolute -left-8 top-0 bottom-0 flex flex-col items-center justify-center gap-0.5 opacity-0 group-hover:opacity-100 transition z-10">
+          {!isFirst && <button onClick={onMoveUp} className="w-5 h-5 rounded bg-white/[0.06] text-[8px] text-white/30 hover:text-white/60 hover:bg-white/[0.1]">^</button>}
+          {!isLast && <button onClick={onMoveDown} className="w-5 h-5 rounded bg-white/[0.06] text-[8px] text-white/30 hover:text-white/60 hover:bg-white/[0.1]">v</button>}
+        </div>
+      )}
+      {editing && (
+        <div className="absolute -right-2 -top-2 z-10">
+          <button onClick={onToggle}
+            className={`w-5 h-5 rounded-full text-[8px] font-bold border transition ${visible ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-400" : "bg-red-500/20 border-red-500/30 text-red-400"}`}>
+            {visible ? "O" : "X"}
+          </button>
+        </div>
+      )}
+      {children}
+    </div>
+  );
+};
