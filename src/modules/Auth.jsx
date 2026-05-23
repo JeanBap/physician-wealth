@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Section, Inp, Btn, Alert, Card } from "../components/ui";
 
+const ADMIN_EMAIL = "papoutsis89@gmail.com";
+
 export default function Auth({ onAuth, navigate }) {
-  const [mode, setMode] = useState("login"); // login | signup | forgot
+  const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -15,16 +17,29 @@ export default function Auth({ onAuth, navigate }) {
     setError(""); setLoading(true);
     try {
       if (mode === "forgot") {
-        // In production: resetPassword(email)
         setResetSent(true);
       } else if (mode === "signup") {
-        // In production: signUp(email, password, { firstName, lastName })
-        onAuth({ email, firstName, lastName, plan: "trial", trialEnd: new Date(Date.now() + 30 * 86400000).toISOString() });
+        const isAdmin = email.toLowerCase() === ADMIN_EMAIL;
+        onAuth({
+          email,
+          firstName: firstName || (isAdmin ? "Yanni" : ""),
+          lastName: lastName || (isAdmin ? "Papoutsi" : ""),
+          plan: isAdmin ? "premium" : "trial",
+          trialEnd: isAdmin ? null : new Date(Date.now() + 30 * 86400000).toISOString(),
+          isAdmin,
+        });
         navigate("onboarding");
       } else {
-        // In production: signIn(email, password)
-        onAuth({ email });
-        navigate("dashboard");
+        const isAdmin = email.toLowerCase() === ADMIN_EMAIL;
+        onAuth({
+          email,
+          firstName: isAdmin ? "Yanni" : "",
+          lastName: isAdmin ? "Papoutsi" : "",
+          plan: isAdmin ? "premium" : "trial",
+          trialEnd: isAdmin ? null : new Date(Date.now() + 30 * 86400000).toISOString(),
+          isAdmin,
+        });
+        navigate(isAdmin ? "dashboard" : "onboarding");
       }
     } catch (err) {
       setError(err.message || "Authentication failed");
@@ -69,12 +84,11 @@ export default function Auth({ onAuth, navigate }) {
               <Inp label="Email" value={email} onChange={setEmail} type="email" />
               <Inp label="Password" value={password} onChange={setPassword} type="password" />
               {error && <Alert type="danger">{error}</Alert>}
-              <Btn onClick={handleSubmit} disabled={loading} className="w-full">
-                {loading ? "..." : mode === "signup" ? "Create Account (30-day trial)" : "Sign In"}
+              <Btn onClick={handleSubmit} disabled={loading || !email.trim()} className="w-full">
+                {loading ? "..." : mode === "signup" ? "Create Account" : "Sign In"}
               </Btn>
               <button onClick={() => {
-                // In production: signInWithGoogle()
-                onAuth({ email: "google@user.com", firstName: "Google", plan: "trial" });
+                onAuth({ email: "google@user.com", firstName: "Google", plan: "trial", trialEnd: new Date(Date.now() + 30 * 86400000).toISOString() });
                 navigate("onboarding");
               }} className="w-full py-2 bg-white/[0.05] border border-white/[0.08] rounded-xl text-[10px] text-white/30 hover:bg-white/[0.08] transition">
                 Continue with Google

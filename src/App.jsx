@@ -87,7 +87,7 @@ export default function App() {
 
   const trialDays = getTrialDaysLeft(user?.trialEnd);
   const trialExpired = isTrialExpired(user?.trialEnd);
-  const userTier = user?.plan || "free";
+  const userTier = user?.isAdmin ? "premium" : (user?.plan || "free");
 
   // Pre-auth views
   if (view === "landing") return <Landing navigate={navigate} />;
@@ -108,7 +108,7 @@ export default function App() {
           <p className="text-emerald-400 text-sm font-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
             PhysicianWealth
           </p>
-          {trialDays > 0 && <p className="text-[8px] text-amber-400/50 mt-0.5">{trialDays} trial days left</p>}
+          {user?.isAdmin ? <p className="text-[8px] text-emerald-400/50 mt-0.5">Admin - Full Access</p> : trialDays > 0 && <p className="text-[8px] text-amber-400/50 mt-0.5">{trialDays} trial days left</p>}
         </div>
 
         {/* Nav */}
