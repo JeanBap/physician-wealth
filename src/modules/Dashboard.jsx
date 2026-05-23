@@ -67,12 +67,23 @@ export default function Dashboard({ profile, navigate }) {
   const retirement = profile.retirement || 100000;
   const investments = profile.investments || 80000;
   const loans = profile.loans || 250000;
-  const netWorth = savings + retirement + investments - loans;
-  const totalTax = fedTax(sal, profile.married) + Math.round(sal * (STATE_TAX[state] || 0)) + Math.round(fica(sal));
-  const takeHome = sal - totalTax;
-  const fiTarget = sal * 0.6 / 0.04;
+  const hsa = profile.hsa || 0;
+  const plan529 = profile.plan529 || 0;
+  const crypto = profile.cryptoAssets || 0;
+  const homeEquity = Math.max(0, (profile.homeValue || 0) - (profile.mortgageBalance || 0));
+  const rentalEquity = profile.rentalPropertyEquity || 0;
+  const totalAssets = savings + retirement + investments + hsa + plan529 + crypto + homeEquity + rentalEquity;
+  const totalDebt = loans + (profile.mortgageBalance || 0) + (profile.carLoan || 0) + (profile.creditCardDebt || 0);
+  const netWorth = totalAssets - totalDebt;
+  const totalIncome = sal + (profile.moonlightIncome || 0) + (profile.rentalIncome || 0);
+  const totalTax = fedTax(totalIncome, profile.married) + Math.round(totalIncome * (STATE_TAX[state] || 0)) + Math.round(fica(sal));
+  const takeHome = totalIncome - totalTax;
+  const swr = (profile.fiWithdrawalRate || 4) / 100;
+  const fiTarget = sal * 0.6 / swr;
   const fiPct = Math.min(100, Math.round((netWorth / fiTarget) * 100));
-  const annualSave = sal * 0.2;
+  const annualSave = totalIncome * 0.2;
+  const insuranceScore = [profile.hasDI, profile.hasUmbrella, profile.hasLifeInsurance].filter(Boolean).length;
+  const estateScore = [profile.hasWill, profile.hasTrust, profile.hasPOA, profile.hasHealthcareDirective].filter(Boolean).length;
   const sorted = Object.entries(SPECIALTIES).sort((a, b) => b[1].m - a[1].m);
   const rank = sorted.findIndex(([k]) => k === profile.specialty) + 1;
   const printRef = useRef(null);
@@ -135,16 +146,18 @@ export default function Dashboard({ profile, navigate }) {
   })), [profile.specialty]);
 
   const healthRadar = useMemo(() => {
-    const debtRatio = loans > 0 ? Math.max(0, 100 - (loans / sal) * 100) : 100;
+    const debtRatio = totalDebt > 0 ? Math.max(0, 100 - (totalDebt / totalIncome) * 50) : 100;
+    const insScore = Math.round(insuranceScore / 3 * 100);
+    const estScore = Math.round(estateScore / 4 * 100);
     return [
       { metric:"Debt", score:Math.round(debtRatio) },
-      { metric:"Savings", score:Math.min(100, 20 * 5) },
-      { metric:"Tax Eff.", score:Math.min(100, ((sal - totalTax) / sal) * 120) },
-      { metric:"Insurance", score:75 },
+      { metric:"Savings", score:Math.min(100, (savings / (takeHome / 12 * 6)) * 100) },
+      { metric:"Tax Eff.", score:Math.min(100, ((totalIncome - totalTax) / totalIncome) * 120) },
+      { metric:"Insurance", score:insScore || 25 },
       { metric:"Retirement", score:Math.min(100, fiPct * 1.5) },
-      { metric:"Emergency", score:Math.min(100, (savings / (takeHome / 12 * 6)) * 100) },
+      { metric:"Estate", score:estScore || 10 },
     ];
-  }, [loans, sal, totalTax, fiPct, savings, takeHome]);
+  }, [totalDebt, totalIncome, totalTax, fiPct, savings, takeHome, insuranceScore, estateScore]);
 
   const healthScore = Math.round(healthRadar.reduce((s, h) => s + h.score, 0) / healthRadar.length);
 
@@ -166,6 +179,10 @@ export default function Dashboard({ profile, navigate }) {
     items.push({ p:"medium", a:"Review disability coverage", d:`${profile.specialty} burnout: ${spec.burn}%. Own-occupation DI critical.`, due:new Date(today.getFullYear(),today.getMonth(),today.getDate()+21), mod:"disability" });
     items.push({ p:"medium", a:"Upload employment contract", d:"AI double-pass identifies unfavorable clauses and negotiation leverage.", due:new Date(today.getFullYear(),today.getMonth()+1,15), mod:"contracts" });
     items.push({ p:"low", a:"Explore moonlighting", d:`Expert witness at $500/hr = ${fN(Math.round(500*4*40*0.6))}/yr after tax.`, due:new Date(today.getFullYear(),today.getMonth()+2,1), mod:"moonlight" });
+    if (!profile.hasWill) items.push({ p:"high", a:"Create estate plan", d:`No will or trust. ${profile.kids > 0 ? `${profile.kids} dependents need protection.` : "Essential for asset protection."} Cost: $500-5K.`, due:new Date(today.getFullYear(),today.getMonth(),today.getDate()+10), mod:"estateplan" });
+    if (!profile.hasDI) items.push({ p:"high", a:"Get own-occ disability insurance", d:`No DI coverage. ${profile.specialty} physicians need own-occupation protection.`, due:new Date(today.getFullYear(),today.getMonth(),today.getDate()+7), mod:"disability" });
+    if (!profile.hasUmbrella) items.push({ p:"medium", a:"Add umbrella liability", d:"High-income physicians are lawsuit targets. $2M umbrella costs ~$500/yr.", due:new Date(today.getFullYear(),today.getMonth()+1,1), mod:"insurance" });
+    if (profile.rentalPropertyValue === 0 && sal > 300000) items.push({ p:"low", a:"Explore real estate investing", d:"Physician mortgage: 0% down, no PMI. Tax benefits via depreciation.", due:new Date(today.getFullYear(),today.getMonth()+2,15), mod:"realestate" });
     if (spec.burn > 40) items.push({ p:"low", a:"Take burnout assessment", d:`${spec.burn}% burnout rate. Quantify the hidden financial cost.`, due:new Date(today.getFullYear(),today.getMonth()+1,1), mod:"burnout" });
     return items;
   }, [loans, sal, state, spec, profile.specialty]);
@@ -214,11 +231,14 @@ export default function Dashboard({ profile, navigate }) {
           <p className="text-sm font-bold text-white/60" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Executive Summary</p>
         </div>
         <p className="text-[11px] text-white/35 leading-relaxed">
-          As a <span className="text-white/60 font-medium">{profile.specialty}</span> earning <span className="text-emerald-400/70 font-bold">{fmt(sal)}</span> in {STATE_NAMES[state]||state} (COL index: {STATE_COL[state]||100}), you rank <span className="text-white/60 font-medium">#{rank}/20</span>.
+          As a <span className="text-white/60 font-medium">{profile.specialty}</span> with total income <span className="text-emerald-400/70 font-bold">{fmt(totalIncome)}</span> in {STATE_NAMES[state]||state} (COL index: {STATE_COL[state]||100}), you rank <span className="text-white/60 font-medium">#{rank}/20</span>.
           Effective tax rate: <span className="text-red-400/70 font-bold">{((totalTax/sal)*100).toFixed(1)}%</span>, take-home {fmt(takeHome)}.
-          {loans > 0 && <> Debt of <span className="text-red-400/70 font-bold">{fmt(loans)}</span> puts net worth at <span style={{ color:netWorth>=0?C.emerald:C.red }} className="font-bold">{fmt(netWorth)}</span>.</>}
+          {totalDebt > 0 && <> Total debt <span className="text-red-400/70 font-bold">{fmt(totalDebt)}</span> (total assets {fmt(totalAssets)}), net worth <span style={{ color:netWorth>=0?C.emerald:C.red }} className="font-bold">{fmt(netWorth)}</span>.</>}
           {" "}<span className="text-emerald-400/70 font-bold">{fiPct}%</span> to FI ({fmt(fiTarget)}).
-          {spec.burn > 40 && <> Burnout rate: <span className="text-amber-400/70 font-bold">{spec.burn}%</span> (malpractice risk: {(spec.claimRate*100).toFixed(1)}%, divorce: {(spec.divRate*100).toFixed(0)}%).</>}
+          {spec.burn > 40 && <> Burnout: <span className="text-amber-400/70 font-bold">{spec.burn}%</span>.</>}
+          {" "}Insurance: <span className={`font-bold ${insuranceScore>=2?"text-emerald-400/70":"text-red-400/70"}`}>{insuranceScore}/3</span>.
+          {" "}Estate plan: <span className={`font-bold ${estateScore>=3?"text-emerald-400/70":"text-amber-400/70"}`}>{estateScore}/4</span>.
+          {rentalEquity > 0 && <> Real estate equity: <span className="text-blue-400/70 font-bold">{fmt(rentalEquity + homeEquity)}</span>.</>}
           {" "}Health score: <span className="font-bold" style={{ color:healthScore>70?C.emerald:healthScore>50?C.amber:C.red }}>{healthScore}/100</span>.
         </p>
       </Card>
@@ -229,7 +249,7 @@ export default function Dashboard({ profile, navigate }) {
           { l:"Net Worth", v:fmt(animNw), c:netWorth>=0?C.emerald:C.red, s:`${fiPct}% to FI` },
           { l:"Income", v:fmt(sal), c:C.blue, s:`#${rank}/20` },
           { l:"Take-Home", v:fmt(takeHome), c:C.emerald, s:`${((totalTax/sal)*100).toFixed(0)}% tax` },
-          { l:"Loans", v:fmt(loans), c:loans>0?C.red:C.emerald, s:loans>0?"Outstanding":"Debt free" },
+          { l:"Total Debt", v:fmt(totalDebt), c:totalDebt>0?C.red:C.emerald, s:totalDebt>0?`${Math.round(totalDebt/totalIncome*100)}% DTI`:"Debt free" },
         ].map((s, i) => (
           <div key={i} className="rounded-xl p-4" style={{ background:C.card, border:`1px solid ${C.border}` }}>
             <p className="text-[8px] text-white/15 uppercase tracking-wider">{s.l}</p>
@@ -343,7 +363,7 @@ export default function Dashboard({ profile, navigate }) {
             <p className="text-[6px] text-white/12">FI</p>
           </Donut>
           <div className="flex-1 space-y-2.5">
-            {[{ l:"Retirement",v:retirement,c:C.emerald },{ l:"Investments",v:investments,c:C.blue },{ l:"Savings",v:savings,c:C.purple },{ l:"Loans",v:-loans,c:C.red }].map((a,i)=>(
+            {[{ l:"Retirement",v:retirement,c:C.emerald },{ l:"Investments",v:investments,c:C.blue },{ l:"Savings",v:savings,c:C.purple },{ l:"Real Estate",v:homeEquity+rentalEquity,c:C.amber },{ l:"Other",v:hsa+plan529+crypto,c:C.pink },{ l:"Debt",v:-totalDebt,c:C.red }].filter(a=>a.v!==0).map((a,i)=>(
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full" style={{ background:a.c }}/><span className="text-[10px] text-white/30">{a.l}</span></div>
                 <span className="text-[10px] font-bold tabular-nums" style={{ color:a.c }}>{fN(a.v)}</span>

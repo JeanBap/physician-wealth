@@ -22,8 +22,16 @@ export default function Retirement({ profile }) {
   const [annualSave, setAnnualSave] = useState(Math.round(sal * 0.2));
   const [returnRate, setReturnRate] = useState(7);
 
+  const [reEquity, setReEquity] = useState(profile.rentalPropertyEquity || 0);
+  const [homeEquity, setHomeEquity] = useState(Math.max(0, (profile.homeValue || 0) - (profile.mortgageBalance || 0)));
+  const [sellREAtRetire, setSellREAtRetire] = useState(false);
+  const [sellHomeAtRetire, setSellHomeAtRetire] = useState(false);
+
   const yearsToRetire = Math.max(0, retireAge - age);
-  const totalCurrent = current401k + currentIRA + currentTax;
+  const reAtRetire = Math.round(reEquity * Math.pow(1.03, yearsToRetire)); // 3% appreciation
+  const homeAtRetire = Math.round(homeEquity * Math.pow(1.03, yearsToRetire));
+  const totalCurrent = current401k + currentIRA + currentTax + (sellREAtRetire ? reEquity : 0) + (sellHomeAtRetire ? homeEquity : 0);
+  const retireLumpSum = (sellREAtRetire ? reAtRetire : 0) + (sellHomeAtRetire ? homeAtRetire : 0);
   const fiTarget = sal * 0.6 / 0.04;
 
   const projection = useMemo(() => {
@@ -58,6 +66,18 @@ export default function Retirement({ profile }) {
         <Inp label="IRA balance" value={currentIRA} onChange={setCurrentIRA} type="number" pre="$" />
         <Inp label="Taxable investments" value={currentTax} onChange={setCurrentTax} type="number" pre="$" />
         <Inp label="Annual savings" value={annualSave} onChange={setAnnualSave} type="number" pre="$" />
+        <Inp label="Rental property equity" value={reEquity} onChange={setReEquity} type="number" pre="$" />
+        <Inp label="Home equity" value={homeEquity} onChange={setHomeEquity} type="number" pre="$" />
+      </div>
+      <div className="flex gap-4 px-1">
+        <label className="flex items-center gap-2 text-xs text-white/30 cursor-pointer">
+          <input type="checkbox" checked={sellREAtRetire} onChange={e => setSellREAtRetire(e.target.checked)} className="accent-emerald-500" />
+          Sell rental at retirement (+{fmt(reAtRetire)} projected)
+        </label>
+        <label className="flex items-center gap-2 text-xs text-white/30 cursor-pointer">
+          <input type="checkbox" checked={sellHomeAtRetire} onChange={e => setSellHomeAtRetire(e.target.checked)} className="accent-emerald-500" />
+          Downsize home (+{fmt(homeAtRetire)} projected)
+        </label>
       </div>
 
       {/* Funded donut */}

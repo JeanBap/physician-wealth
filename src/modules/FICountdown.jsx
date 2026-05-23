@@ -12,7 +12,9 @@ export default function FICountdown({ profile: p, standalone }) {
   const sal = p.salary || 300000;
   const age = p.age || 35;
   const fi = (sal * 0.6) / 0.04;
-  const nw = (p.savings || 0) + (p.investments || 0) + (p.retirement || 0) - (p.loans || 0);
+  const totalAssets = (p.savings||0) + (p.investments||0) + (p.retirement||0) + (p.hsa||0) + (p.plan529||0) + (p.cryptoAssets||0) + Math.max(0,(p.homeValue||0)-(p.mortgageBalance||0)) + (p.rentalPropertyEquity||0);
+  const totalDebt = (p.loans||0) + (p.mortgageBalance||0) + (p.carLoan||0) + (p.creditCardDebt||0);
+  const nw = totalAssets - totalDebt;
   const moSave = Math.round(sal * 0.2 / 12);
   const mr = 0.07 / 12;
   const pct = Math.min(100, Math.round((nw / fi) * 100));

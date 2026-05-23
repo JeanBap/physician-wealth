@@ -95,30 +95,31 @@ export const STAGES = {
 // To add a module: 1) add entry here, 2) create component, 3) register in App.jsx pageMap
 // tier: "free" = always available, "pro" = $29/mo, "premium" = $99/mo
 export const MODULES = {
-  dashboard:     { label:"Dashboard",        icon:"◎", tier:"free",    always:true },
-  salary:        { label:"Salary",           icon:"◈", tier:"free",    color:"#34d399" },
-  ficountdown:   { label:"FI Countdown",     icon:"◈", tier:"free",    color:"#34d399" },
-  loans:         { label:"Loans",            icon:"◇", tier:"pro",     color:"#60a5fa" },
-  tax:           { label:"Tax Scanner",      icon:"◉", tier:"pro",     color:"#a78bfa" },
-  contracts:     { label:"Contracts",        icon:"◆", tier:"pro",     color:"#f87171" },
-  insurance:     { label:"Insurance",        icon:"◇", tier:"pro",     color:"#fbbf24" },
-  retirement:    { label:"Retirement",       icon:"◎", tier:"pro",     color:"#f472b6" },
-  spending:      { label:"Spending",         icon:"◎", tier:"pro",     color:"#f87171" },
-  plaid:         { label:"Linked Accounts",  icon:"◈", tier:"pro",     color:"#818cf8" },
-  disability:    { label:"Disability Sim",   icon:"◇", tier:"pro",     color:"#f87171" },
-  dualphys:      { label:"Dual-Physician",   icon:"◎", tier:"pro",     color:"#f472b6" },
-  practicebuy:   { label:"Practice Buyout",  icon:"◆", tier:"pro",     color:"#34d399" },
-  moonlight:     { label:"Moonlighting",     icon:"◈", tier:"pro",     color:"#fbbf24" },
-  burnout:       { label:"Burnout Cost",     icon:"◉", tier:"pro",     color:"#f87171" },
-  statemove:     { label:"State Arbitrage",  icon:"◇", tier:"pro",     color:"#a78bfa" },
-  malrisk:       { label:"Malpractice Risk", icon:"◎", tier:"pro",     color:"#f87171" },
+  dashboard:     { label:"Dashboard",        icon:"◎", tier:"free",    always:true, cat:"Core" },
+  salary:        { label:"Salary",           icon:"◈", tier:"free",    color:"#34d399", cat:"Core" },
+  ficountdown:   { label:"FI Countdown",     icon:"◈", tier:"free",    color:"#34d399", cat:"Core" },
+  spending:      { label:"Spending",         icon:"◎", tier:"free",    color:"#f87171", cat:"Core" },
+  loans:         { label:"Loans",            icon:"◇", tier:"pro",     color:"#60a5fa", cat:"Debt" },
+  tax:           { label:"Tax Scanner",      icon:"◉", tier:"pro",     color:"#a78bfa", cat:"Tax" },
+  statemove:     { label:"State Arbitrage",  icon:"◇", tier:"pro",     color:"#a78bfa", cat:"Tax" },
+  dualphys:      { label:"Dual-Physician",   icon:"◎", tier:"pro",     color:"#f472b6", cat:"Tax" },
+  retirement:    { label:"Retirement",       icon:"◎", tier:"pro",     color:"#f472b6", cat:"Wealth" },
   realestate:    { label:"Real Estate",      icon:"◆", tier:"pro",     color:"#fbbf24", cat:"Wealth" },
   estateplan:    { label:"Estate Planning",  icon:"◇", tier:"pro",     color:"#a78bfa", cat:"Wealth" },
-  docscan:       { label:"Doc Scanner",      icon:"◆", tier:"premium", color:"#60a5fa" },
-  aichat:        { label:"AI Advisor",       icon:"◎", tier:"premium", color:"#34d399" },
-  settings:      { label:"Settings",         icon:"◎", tier:"free",    always:true },
-  billing:       { label:"Billing",          icon:"◎", tier:"free",    always:true },
+  insurance:     { label:"Insurance",        icon:"◇", tier:"pro",     color:"#fbbf24", cat:"Protection" },
+  disability:    { label:"Disability Sim",   icon:"◇", tier:"pro",     color:"#f87171", cat:"Protection" },
+  malrisk:       { label:"Malpractice Risk", icon:"◎", tier:"pro",     color:"#f87171", cat:"Protection" },
+  contracts:     { label:"Contracts",        icon:"◆", tier:"pro",     color:"#f87171", cat:"Career" },
+  practicebuy:   { label:"Practice Buyout",  icon:"◆", tier:"pro",     color:"#34d399", cat:"Career" },
+  moonlight:     { label:"Moonlighting",     icon:"◈", tier:"pro",     color:"#fbbf24", cat:"Career" },
+  burnout:       { label:"Burnout Cost",     icon:"◉", tier:"pro",     color:"#f87171", cat:"Career" },
+  plaid:         { label:"Linked Accounts",  icon:"◈", tier:"pro",     color:"#818cf8", cat:"Banking" },
+  docscan:       { label:"Doc Scanner",      icon:"◆", tier:"premium", color:"#60a5fa", cat:"AI" },
+  aichat:        { label:"AI Advisor",       icon:"◎", tier:"premium", color:"#34d399", cat:"AI" },
+  settings:      { label:"Settings",         icon:"◎", tier:"free",    always:true, cat:"System" },
+  billing:       { label:"Billing",          icon:"◎", tier:"free",    always:true, cat:"System" },
 };
+
 
 // --- BANK REGISTRY (Plaid-connected institutions) ---
 // To add a bank: just add one object. Plaid handles the actual API connection.
@@ -239,24 +240,57 @@ export const DEFAULT_PROFILE = {
   age: 35,
   stage: "early",
   npiNumber: "",
-  // Financial
+  // Income
   salary: 0,
   married: false,
+  moonlightIncome: 0,
+  rentalIncome: 0,
+  // Debt
   loans: 250000,
+  mortgageBalance: 0,
+  carLoan: 0,
+  creditCardDebt: 0,
+  // Assets
   savings: 50000,
   retirement: 100000,
   investments: 80000,
-  // Spouse (if dual-physician)
+  hsa: 0,
+  plan529: 0,
+  cryptoAssets: 0,
+  // Real Estate
+  homeValue: 0,
+  rentalProperties: 0,
+  rentalPropertyValue: 0,
+  rentalPropertyEquity: 0,
+  // Insurance
+  hasDI: false,
+  hasUmbrella: false,
+  hasLifeInsurance: false,
+  diCoverageMonthly: 0,
+  lifeCoverage: 0,
+  malpracticePremium: 0,
+  // Family
   hasSpouse: false,
   spouseSpecialty: "Internal Medicine",
   spouseSalary: 0,
   spouseLoans: 0,
+  kids: 0,
+  kidAges: [],
+  // Estate
+  hasWill: false,
+  hasTrust: false,
+  hasPOA: false,
+  hasHealthcareDirective: false,
+  // Retirement targets
+  retireAge: 60,
+  fiWithdrawalRate: 4,
   // App state
   priorities: [],
   connectedBanks: [],
+  enabledModules: [],
   // Subscription
-  plan: "trial",        // free | trial | pro | premium
-  trialStartDate: null, // ISO date string
+  plan: "trial",
+  trialStartDate: null,
   stripeCustomerId: null,
   stripeSubscriptionId: null,
   // Notifications
