@@ -106,7 +106,6 @@ export const MODULES = {
   aichat:        { label:"AI Advisor",       icon:"◎", tier:"premium", color:"#34d399" },
   settings:      { label:"Settings",         icon:"◎", tier:"free",    always:true },
   billing:       { label:"Billing",          icon:"◎", tier:"free",    always:true },
-  profile:       { label:"Profile",          icon:"◎", tier:"free",    always:true },
 };
 
 // --- BANK REGISTRY (Plaid-connected institutions) ---
