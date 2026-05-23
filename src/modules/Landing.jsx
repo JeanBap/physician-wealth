@@ -12,7 +12,7 @@ const FEATURES = [
 const TIERS = [
   { name: "Free", price: "$0", features: ["Dashboard overview", "Salary benchmarking", "FI countdown"], cta: "Start Free" },
   { name: "Pro", price: "$29/mo", features: ["All financial tools", "Tax scanner", "Loan optimizer", "State arbitrage", "Contract analyzer", "Insurance gap analysis", "Disability simulator", "Moonlighting ROI", "Practice buyout"], cta: "Start 30-Day Trial", popular: true },
-  { name: "Premium", price: "$79/mo", features: ["Everything in Pro", "AI Financial Advisor", "Document Scanner", "Priority support", "Custom reports"], cta: "Start 30-Day Trial" },
+  { name: "Premium", price: "$99/mo", features: ["Everything in Pro", "AI Double-Pass Analysis", "Upload tax docs, contracts, insurance", "Claude Sonnet processes twice for accuracy", "AI Financial Advisor", "Priority support"], cta: "Start 30-Day Trial" },
 ];
 
 export default function Landing({ navigate }) {

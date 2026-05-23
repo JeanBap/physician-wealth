@@ -83,7 +83,7 @@ export const STAGES = {
 
 // --- MODULE REGISTRY ---
 // To add a module: 1) add entry here, 2) create component, 3) register in App.jsx pageMap
-// tier: "free" = always available, "pro" = $29/mo, "premium" = $79/mo
+// tier: "free" = always available, "pro" = $29/mo, "premium" = $99/mo
 export const MODULES = {
   dashboard:     { label:"Dashboard",        icon:"◎", tier:"free",    always:true },
   salary:        { label:"Salary",           icon:"◈", tier:"free",    color:"#34d399" },
