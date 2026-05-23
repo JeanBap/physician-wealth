@@ -167,3 +167,21 @@ export const Widget = ({ id, title, visible, onToggle, onMoveUp, onMoveDown, isF
     </div>
   );
 };
+
+// --- TAKEAWAY (bottom-of-module "so what" summary) ---
+export const Takeaway = ({ items }) => (
+  <div className="mt-6 rounded-xl p-4 md:p-5" style={{ background:"linear-gradient(135deg, rgba(52,211,153,0.06) 0%, rgba(96,165,250,0.04) 100%)", border:"1px solid rgba(52,211,153,0.1)" }}>
+    <div className="flex items-center gap-2 mb-3">
+      <div className="w-6 h-6 rounded-lg bg-emerald-500/15 flex items-center justify-center text-xs">&#9889;</div>
+      <p className="text-sm font-bold text-emerald-400/80">Key Takeaways</p>
+    </div>
+    <div className="space-y-2">
+      {items.map((item, i) => (
+        <div key={i} className="flex items-start gap-2.5">
+          <span className="text-emerald-400/50 text-sm mt-0.5 font-bold flex-shrink-0">{i+1}.</span>
+          <p className="text-sm text-white/55 leading-relaxed">{item}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+);

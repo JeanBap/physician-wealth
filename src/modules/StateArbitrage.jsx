@@ -152,6 +152,12 @@ export default function StateArbitrage({ profile }) {
           ? "COL-adjusted gains account for purchasing power differences. A $20K tax saving in WA may be offset by 14% higher living costs vs. TX."
           : "Tax-only view shows raw state income tax savings. Toggle to COL-adjusted for real purchasing power comparison."}
       </Alert>
+
+      <Takeaway items={[
+        `Best move: ${best?.name || "Florida"}. ${showCOL ? `Real gain: ${fmt(best?.sortValue||0)}/yr.` : `Tax savings: ${fmt(best?.sortValue||0)}/yr.`} Over 20 years: ${fmt(best?.twentyYr||0)}.`,
+        showCOL ? `COL-adjusted is more accurate. Tax savings can be offset by higher housing.` : `Toggle to Tax + COL for real purchasing power comparison.`,
+        `${STATE_TAX[currentState] > 0.05 ? `${STATE_NAMES[currentState]} taxes ${(STATE_TAX[currentState]*100).toFixed(1)}%. That's ${fN(Math.round(sal*STATE_TAX[currentState]))}/yr in state tax.` : "Already in a low-tax state. Focus on federal strategies."}`,
+      ]} />
     </div>
   );
 }

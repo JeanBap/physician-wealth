@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Inp, Donut, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Donut, Alert , Takeaway } from "../components/ui";
 import { AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -132,6 +132,12 @@ export default function Retirement({ profile }) {
 
       {gap > 0 && <Alert type="warn">Gap of {fmt(gap)}. Increase savings by {fN(Math.round(gap / yearsToRetire))}/yr or delay {Math.ceil(gap / (annualSave + totalCurrent * returnRate / 100))} years.</Alert>}
       {gap <= 0 && <Alert type="success">On track. Surplus of {fmt(Math.abs(gap))} at age {retireAge}.</Alert>}
+
+      <Takeaway items={[
+        `At ${returnRate}% returns, you'll have ${fmt(fv)} at age ${retireAge}${sellREAtRetire ? " (including RE sale)" : ""}. ${gap > 0 ? `${fmt(gap)} short.` : `${fmt(Math.abs(gap))} surplus.`}`,
+        gap > 0 ? `Increase savings by ${fN(Math.round(gap/yearsToRetire))}/yr or delay retirement to close the gap.` : `On track. Consider Roth conversions to optimize tax brackets in retirement.`,
+        `Projected retirement income: ${fN(monthlyIncome)}/mo at 4% withdrawal rate.`,
+      ]} />
     </div>
   );
 }

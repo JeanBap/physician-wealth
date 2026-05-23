@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { fmt, fN, pmtCalc } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -154,6 +154,12 @@ export default function RealEstate({ profile }) {
       {monthlyCashFlow < 0 && <Alert type="danger">Negative cash flow of {fN(Math.abs(monthlyCashFlow))}/mo. This property loses money monthly. Increase rent or reduce purchase price.</Alert>}
       {+capRate < 5 && monthlyCashFlow > 0 && <Alert type="warn">Cap rate below 5%. Acceptable for appreciation markets but not ideal for cash flow.</Alert>}
       {+cashOnCash > 10 && <Alert type="success">Strong cash-on-cash return of {cashOnCash}%. This deal looks solid.</Alert>}
+
+      <Takeaway items={[
+        `${monthlyCashFlow > 0 ? `Positive cash flow: ${fN(monthlyCashFlow)}/mo (${cashOnCash}% CoC).` : `Negative cash flow: ${fN(Math.abs(monthlyCashFlow))}/mo. Rethink this deal.`}`,
+        `Cap rate: ${capRate}%. ${+capRate > 7 ? "Cash flow market." : +capRate > 5 ? "Balanced." : "Appreciation play."}`,
+        `Depreciation shields ${fN(taxShield)}/yr from taxes. Physician mortgage = 0% down, no PMI.`,
+      ]} />
     </div>
   );
 }

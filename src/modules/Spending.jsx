@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, fedTax, fica, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -151,6 +151,12 @@ export default function Spending({ profile }) {
       {surplus < 0 && <Alert type="danger">Spending exceeds take-home by {fN(Math.abs(surplus))}/mo. Review housing or loan strategy.</Alert>}
       {surplus > 0 && surplus < monthly * 0.15 && <Alert type="warn">Savings rate below 15%. Target {fN(Math.round(monthly * 0.2))} monthly savings.</Alert>}
       {surplus >= monthly * 0.2 && <Alert type="success">Strong savings rate of {Math.round(surplus/monthly*100)}%. Consider maximizing tax-advantaged accounts.</Alert>}
+
+      <Takeaway items={[
+        `Take-home: ${fN(monthly)}/mo after ${((totalTax/sal)*100).toFixed(0)}% tax. ${surplus >= 0 ? `Surplus of ${fN(surplus)}/mo.` : `Overspending by ${fN(Math.abs(surplus))}/mo.`}`,
+        `${ruleResults.filter(r => !r.pass).length === 0 ? "All 3 financial rules pass." : `Failing: ${ruleResults.filter(r => !r.pass).map(r => r.name).join(", ")}.`}`,
+        surplus > 0 ? `Max out 401(k), backdoor Roth, and HSA before taxable investing.` : `Reduce housing or debt payments to meet the 28% rule.`,
+      ]} />
     </div>
   );
 }

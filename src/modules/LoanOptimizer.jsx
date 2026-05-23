@@ -130,6 +130,12 @@ export default function LoanOptimizer({ profile }) {
 
       {employer !== "private" && <Alert type="success">PSLF eligible! Stay at qualifying employer, income-driven plan, certify annually. Saves {fmt(best?.savings || 0)}.</Alert>}
       {employer === "private" && balance > 200000 && <Alert type="info">Consider refinancing. At 4.5% vs {currentRate}%, save {fmt(results.find(r=>r.id==="refi")?.savings || 0)} over 10 years.</Alert>}
+
+      <Takeaway items={[
+        `Best strategy: ${best?.name || "N/A"}. Saves ${fmt(best?.savings || 0)} vs standard repayment.`,
+        employer !== "private" ? `PSLF eligible. 10 years of income-driven payments, then forgiveness.` : `Private practice: refinance or aggressive payoff are your best options.`,
+        `You're paying ${fN(Math.round(balance * currentRate / 100))}/yr in interest alone.`,
+      ]} />
     </div>
   );
 }

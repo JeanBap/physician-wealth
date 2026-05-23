@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -147,6 +147,12 @@ export default function EstatePlan({ profile }) {
       {estatePlan === "none" && <Alert type="danger">No estate plan. A physician earning {fmt(sal)} with {kids} dependents needs at minimum a will and healthcare directive. Cost: $500-2,000.</Alert>}
       {protectionScore < 30 && <Alert type="warn">Protection score {protectionScore}%. High-income physicians are lawsuit targets. Prioritize umbrella insurance and asset protection.</Alert>}
       {estateExposure > 0 && <Alert type="info">Estate above {fmt(estateExemption)} exemption. Consider irrevocable trusts, gifting strategies, or Donor Advised Fund to reduce exposure.</Alert>}
+
+      <Takeaway items={[
+        `Protection: ${protectionScore}%. ${protectionScore < 30 ? "Critical gaps. You're a lawsuit target." : protectionScore < 70 ? "Partial. Address remaining items." : "Well protected."}`,
+        kids > 0 ? `529: ${fmt(finalBal)}/child at 18. ${gap529 > 0 ? `${fmt(gap529)} short.` : "Fully funded."}` : "No children. Focus on asset protection.",
+        `${!profile.hasWill ? "Priority #1: Create a will ($500-2K)." : !profile.hasTrust ? "Consider revocable trust to avoid probate." : "Estate plan in place. Review annually."}`,
+      ]} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Inp } from "../components/ui";
+import { Section, Stat, Card, Inp , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -81,6 +81,12 @@ export default function SalaryBench({ profile }) {
           </BarChart>
         </ResponsiveContainer>
       </Card>
+
+      <Takeaway items={[
+        `${pctile.toFixed(0)}th percentile for ${profile.specialty}. ${pctile > 60 ? "Above median." : "Below median. Negotiation opportunity."}`,
+        gap > 0 ? `${fmt(gap)} gap to 75th percentile. Use this data in your next contract negotiation.` : `Top quartile. Strong compensation position.`,
+        `${profile.specialty} ranks #${rank}/20 across all specialties.`,
+      ]} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { analyzeDouble } from "../lib/ai";
 
@@ -119,6 +119,12 @@ export default function Insurance({ profile }) {
       </Card>
 
       <Alert type="info">Own-occupation disability is critical for physicians. If you can't perform YOUR specialty, it pays. Any-occ only pays if you can't work at all.</Alert>
+
+      <Takeaway items={[
+        `Total insurance: ${fN(totalCost)}/yr (${pctIncome}% of income).`,
+        `${recommendations.filter(r=>r.status==="Critical").length > 0 ? `Critical gaps: ${recommendations.filter(r=>r.status==="Critical").map(r=>r.type).join(", ")}.` : "All critical coverages addressed."}`,
+        `Own-occ disability is the #1 priority for any physician. Malpractice: ${fN(spec.mal)}/yr.`,
+      ]} />
     </div>
   );
 }

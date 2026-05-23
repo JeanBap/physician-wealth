@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Alert } from "../components/ui";
+import { Section, Stat, Card, Alert , Takeaway } from "../components/ui";
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -143,6 +143,12 @@ export default function BurnoutCost({ profile }) {
       </div>
 
       {score > 50 && <Alert type="danger">Elevated burnout. Consider reducing call, peer support, or physician wellness program. Costing you {fmt(totalCost)}/yr.</Alert>}
+
+      <Takeaway items={[
+        `Burnout score ${score}/100 costs ~${fmt(totalCost)}/yr in productivity, health, and turnover risk.`,
+        `${profile.specialty} burnout rate: ${spec.burn}%. ${score > 50 ? "You're elevated. Consider reducing call or seeking peer support." : "Below average. Stay vigilant."}`,
+        `Burnout correlates with ${claimRisk}% malpractice risk increase and ${divRisk}% divorce probability.`,
+      ]} />
     </div>
   );
 }

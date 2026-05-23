@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Btn, Alert } from "../components/ui";
+import { Section, Stat, Card, Btn, Alert , Takeaway } from "../components/ui";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from "recharts";
 
 const Tip = ({ active, payload, label }) => {

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fN } from "../lib/data";
-import { Section, Stat, Card, Alert, Inp } from "../components/ui";
+import { Section, Stat, Card, Alert, Inp , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -117,6 +117,12 @@ export default function MalpracticeRisk({ profile }) {
       </Card>
 
       {riskScore > 60 && <Alert type="warn">Elevated risk. Consider occurrence-based policy, detailed documentation, and consent review.</Alert>}
+
+      <Takeaway items={[
+        `Risk score: ${riskScore}/100. ${riskScore > 60 ? "Elevated. Focus on documentation." : "Within normal range."}`,
+        `${profile.specialty} base claim rate: ${baseRisk.toFixed(1)}%. ${yrsExp < 3 ? "Early career adds 30% risk." : "Experience reduces risk."}`,
+        `Always choose occurrence-based over claims-made policies. Shop carriers annually.`,
+      ]} />
     </div>
   );
 }

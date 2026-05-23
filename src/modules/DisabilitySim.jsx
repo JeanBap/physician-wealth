@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
-import { Section, Stat, Inp, Alert, Card } from "../components/ui";
+import { Section, Stat, Inp, Alert, Card , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -102,6 +102,12 @@ export default function DisabilitySim({ profile }) {
 
       {monthlyGap > 0 && <Alert type="warn">Without DI, savings run out in {runway} months. {spec.burn > 40 ? `${profile.specialty} has ${spec.burn}% burnout rate.` : ""}</Alert>}
       {monthlyGap <= 0 && <Alert type="success">Current coverage meets your monthly needs. Review annually.</Alert>}
+
+      <Takeaway items={[
+        monthlyGap > 0 ? `Without DI, savings run out in ${runway} months. Gap: ${fN(monthlyGap)}/mo.` : `Current coverage meets your needs.`,
+        `Own-occupation DI is critical for ${profile.specialty}. Any-occ only pays if you can't work at all.`,
+        `Recommended: ${fN(monthlyNeed)}/mo coverage. Best rate: ${carrierData[0]?.name} at ~${fN(carrierData[0]?.premium)}/mo.`,
+      ]} />
     </div>
   );
 }

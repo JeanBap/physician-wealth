@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fedTax, fica, STATE_TAX, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -109,6 +109,12 @@ export default function DualPhysician({ profile }) {
       )}
 
       {penalty > 5000 && <Alert type="warn">Marriage penalty of {fN(penalty)}. Consider MFS if pursuing PSLF.</Alert>}
+
+      <Takeaway items={[
+        `Combined: ${fmt(combined)}. ${penalty > 0 ? `Marriage penalty: ${fN(penalty)}/yr.` : `Joint filing saves ${fN(Math.abs(penalty))}/yr.`}`,
+        `Max sheltering: ${fN(maxDefer)}/yr via dual 401(k) + Roth + HSA.`,
+        (loansA > 0 || loansB > 0) ? `PSLF with MFS filing could save ${fmt(Math.max(loansA-pslfA,0) + Math.max(loansB-pslfB,0))}.` : `No debt. Accelerate wealth accumulation.`,
+      ]} />
     </div>
   );
 }

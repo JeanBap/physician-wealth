@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, fmt, fN, marginalRate } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -89,6 +89,12 @@ export default function Moonlighting({ profile }) {
       </div>
 
       <Alert type="info">Self-employment adds 15.3% tax. Expert witness has highest net $/hr due to low time commitment.</Alert>
+
+      <Takeaway items={[
+        `Best ROI: ${bestGig.name} at $${bestGig.netPerHr}/hr after tax (${fmt(bestGig.net)}/yr).`,
+        `Expert witness has highest $/hr but lowest volume. Locums has highest total income.`,
+        `At your marginal rate, every $1 moonlighting nets ~$${(1 - mRate - 0.15).toFixed(2)} after tax + SE tax.`,
+      ]} />
     </div>
   );
 }

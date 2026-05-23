@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Section, Card, Alert, Badge } from "../components/ui";
+import { Section, Card, Alert, Badge , Takeaway } from "../components/ui";
 
 const DEADLINES = [
   { date:"01-15", name:"Q4 Estimated Tax Due", desc:"Pay quarterly estimated tax for Oct-Dec", cat:"tax", critical:true },

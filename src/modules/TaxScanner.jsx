@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SPECIALTIES, STATE_TAX, fedTax, fica, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Alert, Btn } from "../components/ui";
+import { Section, Stat, Card, Alert, Btn , Takeaway } from "../components/ui";
 import { analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
 import { saveDocument } from "../lib/supabase";
 
@@ -208,6 +208,12 @@ Return ONLY valid JSON:
           ))}
         </>
       )}
+
+      <Takeaway items={[
+        `Effective rate: ${effectiveRate}%. Total tax: ${fmt(totalTax)} on ${fmt(sal)}.`,
+        `${applicable.length} strategies could save ${fmt(totalSavings)}/yr. Start with the lowest-risk option.`,
+        `Upload your tax return for AI analysis. Average physician finds $15-50K in missed deductions.`,
+      ]} />
     </div>
   );
 }

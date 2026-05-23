@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN, pmtCalc } from "../lib/data";
-import { Section, Stat, Card, Inp, Alert } from "../components/ui";
+import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -91,6 +91,12 @@ export default function PracticeBuyout({ profile }) {
       </Card>
 
       <Alert type="info">Typical medical practice multiples: 0.5-1.2x revenue. Higher for recurring revenue specialties (derm, pain, ophthalmology).</Alert>
+
+      <Takeaway items={[
+        `${fmt(price)} practice nets ${fmt(netAfterDebt)}/yr after debt service. ROI: ${roi}%.`,
+        `Payback: ${payback} years. ${+payback < 5 ? "Excellent deal." : +payback < 8 ? "Reasonable." : "Long payback. Negotiate lower price."}`,
+        `Total interest: ${fN(totalInterest)} over ${term} years. Consider SBA 7(a) for better physician terms.`,
+      ]} />
     </div>
   );
 }

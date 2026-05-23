@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, fedTax, fica, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Alert, Donut } from "../components/ui";
+import { Section, Stat, Card, Alert, Donut , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -99,6 +99,12 @@ export default function EmergencyFund({ profile }) {
 
       {gap > 0 && <Alert type="warn">Fund gap of {fmt(gap)}. Save {fN(monthlyNeeded)}/mo to fully fund in 12 months.</Alert>}
       {funded >= 100 && <Alert type="success">Emergency fund fully funded. Consider investing excess in taxable brokerage for growth.</Alert>}
+
+      <Takeaway items={[
+        `${funded >= 100 ? `Fully funded (${runwayMonths} months runway).` : `${funded}% funded. Need ${fmt(gap)} more.`}`,
+        `${recommendedMonths} months recommended (not 6) due to: ${riskFactors.length > 0 ? riskFactors.slice(0,2).map(f=>f.name).join(", ") : "baseline"}.`,
+        `Keep in HYSA (4.5-5%). At ${fmt(targetFund)}, that's ${fN(Math.round(targetFund*0.048))}/yr interest while staying liquid.`,
+      ]} />
     </div>
   );
 }
