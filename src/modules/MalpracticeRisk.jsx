@@ -50,7 +50,7 @@ export default function MalpracticeRisk({ profile }) {
       </div>
       <div className="grid grid-cols-3 gap-2">
         <Stat label="Annual claim prob" value={`${annualProb}%`} color="#f87171" />
-        <Stat label="Specialty base" value={`${baseRisk}%`} color="#a78bfa" />
+        <Stat label="Specialty base" value={`${baseRisk.toFixed(1)}%`} color="#a78bfa" />
         <Stat label="Avg premium" value={fN(spec.mal)} sub="/year" color="#fbbf24" />
       </div>
       <Card>
