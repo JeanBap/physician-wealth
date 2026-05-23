@@ -112,6 +112,8 @@ export const MODULES = {
   burnout:       { label:"Burnout Cost",     icon:"◉", tier:"pro",     color:"#f87171" },
   statemove:     { label:"State Arbitrage",  icon:"◇", tier:"pro",     color:"#a78bfa" },
   malrisk:       { label:"Malpractice Risk", icon:"◎", tier:"pro",     color:"#f87171" },
+  realestate:    { label:"Real Estate",      icon:"◆", tier:"pro",     color:"#fbbf24", cat:"Wealth" },
+  estateplan:    { label:"Estate Planning",  icon:"◇", tier:"pro",     color:"#a78bfa", cat:"Wealth" },
   docscan:       { label:"Doc Scanner",      icon:"◆", tier:"premium", color:"#60a5fa" },
   aichat:        { label:"AI Advisor",       icon:"◎", tier:"premium", color:"#34d399" },
   settings:      { label:"Settings",         icon:"◎", tier:"free",    always:true },

@@ -28,6 +28,8 @@ import Retirement from "./modules/Retirement";
 import Spending from "./modules/Spending";
 import DocScanner from "./modules/DocScanner";
 import AiChat from "./modules/AiChat";
+import RealEstate from "./modules/RealEstate";
+import EstatePlan from "./modules/EstatePlan";
 
 const MODULE_COMPONENTS = {
   dashboard: Dashboard,
@@ -51,6 +53,8 @@ const MODULE_COMPONENTS = {
   spending: Spending,
   docscan: DocScanner,
   aichat: AiChat,
+  realestate: RealEstate,
+  estateplan: EstatePlan,
 };
 
 export default function App() {
