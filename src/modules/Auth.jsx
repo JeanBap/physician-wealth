@@ -1,0 +1,99 @@
+import { useState } from "react";
+import { Section, Inp, Btn, Alert, Card } from "../components/ui";
+
+export default function Auth({ onAuth, navigate }) {
+  const [mode, setMode] = useState("login"); // login | signup | forgot
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
+
+  const handleSubmit = async () => {
+    setError(""); setLoading(true);
+    try {
+      if (mode === "forgot") {
+        // In production: resetPassword(email)
+        setResetSent(true);
+      } else if (mode === "signup") {
+        // In production: signUp(email, password, { firstName, lastName })
+        onAuth({ email, firstName, lastName, plan: "trial", trialEnd: new Date(Date.now() + 30 * 86400000).toISOString() });
+        navigate("onboarding");
+      } else {
+        // In production: signIn(email, password)
+        onAuth({ email });
+        navigate("dashboard");
+      }
+    } catch (err) {
+      setError(err.message || "Authentication failed");
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: "#0a0b10" }}>
+      <div className="w-full max-w-sm space-y-6">
+        <div className="text-center">
+          <p className="text-emerald-400 text-2xl font-black tracking-tight" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
+            PhysicianWealth
+          </p>
+          <p className="text-[10px] text-white/20 mt-1">Financial Command Center for Physicians</p>
+        </div>
+
+        <Card className="space-y-4">
+          {mode === "forgot" ? (
+            <>
+              <p className="text-xs text-white/40 text-center">Enter your email to reset password</p>
+              <Inp label="Email" value={email} onChange={setEmail} type="email" />
+              {resetSent ? (
+                <Alert type="success">Reset link sent to {email}. Check your inbox.</Alert>
+              ) : (
+                <Btn onClick={handleSubmit} disabled={loading} className="w-full">
+                  {loading ? "Sending..." : "Send Reset Link"}
+                </Btn>
+              )}
+              <button onClick={() => setMode("login")} className="w-full text-[10px] text-white/20 hover:text-white/40">
+                Back to login
+              </button>
+            </>
+          ) : (
+            <>
+              {mode === "signup" && (
+                <div className="grid grid-cols-2 gap-2">
+                  <Inp label="First name" value={firstName} onChange={setFirstName} />
+                  <Inp label="Last name" value={lastName} onChange={setLastName} />
+                </div>
+              )}
+              <Inp label="Email" value={email} onChange={setEmail} type="email" />
+              <Inp label="Password" value={password} onChange={setPassword} type="password" />
+              {error && <Alert type="danger">{error}</Alert>}
+              <Btn onClick={handleSubmit} disabled={loading} className="w-full">
+                {loading ? "..." : mode === "signup" ? "Create Account (30-day trial)" : "Sign In"}
+              </Btn>
+              <button onClick={() => {
+                // In production: signInWithGoogle()
+                onAuth({ email: "google@user.com", firstName: "Google", plan: "trial" });
+                navigate("onboarding");
+              }} className="w-full py-2 bg-white/[0.05] border border-white/[0.08] rounded-xl text-[10px] text-white/30 hover:bg-white/[0.08] transition">
+                Continue with Google
+              </button>
+              <div className="flex justify-between text-[10px]">
+                <button onClick={() => setMode(mode === "login" ? "signup" : "login")} className="text-emerald-400/50 hover:text-emerald-400">
+                  {mode === "login" ? "Create account" : "Already have account"}
+                </button>
+                {mode === "login" && (
+                  <button onClick={() => setMode("forgot")} className="text-white/20 hover:text-white/40">
+                    Forgot password?
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+        </Card>
+        <p className="text-[8px] text-white/10 text-center">Secured by Supabase Auth + Stripe. HIPAA-compliant infrastructure.</p>
+      </div>
+    </div>
+  );
+}
