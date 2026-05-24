@@ -25,7 +25,7 @@ export default function Auth({ onAuth, navigate }) {
           firstName: firstName || (isAdmin ? "Yanni" : ""),
           lastName: lastName || (isAdmin ? "Papoutsi" : ""),
           plan: isAdmin ? "premium" : "trial",
-          trialEnd: isAdmin ? null : new Date(Date.now() + 30 * 86400000).toISOString(),
+          trialEnd: isAdmin ? null : new Date(Date.now() + 14 * 86400000).toISOString(),
           isAdmin,
         });
         navigate("onboarding");
@@ -36,7 +36,7 @@ export default function Auth({ onAuth, navigate }) {
           firstName: isAdmin ? "Yanni" : "",
           lastName: isAdmin ? "Papoutsi" : "",
           plan: isAdmin ? "premium" : "trial",
-          trialEnd: isAdmin ? null : new Date(Date.now() + 30 * 86400000).toISOString(),
+          trialEnd: isAdmin ? null : new Date(Date.now() + 14 * 86400000).toISOString(),
           isAdmin,
         });
         navigate(isAdmin ? "dashboard" : "onboarding");
@@ -88,13 +88,13 @@ export default function Auth({ onAuth, navigate }) {
                 {loading ? "..." : mode === "signup" ? "Create Account" : "Sign In"}
               </Btn>
               <button onClick={() => {
-                onAuth({ email: "google@user.com", firstName: "Google", plan: "trial", trialEnd: new Date(Date.now() + 30 * 86400000).toISOString() });
+                onAuth({ email: "google@user.com", firstName: "Google", plan: "trial", trialEnd: new Date(Date.now() + 14 * 86400000).toISOString() });
                 navigate("onboarding");
               }} className="w-full py-2 bg-white/[0.05] border border-white/[0.08] rounded-xl text-sm text-white/75 hover:bg-white/[0.08] transition">
                 Continue with Google
               </button>
               <button onClick={() => {
-                onAuth({ id:"demo", email:"demo@physician.com", firstName:"Demo", lastName:"Physician", isAdmin:false, plan:"trial", trialEnd:new Date(Date.now()+30*86400000).toISOString() });
+                onAuth({ id:"demo", email:"demo@physician.com", firstName:"Demo", lastName:"Physician", isAdmin:false, plan:"trial", trialEnd:new Date(Date.now()+14*86400000).toISOString() });
                 navigate("onboarding");
               }} className="w-full py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white/55 font-bold hover:bg-white/[0.08] transition mt-2">
                 Try Demo (No Account Needed)

@@ -341,6 +341,11 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
           <span style={{ fontSize: 14, fontWeight: 700, color: T.navy }}>Physician<span style={{ color: T.teal }}>Wealth</span></span>
         </div>
         <p style={{ fontSize: 12, color: T.text3 }}>Not financial advice. Educational tool for physician financial planning.</p>
+        <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12 }}>
+          <a href="/privacy.html" style={{ fontSize: 12, color: T.text3, textDecoration: "none" }}>Privacy Policy</a>
+          <a href="/terms.html" style={{ fontSize: 12, color: T.text3, textDecoration: "none" }}>Terms of Service</a>
+          <a href="/cookie-policy.html" style={{ fontSize: 12, color: T.text3, textDecoration: "none" }}>Cookie Policy</a>
+        </div>
       </div>
     </div>
   );

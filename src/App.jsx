@@ -175,7 +175,7 @@ export default function App() {
       else localStorage.removeItem("pw_user");
     } catch {}
   }, [user]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 768);
   const [theme, setTheme] = useState(getTheme);
   const [lang, setLang] = useState(getLang);
 
