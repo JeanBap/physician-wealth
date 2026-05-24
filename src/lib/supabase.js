@@ -57,7 +57,7 @@ export function onAuthStateChange(callback) {
 
 export async function getProfile(userId) {
   if (!supabase) return null;
-  const { data } = await supabase.from("profiles").select("*").eq("id", userId).single();
+  const { data } = await supabase.from("pw_profiles").select("*").eq("id", userId).single();
   return data;
 }
 
@@ -66,7 +66,7 @@ export async function upsertProfile(userId, profileData) {
     try { localStorage.setItem("pw_profile", JSON.stringify(profileData)); } catch {}
     return { error: null };
   }
-  const { error } = await supabase.from("profiles").upsert({ id: userId, ...profileData, updated_at: new Date().toISOString() });
+  const { error } = await supabase.from("pw_profiles").upsert({ id: userId, ...profileData, updated_at: new Date().toISOString() });
   return { error };
 }
 
@@ -75,7 +75,7 @@ export async function upsertNotificationPrefs(userId, prefs) {
     try { localStorage.setItem("pw_notifs", JSON.stringify(prefs)); } catch {}
     return { error: null };
   }
-  const { error } = await supabase.from("notification_prefs").upsert({ user_id: userId, ...prefs, updated_at: new Date().toISOString() });
+  const { error } = await supabase.from("pw_notification_prefs").upsert({ user_id: userId, ...prefs, updated_at: new Date().toISOString() });
   return { error };
 }
 
@@ -94,7 +94,7 @@ export async function saveDocument(userId, doc) {
       return { data: newDoc, error: null };
     } catch (e) { return { data: null, error: e }; }
   }
-  const { data, error } = await supabase.from("saved_documents").insert({
+  const { data, error } = await supabase.from("pw_saved_documents").insert({
     user_id: userId,
     ...doc,
     created_at: new Date().toISOString(),
@@ -109,7 +109,7 @@ export async function getDocuments(userId) {
       return { data: docs.filter(d => d.user_id === userId || d.user_id === "local"), error: null };
     } catch { return { data: [], error: null }; }
   }
-  const { data, error } = await supabase.from("saved_documents")
+  const { data, error } = await supabase.from("pw_saved_documents")
     .select("*").eq("user_id", userId).order("created_at", { ascending: false });
   return { data: data || [], error };
 }
@@ -123,7 +123,7 @@ export async function updateDocument(docId, updates) {
       return { error: null };
     } catch (e) { return { error: e }; }
   }
-  const { error } = await supabase.from("saved_documents").update(updates).eq("id", docId);
+  const { error } = await supabase.from("pw_saved_documents").update(updates).eq("id", docId);
   return { error };
 }
 
@@ -135,7 +135,7 @@ export async function deleteDocument(docId) {
       return { error: null };
     } catch (e) { return { error: e }; }
   }
-  const { error } = await supabase.from("saved_documents").delete().eq("id", docId);
+  const { error } = await supabase.from("pw_saved_documents").delete().eq("id", docId);
   return { error };
 }
 
@@ -148,7 +148,7 @@ export async function getUserContext(userId) {
     try { return { data: JSON.parse(localStorage.getItem("pw_context") || "null"), error: null }; }
     catch { return { data: null, error: null }; }
   }
-  const { data, error } = await supabase.from("user_context").select("*").eq("user_id", userId).single();
+  const { data, error } = await supabase.from("pw_user_context").select("*").eq("user_id", userId).single();
   return { data, error };
 }
 
@@ -162,7 +162,7 @@ export async function saveUserContext(userId, contextMd, docCount, totalFindings
       return { error: null };
     } catch (e) { return { error: e }; }
   }
-  const { error } = await supabase.from("user_context").upsert({
+  const { error } = await supabase.from("pw_user_context").upsert({
     user_id: userId, context_md: contextMd, doc_count: docCount,
     total_findings: totalFindings, last_rebuilt: new Date().toISOString(), updated_at: new Date().toISOString()
   });
