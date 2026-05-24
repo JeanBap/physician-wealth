@@ -62,6 +62,14 @@ import Marketplace from "./modules/Marketplace";
 import OfferCompare from "./modules/OfferCompare";
 import Admin from "./modules/Admin";
 import CredentialTracker from "./modules/CredentialTracker";
+import BackdoorRoth from "./modules/BackdoorRoth";
+import DebtPayoff from "./modules/DebtPayoff";
+import NegotiationKit from "./modules/NegotiationKit";
+import W4Optimizer from "./modules/W4Optimizer";
+import ChecklistHub from "./modules/ChecklistHub";
+import CharitableGiving from "./modules/CharitableGiving";
+import LocumRates from "./modules/LocumRates";
+import PartnershipTrack from "./modules/PartnershipTrack";
 import LifestyleCreep from "./modules/LifestyleCreep";
 
 const MODULE_COMPONENTS = {
@@ -97,6 +105,14 @@ const MODULE_COMPONENTS = {
   offercompare: OfferCompare,
   admin: Admin,
   credentials: CredentialTracker,
+  backdoorroth: BackdoorRoth,
+  debtpayoff: DebtPayoff,
+  negotiate: NegotiationKit,
+  w4optimizer: W4Optimizer,
+  checklists: ChecklistHub,
+  charitable: CharitableGiving,
+  locumrates: LocumRates,
+  partnership: PartnershipTrack,
   creep: LifestyleCreep,
 };
 
