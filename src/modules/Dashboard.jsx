@@ -8,17 +8,27 @@ import {
   XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
 } from "recharts";
 
-const C = {
-  emerald:"#34d399", blue:"#60a5fa", purple:"#a78bfa", amber:"#fbbf24",
-  red:"#f87171", pink:"#f472b6", grid:"rgba(255,255,255,0.03)",
-  axis:"rgba(255,255,255,0.06)", text:"rgba(255,255,255,0.2)", bg:"#0d0e14",
-  card:"rgba(255,255,255,0.025)", border:"rgba(255,255,255,0.05)",
+// Theme-aware: read CSS vars at render time
+const getC = () => {
+  const s = getComputedStyle(document.documentElement);
+  const v = (n) => s.getPropertyValue(`--${n}`).trim();
+  return {
+    emerald: v("accent") || "#34d399", blue: v("accent2") || "#60a5fa", purple: v("accent3") || "#a78bfa",
+    amber: "#fbbf24", red: "#f87171", pink: "#f472b6",
+    grid: v("chartGrid") || "rgba(255,255,255,0.03)",
+    axis: v("chartAxis") || "rgba(255,255,255,0.06)",
+    text: v("chartText") || "rgba(255,255,255,0.2)",
+    bg: v("bg2") || "#0d0e14",
+    card: v("card") || "rgba(255,255,255,0.025)",
+    border: v("border") || "rgba(255,255,255,0.05)",
+  };
 };
+const C = getC();
 
 const Tip = ({ active, payload, label, pre="$" }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl backdrop-blur-sm">
+    <div style={{background:"var(--tooltipBg)",border:"1px solid var(--tooltipBorder)"}} className="rounded-lg px-3 py-2 shadow-2xl backdrop-blur-sm">
       <p className="text-xs text-white/75 mb-1">{label}</p>
       {payload.map((p, i) => (
         <p key={i} className="text-sm font-bold" style={{ color: p.color }}>
@@ -218,7 +228,7 @@ export default function Dashboard({ profile, navigate }) {
 
   const handlePrint = () => {
     const style = document.createElement("style");
-    style.textContent = `@media print { body { background:#0a0b10!important; -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; } .no-print { display:none!important; } }`;
+    style.textContent = `@media print { body { background:var(--bg)!important; -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; } .no-print { display:none!important; } }`;
     document.head.appendChild(style); window.print(); setTimeout(() => document.head.removeChild(style), 1000);
   };
 
@@ -231,9 +241,9 @@ export default function Dashboard({ profile, navigate }) {
         <p className="text-sm text-white/55 uppercase tracking-[0.15em]">{greeting()}</p>
         <h1 className="text-2xl font-black text-white mt-1" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Dr. {profile.lastName || "Physician"}</h1>
         <div className="flex items-center gap-3 mt-1.5">
-          <Badge color={C.emerald}>{profile.specialty}</Badge>
+          <Badge color={C.emerald}>{profile.role ? `${profile.role} - ` : ""}{profile.specialty}</Badge>
           <span className="text-xs text-white/55">{STATE_NAMES[state]||state}</span>
-          <span className="text-xs text-white/55">#{rank}/20</span>
+          <span className="text-xs text-white/55">#{rank}/{Object.keys(SPECIALTIES).length}</span>
         </div>
         <div className="absolute top-6 right-6 text-center">
           <Donut value={healthScore} max={100} size={64} sw={5} color={healthScore>70?C.emerald:healthScore>50?C.amber:C.red}>
@@ -251,7 +261,7 @@ export default function Dashboard({ profile, navigate }) {
           <p className="text-sm font-bold text-white/75" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>Executive Summary</p>
         </div>
         <p className="text-sm text-white/65 leading-relaxed">
-          As a <span className="text-white/75 font-medium">{profile.specialty}</span> with total income <span className="text-emerald-400/70 font-bold">{fmt(totalIncome)}</span> in {STATE_NAMES[state]||state} (COL index: {STATE_COL[state]||100}), you rank <span className="text-white/75 font-medium">#{rank}/20</span>.
+          As {profile.role === "Attending" ? "an" : "a"} <span className="text-white/75 font-medium">{profile.role || ""} {profile.specialty}</span> with total income <span className="text-emerald-400/70 font-bold">{fmt(totalIncome)}</span> in {STATE_NAMES[state]||state} (COL index: {STATE_COL[state]||100}), you rank <span className="text-white/75 font-medium">#{rank}/{Object.keys(SPECIALTIES).length}</span>.
           Effective tax rate: <span className="text-red-400/70 font-bold">{((totalTax/sal)*100).toFixed(1)}%</span>, take-home {fmt(takeHome)}.
           {totalDebt > 0 && <> Total debt <span className="text-red-400/70 font-bold">{fmt(totalDebt)}</span> (total assets {fmt(totalAssets)}), net worth <span style={{ color:netWorth>=0?C.emerald:C.red }} className="font-bold">{fmt(netWorth)}</span>.</>}
           {" "}<span className="text-emerald-400/70 font-bold">{fiPct}%</span> to FI ({fmt(fiTarget)}).

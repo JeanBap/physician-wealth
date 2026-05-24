@@ -21,7 +21,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: "#0a0b10" }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: "var(--bg)" }}>
       <div className="w-full max-w-lg space-y-5">
         <div className="text-center">
           <p className="text-emerald-400 text-lg font-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>PhysicianWealth</p>
@@ -55,6 +55,22 @@ export default function Onboarding({ profile, setProfile, navigate }) {
             <div className="grid grid-cols-2 gap-3 mt-3">
               <Inp label="Specialty" value={profile.specialty} onChange={v => update("specialty", v)}
                 options={Object.keys(SPECIALTIES).map(s => ({ v: s, l: s }))} />
+              <Inp label="Role / Title" value={profile.role} onChange={v => update("role", v)}
+                options={[
+                  {v:"Attending",l:"Attending Physician"},
+                  {v:"Fellow",l:"Fellow"},
+                  {v:"Chief Resident",l:"Chief Resident"},
+                  {v:"Resident",l:"Resident"},
+                  {v:"Department Chair",l:"Department Chair"},
+                  {v:"Medical Director",l:"Medical Director"},
+                  {v:"Program Director",l:"Program Director"},
+                  {v:"Associate Professor",l:"Associate Professor"},
+                  {v:"Professor",l:"Professor"},
+                  {v:"Partner",l:"Partner/Owner"},
+                  {v:"Locum Tenens",l:"Locum Tenens"},
+                ]} />
+            </div>
+            <div className="grid grid-cols-2 gap-3 mt-3">
               <Inp label="State" value={profile.state} onChange={v => update("state", v)}
                 options={Object.entries(STATE_NAMES).map(([k, v]) => ({ v: k, l: v }))} />
             </div>

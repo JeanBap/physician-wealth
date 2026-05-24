@@ -5,7 +5,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, Cartes
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  return (<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
+  return (<div style={{background:"var(--tooltipBg)",border:"1px solid var(--tooltipBorder)"}} className="rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/75 mb-1">{label}</p>
     {payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value}K</p>)}</div>);
 };
 
@@ -48,7 +48,7 @@ export default function SalaryBench({ profile }) {
           {/* 25th-75th range */}
           <div className="absolute h-full bg-gradient-to-r from-emerald-500/10 to-emerald-500/20 rounded-full" style={{ left: "0%", width: "100%" }} />
           {/* Your position marker */}
-          <div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-[#0d0e14] z-10" style={{
+          <div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 z-10" style={{ background:"var(--bg2)",
             left: `${Math.min(100, Math.max(0, pctile / 75 * 100))}%`,
             borderColor: pctile > 50 ? "#34d399" : "#fbbf24",
             boxShadow: `0 0 8px ${pctile > 50 ? "#34d39940" : "#fbbf2440"}`
@@ -66,12 +66,12 @@ export default function SalaryBench({ profile }) {
       {/* All specialties chart */}
       <Card>
         <p className="text-xs text-white/55 uppercase tracking-widest mb-1">All Specialties - Median Salary ($K)</p>
-        <p className="text-xs text-white/55 mb-2">Rank #{rank}/20</p>
+        <p className="text-xs text-white/55 mb-2">Rank #{rank}/{Object.keys(SPECIALTIES).length}</p>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData} layout="vertical" barCategoryGap="8%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false} />
-            <XAxis type="number" tick={{ fontSize: 8, fill: "rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="K" />
-            <YAxis type="category" dataKey="name" tick={{ fontSize: 8, fill: "rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} width={100} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--chartGrid)" horizontal={false} />
+            <XAxis type="number" tick={{ fontSize: 8, fill: "var(--chartText)" }} axisLine={false} tickLine={false} unit="K" />
+            <YAxis type="category" dataKey="name" tick={{ fontSize: 8, fill: "var(--text3)" }} axisLine={false} tickLine={false} width={100} />
             <Tooltip content={<Tip />} />
             <Bar dataKey="salary" name="Median" radius={[0, 4, 4, 0]} animationDuration={800}>
               {chartData.map((d, i) => (

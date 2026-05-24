@@ -6,27 +6,29 @@
 // --- 20 PHYSICIAN SPECIALTIES ---
 // m=median, lo=25th, hi=75th, mal=malpractice premium, res=residency years
 // burn=burnout %, claimRate=annual malpractice claim probability, divRate=divorce rate
+// Sources: Medscape 2026, Doximity 2025, AAMC 2025
 export const SPECIALTIES = {
-  "Pediatric Surgery":{m:450800,lo:380000,hi:520000,mal:45000,res:7,burn:38,claimRate:.08,divRate:.22},
-  "Cardiology":{m:432500,lo:370000,hi:510000,mal:25000,res:6,burn:43.5,claimRate:.07,divRate:.24},
-  "Orthopedic Surgery":{m:365100,lo:310000,hi:450000,mal:40000,res:5,burn:40,claimRate:.14,divRate:.23},
-  "Radiology":{m:359800,lo:300000,hi:430000,mal:15000,res:5,burn:45.2,claimRate:.05,divRate:.21},
-  "General Surgery":{m:371300,lo:300000,hi:440000,mal:35000,res:5,burn:43.8,claimRate:.12,divRate:.23},
-  "Dermatology":{m:347800,lo:280000,hi:420000,mal:10000,res:4,burn:35,claimRate:.03,divRate:.18},
-  "Anesthesiology":{m:336600,lo:290000,hi:400000,mal:20000,res:4,burn:40,claimRate:.06,divRate:.22},
-  "Gastroenterology":{m:348000,lo:290000,hi:420000,mal:18000,res:6,burn:43.5,claimRate:.06,divRate:.21},
-  "Emergency Medicine":{m:320700,lo:270000,hi:380000,mal:18000,res:3,burn:49.8,claimRate:.08,divRate:.28},
-  "Urology":{m:341000,lo:280000,hi:410000,mal:22000,res:5,burn:49.5,claimRate:.07,divRate:.25},
-  "Psychiatry":{m:269100,lo:220000,hi:320000,mal:8000,res:4,burn:37,claimRate:.03,divRate:.19},
-  "OB/GYN":{m:281100,lo:235000,hi:340000,mal:80000,res:4,burn:45.7,claimRate:.18,divRate:.24},
-  "Neurology":{m:286300,lo:240000,hi:340000,mal:15000,res:4,burn:40,claimRate:.05,divRate:.21},
-  "Ophthalmology":{m:301500,lo:250000,hi:370000,mal:12000,res:4,burn:36,claimRate:.04,divRate:.19},
-  "Family Medicine":{m:256800,lo:210000,hi:300000,mal:8000,res:3,burn:45,claimRate:.05,divRate:.23},
-  "Internal Medicine":{m:262700,lo:215000,hi:310000,mal:10000,res:3,burn:42,claimRate:.05,divRate:.22},
-  "Pediatrics":{m:222300,lo:185000,hi:265000,mal:12000,res:3,burn:40,claimRate:.04,divRate:.20},
-  "Pathology":{m:266000,lo:220000,hi:320000,mal:12000,res:4,burn:38,claimRate:.03,divRate:.18},
-  "Pulmonology":{m:295000,lo:245000,hi:350000,mal:14000,res:6,burn:42,claimRate:.05,divRate:.21},
-  "Endocrinology":{m:245000,lo:200000,hi:290000,mal:9000,res:6,burn:39,claimRate:.04,divRate:.20},
+  "Orthopedic Surgery":{m:611000,lo:480000,hi:750000,mal:40000,res:5,burn:40,claimRate:.14,divRate:.23},
+  "Cardiology":{m:575000,lo:450000,hi:700000,mal:25000,res:6,burn:43.5,claimRate:.07,divRate:.24},
+  "Radiology":{m:571000,lo:440000,hi:690000,mal:15000,res:5,burn:45.2,claimRate:.05,divRate:.21},
+  "Plastic Surgery":{m:554000,lo:420000,hi:680000,mal:35000,res:6,burn:35,claimRate:.10,divRate:.22},
+  "Anesthesiology":{m:543000,lo:420000,hi:660000,mal:20000,res:4,burn:40,claimRate:.06,divRate:.22},
+  "Urology":{m:535000,lo:410000,hi:650000,mal:22000,res:5,burn:49.5,claimRate:.07,divRate:.25},
+  "Gastroenterology":{m:530000,lo:410000,hi:640000,mal:18000,res:6,burn:43.5,claimRate:.06,divRate:.21},
+  "General Surgery":{m:508000,lo:390000,hi:620000,mal:35000,res:5,burn:43.8,claimRate:.12,divRate:.23},
+  "Dermatology":{m:450000,lo:350000,hi:560000,mal:10000,res:4,burn:35,claimRate:.03,divRate:.18},
+  "Pediatric Surgery":{m:465000,lo:370000,hi:560000,mal:45000,res:7,burn:38,claimRate:.08,divRate:.22},
+  "Emergency Medicine":{m:380000,lo:310000,hi:460000,mal:18000,res:3,burn:49.8,claimRate:.08,divRate:.28},
+  "Ophthalmology":{m:417000,lo:330000,hi:510000,mal:12000,res:4,burn:36,claimRate:.04,divRate:.19},
+  "Pulmonology":{m:380000,lo:300000,hi:460000,mal:14000,res:6,burn:42,claimRate:.05,divRate:.21},
+  "OB/GYN":{m:336000,lo:275000,hi:410000,mal:80000,res:4,burn:45.7,claimRate:.18,divRate:.24},
+  "Neurology":{m:350000,lo:280000,hi:420000,mal:15000,res:4,burn:40,claimRate:.05,divRate:.21},
+  "Psychiatry":{m:306000,lo:250000,hi:370000,mal:8000,res:4,burn:37,claimRate:.03,divRate:.19},
+  "Internal Medicine":{m:300000,lo:245000,hi:365000,mal:10000,res:3,burn:42,claimRate:.05,divRate:.22},
+  "Pathology":{m:310000,lo:255000,hi:375000,mal:12000,res:4,burn:38,claimRate:.03,divRate:.18},
+  "Family Medicine":{m:275000,lo:225000,hi:335000,mal:8000,res:3,burn:45,claimRate:.05,divRate:.23},
+  "Pediatrics":{m:260000,lo:210000,hi:315000,mal:12000,res:3,burn:40,claimRate:.04,divRate:.20},
+  "Endocrinology":{m:270000,lo:220000,hi:330000,mal:9000,res:6,burn:39,claimRate:.04,divRate:.20},
 };
 
 // --- STATE TAX RATES ---
@@ -257,6 +259,7 @@ export const DEFAULT_PROFILE = {
   email: "",
   // Medical
   specialty: "Cardiology",
+  role: "Attending",
   state: "NY",
   age: 35,
   stage: "early",
