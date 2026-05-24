@@ -1,10 +1,13 @@
-// Multi-model API proxy
-// Routes requests to DeepSeek or Anthropic based on provider field
-// Env vars needed: ANTHROPIC_API_KEY, DEEPSEEK_API_KEY
+// Multi-model API proxy for PhysicianWealth
+// Env vars: ANTHROPIC_API_KEY, DEEPSEEK_API_KEY (optional)
 
 export async function onRequestPost(context) {
   const ANTHROPIC_KEY = context.env.ANTHROPIC_API_KEY;
   const DEEPSEEK_KEY = context.env.DEEPSEEK_API_KEY;
+
+  if (!ANTHROPIC_KEY) {
+    return jsonRes({ error: "ANTHROPIC_API_KEY not set. Add it in Cloudflare Pages > Settings > Environment Variables." }, 500);
+  }
 
   try {
     const body = await context.request.json();
@@ -15,51 +18,32 @@ export async function onRequestPost(context) {
       return jsonRes({ error: "Missing system or messages" }, 400);
     }
 
-    let apiUrl, headers, reqBody;
-
     if (provider === "deepseek") {
-      // DeepSeek uses OpenAI-compatible API
       if (!DEEPSEEK_KEY) {
-        // Fallback to Haiku if no DeepSeek key
         return routeAnthropic(ANTHROPIC_KEY, "claude-haiku-4-5-20251001", body);
       }
-      apiUrl = "https://api.deepseek.com/chat/completions";
-      headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${DEEPSEEK_KEY}`,
-      };
-      reqBody = {
-        model: body.model || "deepseek-chat",
-        max_tokens: body.max_tokens || 2000,
-        messages: [
-          { role: "system", content: body.system },
-          ...body.messages,
-        ],
-      };
+      const res = await fetch("https://api.deepseek.com/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + DEEPSEEK_KEY,
+        },
+        body: JSON.stringify({
+          model: body.model || "deepseek-chat",
+          max_tokens: body.max_tokens || 2000,
+          messages: [{ role: "system", content: body.system }, ...body.messages],
+        }),
+      });
+      return jsonRes(await res.json());
     } else {
-      // Anthropic (Haiku or Sonnet)
       return routeAnthropic(ANTHROPIC_KEY, model, body);
     }
-
-    const res = await fetch(apiUrl, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(reqBody),
-    });
-
-    const data = await res.json();
-    return jsonRes(data);
-
   } catch (err) {
     return jsonRes({ error: err.message }, 500);
   }
 }
 
 async function routeAnthropic(apiKey, model, body) {
-  if (!apiKey) {
-    return jsonRes({ error: "ANTHROPIC_API_KEY not configured" }, 500);
-  }
-
   const reqBody = {
     model,
     max_tokens: body.max_tokens || 2000,
@@ -67,10 +51,8 @@ async function routeAnthropic(apiKey, model, body) {
     messages: body.messages,
   };
 
-  // Extended thinking for Sonnet synthesis pass
   if (body.thinking && model.includes("sonnet")) {
     reqBody.thinking = { type: "enabled", budget_tokens: 5000 };
-    // Thinking requires higher max_tokens
     reqBody.max_tokens = Math.max(reqBody.max_tokens, 8000);
   }
 
@@ -84,17 +66,13 @@ async function routeAnthropic(apiKey, model, body) {
     body: JSON.stringify(reqBody),
   });
 
-  const data = await res.json();
-  return jsonRes(data);
+  return jsonRes(await res.json());
 }
 
 function jsonRes(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    },
+    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
   });
 }
 

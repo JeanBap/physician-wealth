@@ -1,26 +1,23 @@
 // src/lib/stripe.js
 // Stripe billing + tier gating
-// In production: real Stripe API calls. Demo mode: client-side gating.
+// Live mode with real products
 
 export const STRIPE_CONFIG = {
-  publishableKey: "pk_test_PLACEHOLDER",
+  publishableKey: import.meta.env.VITE_STRIPE_PK || "pk_live_NEEDS_KEY",
   prices: {
-    pro_monthly: "price_pro_monthly_PLACEHOLDER",
-    pro_annual: "price_pro_annual_PLACEHOLDER",
-    premium_monthly: "price_premium_monthly_PLACEHOLDER",
-    premium_annual: "price_premium_annual_PLACEHOLDER",
+    pro_monthly: "price_1Tak1GELqxga7hwXtn95eVkd",
+    pro_annual: "price_1Tak1HELqxga7hwXJmDHghqP",
+    premium_monthly: "price_1Tak1HELqxga7hwXpGmYbdIc",
+    premium_annual: "price_1Tak1IELqxga7hwXjKmKd9Bi",
   },
 };
 
-// Tier hierarchy: free < trial < pro < premium
+// Tier hierarchy: free < pro < trial/premium
 const TIER_LEVEL = { free: 0, trial: 3, pro: 2, premium: 3 };
 
 export function canAccessModule(moduleTier, userTier, trialExpired) {
-  // Premium/admin always has full access
   if (userTier === "premium" || userTier === "admin") return true;
-  // Trial gives full access until expired
   if (userTier === "trial" && !trialExpired) return true;
-  // Check tier level
   const required = TIER_LEVEL[moduleTier] || 0;
   const has = TIER_LEVEL[userTier] || 0;
   return has >= required;
@@ -38,19 +35,33 @@ export function isTrialExpired(trialEnd) {
 }
 
 export async function createCheckoutSession(priceId, email) {
-  // In production: call your API endpoint that creates a Stripe Checkout session
-  // const res = await fetch("/api/stripe/checkout", {
-  //   method: "POST",
-  //   body: JSON.stringify({ priceId, email }),
-  // });
-  // const { url } = await res.json();
-  // window.location.href = url;
-  console.log("Stripe checkout:", priceId, email);
-  alert("Stripe checkout would open here. Connect Stripe keys to enable.");
+  try {
+    const res = await fetch("/api/stripe-checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ priceId, email }),
+    });
+    const { url, error } = await res.json();
+    if (error) throw new Error(error);
+    if (url) window.location.href = url;
+  } catch (err) {
+    console.error("Checkout error:", err);
+    alert("Unable to start checkout. Please try again.");
+  }
 }
 
 export async function openCustomerPortal(email) {
-  // In production: create Stripe billing portal session
-  console.log("Stripe portal for:", email);
-  alert("Stripe portal would open here. Connect Stripe keys to enable.");
+  try {
+    const res = await fetch("/api/stripe-portal", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const { url, error } = await res.json();
+    if (error) throw new Error(error);
+    if (url) window.location.href = url;
+  } catch (err) {
+    console.error("Portal error:", err);
+    alert("Unable to open billing portal. Please try again.");
+  }
 }
