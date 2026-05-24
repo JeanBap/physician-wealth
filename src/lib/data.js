@@ -97,7 +97,7 @@ export const STAGES = {
 export const MODULES = {
   dashboard:     { label:"Dashboard",        icon:"◎", tier:"free",    always:true, cat:"Core" },
   salary:        { label:"Salary",           icon:"◈", tier:"free",    color:"#34d399", cat:"Core" },
-  ficountdown:   { label:"FI Countdown",     icon:"◈", tier:"free",    color:"#34d399", cat:"Core" },
+  ficountdown:   { label:"Financial Independence",     icon:"◈", tier:"free",    color:"#34d399", cat:"Core" },
   spending:      { label:"Spending",         icon:"◎", tier:"free",    color:"#f87171", cat:"Core" },
   loans:         { label:"Loans",            icon:"◇", tier:"pro",     color:"#60a5fa", cat:"Debt" },
   tax:           { label:"Tax Scanner",      icon:"◉", tier:"pro",     color:"#a78bfa", cat:"Tax" },

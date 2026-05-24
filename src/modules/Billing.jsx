@@ -8,7 +8,7 @@ export default function Billing({ profile, navigate, user }) {
   const isAdmin = user?.isAdmin;
 
   const plans = [
-    { id:"free", name:"Free", price:0, annual:0, color:"#ffffff", features:["Dashboard","Salary Benchmarks","FI Countdown","State Arbitrage"], limit:"4 modules" },
+    { id:"free", name:"Free", price:0, annual:0, color:"#ffffff", features:["Dashboard","Salary Benchmarks","Financial Independence","State Arbitrage"], limit:"4 modules" },
     { id:"pro", name:"Pro", price:29, annual:290, color:"#60a5fa", features:["All Free features","Tax Scanner","Loan Optimizer","Spending Analysis","Retirement Planner","Burnout Calculator","Disability Sim","Moonlighting ROI","Practice Buyout","Malpractice Risk","Dual-Physician"], limit:"15 modules", savings:"Save $58/yr" },
     { id:"premium", name:"Premium", price:99, annual:990, color:"#34d399", features:["All Pro features","AI Tax Analysis (Claude)","Contract Scanner","Insurance Optimizer","Document Scanner","AI Chat Advisor","Mercury/Brex Banking","Priority Support"], limit:"All modules + AI", savings:"Save $198/yr" },
   ];

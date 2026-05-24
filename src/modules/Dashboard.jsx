@@ -31,7 +31,7 @@ const Tip = ({ active, payload, label, pre="$" }) => {
 
 const DEFAULT_WIDGETS = [
   { id: "hero", label: "Profile Overview", visible: true },
-  { id: "fi", label: "FI Countdown", visible: true },
+  { id: "fi", label: "Financial Independence", visible: true },
   { id: "summary", label: "Executive Summary", visible: true },
   { id: "stats", label: "Key Metrics", visible: true },
   { id: "wealthChart", label: "Wealth Projection", visible: true },

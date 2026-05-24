@@ -4,7 +4,7 @@ import { MODULES, SPECIALTIES } from "../lib/data";
 const FEATURES = [
   { icon:"📊", title:"AI Tax Analysis", desc:"Claude double-pass finds $15-50K in missed deductions.", color:"#34d399" },
   { icon:"🏥", title:"20 Specialties", desc:"Salary, malpractice, burnout data for every specialty.", color:"#60a5fa" },
-  { icon:"🎯", title:"FI Countdown", desc:"Live countdown to financial independence with milestones.", color:"#fbbf24" },
+  { icon:"🎯", title:"Financial Independence", desc:"Live countdown to financial independence with milestones.", color:"#fbbf24" },
   { icon:"⚖️", title:"State Arbitrage", desc:"Tax + cost of living optimizer across all 50 states.", color:"#a78bfa" },
   { icon:"📋", title:"Contract Scanner", desc:"AI reads employment contracts and flags unfavorable clauses.", color:"#f472b6" },
   { icon:"🏠", title:"Real Estate", desc:"Property ROI, physician mortgages, syndication analysis.", color:"#fbbf24" },
@@ -195,7 +195,7 @@ export default function Landing({ navigate }) {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {[
-            { tier:"Free", price:"$0", desc:"Core tools forever", features:["Dashboard + FI Countdown","Salary Benchmarking","Spending Analysis","Emergency Fund","Net Worth Tracker"], color:"#ffffff", border:"rgba(255,255,255,0.06)" },
+            { tier:"Free", price:"$0", desc:"Core tools forever", features:["Dashboard + Financial Independence","Salary Benchmarking","Spending Analysis","Emergency Fund","Net Worth Tracker"], color:"#ffffff", border:"rgba(255,255,255,0.06)" },
             { tier:"Pro", price:"$29", per:"/mo", desc:"Full analytics suite", features:["Everything in Free","Tax Scanner + Calendar","Loan Optimizer","State Arbitrage","Retirement + RE Planning","Insurance + Disability","Practice Buyout + Moonlighting","Burnout + Malpractice Risk","Dual-Physician + Estate Plan","Document Vault","Bank Connections"], color:"#60a5fa", border:"rgba(96,165,250,0.2)", popular:true },
             { tier:"Premium", price:"$99", per:"/mo", desc:"AI-powered analysis", features:["Everything in Pro","AI Tax Analysis (double-pass)","Contract Scanner (AI)","Document Scanner (AI)","AI Chat Advisor","Full context-aware AI","Priority support"], color:"#34d399", border:"rgba(52,211,153,0.2)" },
           ].map((p, i) => (
