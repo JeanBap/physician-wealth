@@ -239,14 +239,11 @@ export default function App() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto w-full relative">
+      <main className="flex-1 overflow-y-auto w-full relative min-h-screen">
         {/* Top bar */}
         <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-white/[0.04] sticky top-0 z-10" style={{ background:"rgba(6,7,11,0.8)", backdropFilter:"blur(16px)" }}>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden text-white/55 hover:text-white/70 text-xl p-1">
-            ☰
-          </button>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="hidden md:block text-white/40 hover:text-white/55 text-sm p-1">
-            {sidebarOpen ? "◁" : "▷"}
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/40 hover:text-white/60 text-lg p-1 transition">
+            {sidebarOpen ? "" : "☰"}
           </button>
           <p className="text-xs md:text-sm text-white/55 font-medium">{modMeta?.label || "Dashboard"}</p>
           <div className="flex items-center gap-2">
