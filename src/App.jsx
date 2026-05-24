@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 
 import React from "react";
 
@@ -116,6 +116,7 @@ export default function App() {
       setView(target);
     } else {
       setView("app");
+      window.location.hash = "#/" + target;
       setPage(target);
     }
   }, []);
