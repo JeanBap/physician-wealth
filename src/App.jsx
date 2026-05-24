@@ -59,6 +59,8 @@ import TaxCalendar from "./modules/TaxCalendar";
 import EmergencyFund from "./modules/EmergencyFund";
 import IncomeMap from "./modules/IncomeMap";
 import Marketplace from "./modules/Marketplace";
+import OfferCompare from "./modules/OfferCompare";
+import Admin from "./modules/Admin";
 
 const MODULE_COMPONENTS = {
   dashboard: Dashboard,
@@ -90,6 +92,8 @@ const MODULE_COMPONENTS = {
   emergency: EmergencyFund,
   incomemap: IncomeMap,
   marketplace: Marketplace,
+  offercompare: OfferCompare,
+  admin: Admin,
 };
 
 export default function App() {
