@@ -3,7 +3,7 @@
 // Live mode with real products
 
 export const STRIPE_CONFIG = {
-  publishableKey: import.meta.env.VITE_STRIPE_PK || "pk_live_NEEDS_KEY",
+  publishableKey: "pk_live_51Rgl1VELqxga7hwX9inCVLCjcGl4hC612LV0m9KotCseRO4nvh7rosgmDkpl2O4tHFJHjACRhntBYxRr8UjZEQlY00drSh9yRK",
   prices: {
     pro_monthly: "price_1Tak1GELqxga7hwXtn95eVkd",
     pro_annual: "price_1Tak1HELqxga7hwXJmDHghqP",
