@@ -57,6 +57,8 @@ import DocumentVault from "./modules/DocumentVault";
 import NetWorthTracker from "./modules/NetWorthTracker";
 import TaxCalendar from "./modules/TaxCalendar";
 import EmergencyFund from "./modules/EmergencyFund";
+import IncomeMap from "./modules/IncomeMap";
+import Marketplace from "./modules/Marketplace";
 
 const MODULE_COMPONENTS = {
   dashboard: Dashboard,
@@ -86,11 +88,21 @@ const MODULE_COMPONENTS = {
   nwtracker: NetWorthTracker,
   taxcalendar: TaxCalendar,
   emergency: EmergencyFund,
+  incomemap: IncomeMap,
+  marketplace: Marketplace,
 };
 
 export default function App() {
   const [view, setView] = useState("landing"); // landing | auth | onboarding | app
-  const [page, setPage] = useState("dashboard");
+  // Hash-based routing for URL slugs
+  const getHash = () => window.location.hash.replace("#/", "") || "dashboard";
+  const [page, setPage] = useState(getHash);
+  
+  useEffect(() => {
+    const onHash = () => setPage(getHash());
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
   const [profile, setProfile] = useState({ ...DEFAULT_PROFILE });
   const [user, setUser] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -161,7 +173,7 @@ export default function App() {
                   const active = page === m.key;
                   const locked = !canAccessModule(m.tier, userTier, trialExpired);
                   return (
-                    <button key={m.key} onClick={() => { setPage(m.key); setSidebarOpen(false); }}
+                    <button key={m.key} onClick={() => { navigate(m.key); setSidebarOpen(false); }}
                       className={`w-full text-left px-4 py-2.5 flex items-center justify-between transition ${active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/50 hover:text-white/65 hover:bg-white/[0.02]"} ${locked ? "opacity-40" : ""}`}>
                       <span className="text-sm truncate">{m.label}</span>
                       {locked && <span className="text-xs text-white/40">&#128274;</span>}
@@ -196,7 +208,7 @@ export default function App() {
                 const active = page === m.key;
                 const locked = !canAccessModule(m.tier, userTier, trialExpired);
                 return (
-                  <button key={m.key} onClick={() => { setPage(m.key); setSidebarOpen(false); }}
+                  <button key={m.key} onClick={() => { navigate(m.key); setSidebarOpen(false); }}
                     className={`w-full text-left px-4 py-2.5 flex items-center justify-between transition ${
                       active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/75 hover:text-white/65 hover:bg-white/[0.02]"
                     } ${locked ? "opacity-40" : ""}`}>
@@ -214,8 +226,8 @@ export default function App() {
         <div className="p-4 border-t border-white/[0.04]">
           <p className="text-xs text-white/65 truncate">{user?.email || "Demo"}</p>
           <div className="flex gap-3 mt-2">
-            <button onClick={() => { setPage("settings"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Settings</button>
-            <button onClick={() => { setPage("billing"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Billing</button>
+            <button onClick={() => { navigate("settings"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Settings</button>
+            <button onClick={() => { navigate("billing"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Billing</button>
             <button onClick={() => { setUser(null); setView("landing"); }} className="text-xs text-white/55 hover:text-white/55">Logout</button>
           </div>
         </div>

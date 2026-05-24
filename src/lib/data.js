@@ -115,6 +115,8 @@ export const MODULES = {
   burnout:       { label:"Burnout Cost",     icon:"◉", tier:"pro",     color:"#f87171", cat:"Career" },
   plaid:         { label:"Linked Accounts",  icon:"◈", tier:"pro",     color:"#818cf8", cat:"Banking" },
   vault:         { label:"Document Vault",   icon:"◆", tier:"pro",     color:"#60a5fa", cat:"Core" },
+  incomemap:     { label:"Income Map",        icon:"◎", tier:"free",    color:"#60a5fa", cat:"Core" },
+  marketplace:   { label:"Providers",         icon:"◆", tier:"free",    color:"#fbbf24", cat:"Core" },
   nwtracker:     { label:"Net Worth Track",  icon:"◎", tier:"free",    color:"#34d399", cat:"Core" },
   taxcalendar:   { label:"Tax Calendar",     icon:"◈", tier:"pro",     color:"#a78bfa", cat:"Tax" },
   emergency:     { label:"Emergency Fund",   icon:"◇", tier:"free",    color:"#fbbf24", cat:"Core" },
@@ -309,3 +311,52 @@ export const ACCOUNT_COLORS = {
   investment: "#fbbf24",
   credit: "#f87171",
 };
+
+// Regional physician compensation (Medscape 2025 + Doximity 2025)
+export const REGION_SALARY = {
+  // Metro areas: [avg all physicians, COL-adjusted, growth%]
+  metros: {
+    "New York, NY": { avg: 365000, col: 128.7, growth: 2.1 },
+    "Los Angeles, CA": { avg: 370000, col: 138.5, growth: 1.8 },
+    "Chicago, IL": { avg: 380000, col: 93.4, growth: 3.2 },
+    "Houston, TX": { avg: 395000, col: 92.1, growth: 4.1 },
+    "Dallas, TX": { avg: 390000, col: 95.0, growth: 3.8 },
+    "Miami, FL": { avg: 360000, col: 112.0, growth: 2.5 },
+    "Atlanta, GA": { avg: 385000, col: 93.4, growth: 3.5 },
+    "Boston, MA": { avg: 355000, col: 148.4, growth: 1.5 },
+    "San Francisco, CA": { avg: 375000, col: 170.0, growth: 0.8 },
+    "Seattle, WA": { avg: 380000, col: 114.2, growth: 2.8 },
+    "Denver, CO": { avg: 375000, col: 105.0, growth: 3.0 },
+    "Phoenix, AZ": { avg: 385000, col: 102.2, growth: 4.5 },
+    "Minneapolis, MN": { avg: 390000, col: 97.7, growth: 3.3 },
+    "Nashville, TN": { avg: 400000, col: 91.1, growth: 5.2 },
+    "Charlotte, NC": { avg: 395000, col: 95.7, growth: 4.0 },
+    "Indianapolis, IN": { avg: 405000, col: 90.5, growth: 4.8 },
+    "Columbus, OH": { avg: 395000, col: 91.0, growth: 3.5 },
+    "Kansas City, MO": { avg: 410000, col: 88.4, growth: 5.0 },
+    "Salt Lake City, UT": { avg: 385000, col: 100.7, growth: 3.2 },
+    "Pittsburgh, PA": { avg: 390000, col: 92.0, growth: 2.8 },
+  },
+  // Regions: avg salary (Medscape 2025)
+  regions: {
+    "Midwest": 385000,
+    "South": 375000,
+    "West": 370000,
+    "Northeast": 360000,
+  },
+  national: 374000,
+};
+
+// Recommended provider categories for marketplace
+export const PROVIDER_CATEGORIES = [
+  { id:"tax", name:"Physician Tax Specialists", desc:"CPAs who specialize in physician W-2 + 1099 optimization", icon:"📊", examples:["Physician Tax Advisors","Earned CPA","WCG (formerly Watson CPA)"] },
+  { id:"wealth", name:"Fee-Only Wealth Managers", desc:"Fiduciary advisors specializing in physician finances", icon:"💰", examples:["Earned Wealth","Physician Wealth Services","WCI-recommended advisors"] },
+  { id:"insurance", name:"Insurance Brokers", desc:"Own-occupation DI + umbrella specialists for MDs", icon:"🛡️", examples:["Pattern Insurance","WhiteCoat DI","Guardian Direct"] },
+  { id:"loans", name:"Loan Refinancing", desc:"Student loan refi with physician-specific rates", icon:"🎯", examples:["SoFi","Laurel Road","Splash Financial"] },
+  { id:"mortgage", name:"Physician Mortgages", desc:"0% down, no PMI for MDs. Major banks + regional lenders", icon:"🏠", examples:["KeyBank","Regions","Fifth Third","Citizens"] },
+  { id:"legal", name:"Asset Protection Attorneys", desc:"Trusts, LLCs, and estate planning for high-income MDs", icon:"⚖️", examples:["Physician's Resource","Anderson Business Advisors"] },
+  { id:"contracts", name:"Contract Review", desc:"Employment contract attorneys specializing in physician agreements", icon:"📝", examples:["Contract Diagnostics","Resolve Physician Agency"] },
+  { id:"banking", name:"Business Banking", desc:"High-yield accounts for practice owners", icon:"🏦", examples:["Mercury","Brex","Novo"] },
+  { id:"realestate", name:"RE Investment Platforms", desc:"Syndications and crowdfunding for accredited investors", icon:"🏗️", examples:["CrowdStreet","Fundrise","Origin Investments"] },
+  { id:"disability", name:"Disability Insurance", desc:"Own-occupation carriers with physician discounts", icon:"🔒", examples:["Guardian","MassMutual","Principal","Standard"] },
+];
