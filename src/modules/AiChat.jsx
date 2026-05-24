@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { SPECIALTIES, fmt } from "../lib/data";
 import { Section, Card, Btn } from "../components/ui";
-import { analyzeWithContext } from "../lib/ai";
+import { analyzeTriple, analyzeWithContext } from "../lib/ai";
 import { getUserContext } from "../lib/supabase";
 
 export default function AiChat({ profile, user }) {
@@ -20,7 +20,11 @@ export default function AiChat({ profile, user }) {
     })();
   }, [user]);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  useEffect(() => {
+    // Scroll within chat container only, not the whole page
+    const container = bottomRef.current?.parentElement;
+    if (container) container.scrollTop = container.scrollHeight;
+  }, [messages]);
 
   const send = async () => {
     if (!input.trim() || loading) return;

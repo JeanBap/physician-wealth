@@ -184,6 +184,26 @@ export default function Dashboard({ profile, navigate }) {
     if (!profile.hasUmbrella) items.push({ p:"medium", a:"Add umbrella liability", d:"High-income physicians are lawsuit targets. $2M umbrella costs ~$500/yr.", due:new Date(today.getFullYear(),today.getMonth()+1,1), mod:"insurance" });
     if (profile.rentalPropertyValue === 0 && sal > 300000) items.push({ p:"low", a:"Explore real estate investing", d:"Physician mortgage: 0% down, no PMI. Tax benefits via depreciation.", due:new Date(today.getFullYear(),today.getMonth()+2,15), mod:"realestate" });
     if (spec.burn > 40) items.push({ p:"low", a:"Take burnout assessment", d:`${spec.burn}% burnout rate. Quantify the hidden financial cost.`, due:new Date(today.getFullYear(),today.getMonth()+1,1), mod:"burnout" });
+    // Retirement
+    if ((profile.retirement || 0) < sal * 2) items.push({ p:"high", a:"Max retirement contributions", d:`Retirement balance ${fN(profile.retirement||0)} is below 2x salary. Backdoor Roth + 401k = $30K/yr tax-free growth.`, due:new Date(today.getFullYear(),11,31), mod:"backdoorroth" });
+    // Emergency fund
+    const monthlySpend = Math.round((sal - fedTax(sal, profile.married) - Math.round(sal * (STATE_TAX[state]||0))) / 12 * 0.7);
+    const efMonths = (profile.savings||0) / (monthlySpend || 1);
+    if (efMonths < 6) items.push({ p:"high", a:`Build emergency fund to 6 months`, d:`Currently ${efMonths.toFixed(1)} months. Target: ${fN(monthlySpend*6)}. Gap: ${fN(Math.max(0,monthlySpend*6-(profile.savings||0)))}.`, due:new Date(today.getFullYear(),today.getMonth()+1,15), mod:"emergency" });
+    // Salary negotiation
+    if (sal < spec.m) items.push({ p:"medium", a:"You may be underpaid", d:`Your salary ${fN(sal)} is below the ${profile.specialty} median of ${fN(spec.m)}. Review negotiation toolkit.`, due:new Date(today.getFullYear(),today.getMonth()+2,1), mod:"negotiate" });
+    // Net worth tracking
+    if (!localStorage.getItem("pw_nw_history")) items.push({ p:"low", a:"Start tracking net worth", d:"Monthly net worth snapshots show progress and keep you accountable.", due:new Date(today.getFullYear(),today.getMonth(),today.getDate()+5), mod:"nwtracker" });
+    // Community
+    if (!localStorage.getItem("pw_community")) items.push({ p:"low", a:"Join the physician community", d:`${profile.specialty} physicians sharing salary data, contract terms, and employer reviews.`, due:new Date(today.getFullYear(),today.getMonth()+1,1), mod:"community" });
+    // Credential tracker
+    items.push({ p:"low", a:"Set up credential tracking", d:"CME deadlines, license renewals, board certification dates. Never miss a deadline.", due:new Date(today.getFullYear(),today.getMonth()+2,1), mod:"credentials" });
+    // Dual physician
+    if (profile.hasSpouse && profile.spouseSalary > 0) items.push({ p:"medium", a:"Run dual-physician tax analysis", d:`Combined income ${fN(sal + profile.spouseSalary)}. Marriage penalty could cost ${fN(Math.round((sal+profile.spouseSalary)*0.02))}/yr.`, due:new Date(today.getFullYear(),today.getMonth()+1,1), mod:"dualphys" });
+    // W-4 optimizer
+    if (profile.moonlightIncome > 0) items.push({ p:"medium", a:"Optimize W-4 withholding", d:`Moonlighting income ${fN(profile.moonlightIncome)} may cause underpayment penalty. Adjust W-4 now.`, due:new Date(today.getFullYear(),today.getMonth(),today.getDate()+14), mod:"w4optimizer" });
+    // Lifestyle creep
+    if (profile.stage === "mid" || profile.stage === "senior") items.push({ p:"low", a:"Check for lifestyle creep", d:"Mid-career physicians lose $200K+ to unnoticed spending growth. Run the detector.", due:new Date(today.getFullYear(),today.getMonth()+2,1), mod:"creep" });
     return items;
   }, [loans, sal, state, spec, profile.specialty]);
 

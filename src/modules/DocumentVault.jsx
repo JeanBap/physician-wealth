@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn, Badge } from "../components/ui";
 import { saveDocument, getDocuments, updateDocument, deleteDocument, getUserContext, saveUserContext } from "../lib/supabase";
-import { analyzeDouble } from "../lib/ai";
+import { analyzeTriple, analyzeDouble } from "../lib/ai";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const Tip = ({ active, payload, label }) => {
@@ -160,7 +160,7 @@ Return a JSON object with:
 
 Be specific with numbers. Reference the physician's specialty and income level.`;
 
-      const result = await analyzeDouble(systemPrompt, doc.content_text || "No content available");
+      const result = await analyzeTriple(systemPrompt, doc.content_text || "No content available");
 
       let parsed = {};
       try {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SPECIALTIES, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn } from "../components/ui";
-import { analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
+import { analyzeTriple, analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
 import { saveDocument } from "../lib/supabase";
 
 const CLAUSES = [
@@ -74,7 +74,7 @@ Return ONLY valid JSON:
       ];
 
       setProgress("AI Pass 1 of 2...");
-      const analysis = await analyzeDouble(systemPrompt, userContent);
+      const analysis = await analyzeTriple(systemPrompt, userContent);
       setProgress("Parsing results...");
       const parsed = parseAIResponse(analysis.merged);
       if (parsed) setResult(parsed);

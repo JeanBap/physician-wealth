@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
-import { Section, Card, Alert, Badge, Takeaway } from "../components/ui";
+import { Section, Card, Alert, Badge, Takeaway, Stat } from "../components/ui";
 
 const ITEMS = [
   { cat:"Compensation", items:[

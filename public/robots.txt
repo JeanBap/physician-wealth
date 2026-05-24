@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Sitemap: https://physician-wealth.pages.dev/sitemap.xml
+
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /

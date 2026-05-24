@@ -1,0 +1,26 @@
+# PhysicianWealth - Financial Command Center for US Physicians
+
+## About
+PhysicianWealth is an AI-powered financial planning platform built exclusively for US physicians. 48 modules covering tax optimization, salary benchmarking, loan strategies, retirement planning, real estate investing, estate planning, insurance review, contract analysis, and community discussions.
+
+## Key Features
+- 20 medical specialties with salary, burnout, malpractice, and compensation data
+- AI double-pass document analysis (tax returns, contracts, insurance policies)
+- 100-metro income comparison with COL adjustment
+- Anonymous physician community with verified employer reviews
+- Crowdsourced salary database with contract terms
+- Financial Independence calculator with salary growth trajectory
+- Backdoor Roth IRA wizard, W-4 optimizer, RVU calculator
+- Offer comparison tool with lifetime financial impact modeling
+- Provider marketplace with vetted physician-specific specialists
+
+## Pricing
+- Free: Dashboard, Salary Benchmarks, FI Calculator, Spending, Emergency Fund, Net Worth Tracker, Checklists, Community, Wellness
+- Pro ($29/mo): All calculators, tax tools, insurance, real estate, estate planning, contracts, document vault
+- Premium ($99/mo): AI-powered analysis, contract scanner, AI advisor, document scanner
+
+## Community
+Anonymous physician discussions covering salary negotiation, contract terms, burnout, career transitions, employer reviews, and financial strategies. Employer reviews are verified via work email domain.
+
+## Contact
+Website: https://physician-wealth.pages.dev

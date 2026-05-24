@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SPECIALTIES, STATE_TAX, fedTax, fica, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn , Takeaway } from "../components/ui";
-import { analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
+import { analyzeTriple, analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
 import { saveDocument } from "../lib/supabase";
 
 const FALLBACK_STRATEGIES = [
@@ -68,7 +68,7 @@ Return ONLY valid JSON:
       ];
 
       setProgress("AI Pass 1 of 2...");
-      const analysis = await analyzeDouble(systemPrompt, userContent);
+      const analysis = await analyzeTriple(systemPrompt, userContent);
 
       setProgress("Parsing results...");
       const parsed = parseAIResponse(analysis.merged);
@@ -107,7 +107,7 @@ Return ONLY valid JSON:
         background: "radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.06) 0%, transparent 60%)",
       }}>
         <p className="text-white/55 text-sm font-bold mb-1">Upload Tax Documents</p>
-        <p className="text-xs text-white/55 mb-4">W-2, 1099, tax returns, K-1s. AI analyzes twice for accuracy.</p>
+        <p className="text-xs text-white/55 mb-4">W-2, 1099, tax returns, K-1s. AI triple-pass analysis (DeepSeek + Haiku + Sonnet) for accuracy.</p>
         <input type="file" accept=".pdf,.png,.jpg,.jpeg,.csv,.txt" onChange={e => setFile(e.target.files[0])}
           className="hidden" id="tax-upload" />
         <label htmlFor="tax-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/65 hover:bg-white/[0.08] transition inline-block">

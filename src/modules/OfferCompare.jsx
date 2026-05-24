@@ -93,8 +93,15 @@ export default function OfferCompare({ profile }) {
               <Inp label="Base salary" value={o.salary} onChange={v => updateOffer(o.id,"salary",+v)} type="number" pre="$" />
               <Inp label="Annual bonus" value={o.bonus} onChange={v => updateOffer(o.id,"bonus",+v)} type="number" pre="$" />
               <Inp label="Sign-on bonus" value={o.signOn} onChange={v => updateOffer(o.id,"signOn",+v)} type="number" pre="$" />
-              <Inp label="State" value={o.state} onChange={v => updateOffer(o.id,"state",v)}
+              <Inp label="State" value={o.state} onChange={v => { updateOffer(o.id,"state",v); const m = METROS_100.find(x=>x.s===v); if(m) updateOffer(o.id,"city",m.n); }}
                 options={Object.entries(STATE_NAMES).map(([k,v]) => ({v:k,l:v}))} />
+              <Inp label="City/Metro" value={o.city} onChange={v => updateOffer(o.id,"city",v)}
+                options={[{v:"",l:"Select metro..."}, ...METROS_100.filter(m=>!o.state || m.s===o.state).map(m=>({v:m.n,l:`${m.n} (COL: ${STATE_COL[m.s]||100})`}))]} />
+              <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs" style={{background:"var(--card)",border:"1px solid var(--border)"}}>
+                <span style={{color:"var(--text3)"}}>COL: <strong style={{color:"var(--accent)"}}>{STATE_COL[o.state]||100}</strong>/100</span>
+                <span style={{color:"var(--text3)"}}>Tax: <strong style={{color:STATE_TAX[o.state]>0.05?"var(--accent)":"var(--text2)"}}>{((STATE_TAX[o.state]||0)*100).toFixed(1)}%</strong></span>
+                {METROS_100.find(m=>m.s===o.state) && <span style={{color:"var(--text3)"}}>Median home: <strong style={{color:"var(--text2)"}}>{fmt(METROS_100.find(m=>m.s===o.state)?.home||0)}</strong></span>}
+              </div>
               <Inp label="Rent or Buy" value={o.rentOrBuy} onChange={v => updateOffer(o.id,"rentOrBuy",v)}
                 options={[{v:"rent",l:"Rent"},{v:"buy",l:"Buy"}]} />
               <Inp label="Commute (min)" value={o.commuteMin} onChange={v => updateOffer(o.id,"commuteMin",+v)} type="number" />

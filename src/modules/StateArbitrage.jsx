@@ -156,7 +156,7 @@ export default function StateArbitrage({ profile }) {
       <Takeaway items={[
         `Best move: ${best?.name || "Florida"}. ${showCOL ? `Real gain: ${fmt(best?.sortValue||0)}/yr.` : `Tax savings: ${fmt(best?.sortValue||0)}/yr.`} Over 20 years: ${fmt(best?.twentyYr||0)}.`,
         showCOL ? `COL-adjusted is more accurate. Tax savings can be offset by higher housing.` : `Toggle to Tax + COL for real purchasing power comparison.`,
-        `${STATE_TAX[currentState] > 0.05 ? `${STATE_NAMES[currentState]} taxes ${(STATE_TAX[currentState]*100).toFixed(1)}%. That's ${fN(Math.round(sal*STATE_TAX[currentState]))}/yr in state tax.` : "Already in a low-tax state. Focus on federal strategies."}`,
+        `${STATE_TAX[currentState] > 0.05 ? `${STATE_NAMES[currentState]} taxes ${(STATE_TAX[currentState]*100).toFixed(1)}%. That's ${fN(Math.round(salary*STATE_TAX[currentState]))}/yr in state tax.` : "Already in a low-tax state. Focus on federal strategies."}`,
       ]} />
     </div>
   );

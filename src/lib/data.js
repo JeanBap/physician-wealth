@@ -133,6 +133,10 @@ export const MODULES = {
   negotiate:      { label:"Negotiation Kit",     icon:"◎", tier:"pro",        color:"#fbbf24", cat:"Career" },
   debtpayoff:     { label:"Debt Payoff",         icon:"◎", tier:"pro",        color:"#f87171", cat:"Debt" },
   backdoorroth:   { label:"Backdoor Roth",       icon:"◎", tier:"pro",        color:"#34d399", cat:"Tax" },
+  rvucalc:        { label:"RVU Calculator",      icon:"◎", tier:"pro",        color:"#60a5fa", cat:"Career" },
+  wellness:       { label:"Wellness",            icon:"◎", tier:"free",    color:"#fbbf24", cat:"Wellness" },
+  salarydb:       { label:"Salary Database",     icon:"◎", tier:"free",    color:"#34d399", cat:"Social" },
+  community:      { label:"Community",           icon:"◎", tier:"free",    color:"#f472b6", cat:"Social" },
   settings:      { label:"Settings",         icon:"◎", tier:"free",    always:true, cat:"System" },
   billing:       { label:"Billing",          icon:"◎", tier:"free",    always:true, cat:"System" },
 };

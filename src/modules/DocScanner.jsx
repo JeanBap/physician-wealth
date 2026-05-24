@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn } from "../components/ui";
-import { analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
+import { analyzeTriple, analyzeDouble, parseAIResponse, fileToBase64 } from "../lib/ai";
 import { saveDocument } from "../lib/supabase";
 
 export default function DocScanner({ profile }) {
@@ -48,7 +48,7 @@ Identify the document type and provide a thorough analysis. Return ONLY valid JS
       ];
 
       setProgress("AI Pass 1 of 2...");
-      const analysis = await analyzeDouble(systemPrompt, userContent);
+      const analysis = await analyzeTriple(systemPrompt, userContent);
       setProgress("Parsing results...");
       const parsed = parseAIResponse(analysis.merged);
       if (parsed) setResult(parsed);
@@ -66,7 +66,7 @@ Identify the document type and provide a thorough analysis. Return ONLY valid JS
           background: "radial-gradient(ellipse at 50% 0%, rgba(96,165,250,0.06) 0%, transparent 60%)",
         }}>
           <p className="text-white/55 text-sm font-bold mb-1">Upload Any Financial Document</p>
-          <p className="text-xs text-white/55 mb-4">Contracts, insurance, tax returns, loan statements, benefits packages. AI analyzes twice for accuracy.</p>
+          <p className="text-xs text-white/55 mb-4">Contracts, insurance, tax returns, loan statements, benefits packages. AI triple-pass analysis (DeepSeek + Haiku + Sonnet) for accuracy.</p>
           <input type="file" accept=".pdf,.png,.jpg,.jpeg,.docx,.csv,.txt" onChange={e => setFile(e.target.files[0])}
             className="hidden" id="doc-upload" />
           <label htmlFor="doc-upload" className="cursor-pointer px-4 py-2 bg-white/[0.05] border border-white/[0.1] rounded-xl text-xs text-white/65 hover:bg-white/[0.08] transition inline-block">

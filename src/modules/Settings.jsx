@@ -212,12 +212,11 @@ export default function Settings({ profile, setProfile, navigate, user }) {
                     <p className="text-xs text-white/50">{m.tier === "free" ? "Free" : m.tier === "pro" ? "Pro" : "Premium"} | {m.cat}</p>
                   </div>
                 </div>
-                <Toggle value={profile.priorities?.includes(k) !== false}
-                  onChange={() => setProfile(prev => ({
-                    ...prev, priorities: prev.priorities?.includes(k)
-                      ? prev.priorities.filter(p => p !== k)
-                      : [...(prev.priorities || []), k]
-                  }))} />
+                <Toggle value={!(profile.disabledModules || []).includes(k)}
+                  onChange={() => setProfile(prev => {
+                    const disabled = prev.disabledModules || [];
+                    return { ...prev, disabledModules: disabled.includes(k) ? disabled.filter(p => p !== k) : [...disabled, k] };
+                  })} />
               </div>
             ))}
           </div>

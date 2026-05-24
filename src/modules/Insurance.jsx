@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { analyzeDouble } from "../lib/ai";
+import { analyzeTriple, analyzeDouble } from "../lib/ai";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -42,7 +42,7 @@ export default function Insurance({ profile }) {
     const f = e.target.files[0]; if (!f) return;
     setFile(f); setLoading(true);
     const text = await f.text();
-    const result = await analyzeDouble("You are an insurance analyst.", text + "\n\n" + `Merge and deduplicate findings.`);
+    const result = await analyzeTriple("You are an insurance analyst.", text + "\n\n" + `Merge and deduplicate findings.`);
     setAnalysis(result); setLoading(false);
   };
 

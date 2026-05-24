@@ -1,0 +1,66 @@
+// Competitor comparison matrix
+export const COMPETITORS = [
+  { name:"PhysicianWealth", us:true, price:"$0-99/mo", features:{
+    salary:true, fi:true, tax:true, loans:true, retirement:true, realestate:true, estate:true, insurance:true,
+    contracts:true, burnout:true, stateArb:true, dualPhys:true, moonlight:true, malpractice:true, disability:true,
+    community:true, salaryDb:true, wellness:true, rvu:true, negotiate:true, w4:true, checklists:true,
+    charitable:true, locum:true, partnership:true, debtPayoff:true, backdoorRoth:true, lifestyleCreep:true,
+    offerCompare:true, marketplace:true, docVault:true, aiAnalysis:true, credentials:true, incomeMap:true,
+    netWorthTrack:true, emergencyFund:true, taxCalendar:true, bankConnect:true, pwa:true,
+  }},
+  { name:"Earned Wealth", price:"$2,400+/yr", features:{
+    salary:false, fi:true, tax:true, loans:true, retirement:true, realestate:false, estate:true, insurance:true,
+    contracts:false, burnout:false, stateArb:false, dualPhys:false, moonlight:false, malpractice:false, disability:false,
+    community:false, salaryDb:false, wellness:false, rvu:false, negotiate:false, w4:false, checklists:false,
+    charitable:true, locum:false, partnership:false, debtPayoff:true, backdoorRoth:true, lifestyleCreep:false,
+    offerCompare:false, marketplace:false, docVault:false, aiAnalysis:false, credentials:false, incomeMap:false,
+    netWorthTrack:true, emergencyFund:false, taxCalendar:false, bankConnect:true, pwa:false,
+  }},
+  { name:"White Coat Investor", price:"Free (content)", features:{
+    salary:false, fi:false, tax:false, loans:false, retirement:false, realestate:false, estate:false, insurance:false,
+    contracts:false, burnout:false, stateArb:false, dualPhys:false, moonlight:false, malpractice:false, disability:false,
+    community:true, salaryDb:false, wellness:false, rvu:false, negotiate:false, w4:false, checklists:false,
+    charitable:false, locum:false, partnership:false, debtPayoff:false, backdoorRoth:false, lifestyleCreep:false,
+    offerCompare:false, marketplace:true, docVault:false, aiAnalysis:false, credentials:false, incomeMap:false,
+    netWorthTrack:false, emergencyFund:false, taxCalendar:false, bankConnect:false, pwa:false,
+  }},
+  { name:"Marit Health", price:"Free", features:{
+    salary:true, fi:false, tax:false, loans:false, retirement:false, realestate:false, estate:false, insurance:false,
+    contracts:false, burnout:false, stateArb:false, dualPhys:false, moonlight:false, malpractice:false, disability:false,
+    community:true, salaryDb:true, wellness:false, rvu:false, negotiate:false, w4:false, checklists:false,
+    charitable:false, locum:false, partnership:false, debtPayoff:false, backdoorRoth:false, lifestyleCreep:false,
+    offerCompare:false, marketplace:false, docVault:false, aiAnalysis:false, credentials:false, incomeMap:false,
+    netWorthTrack:false, emergencyFund:false, taxCalendar:false, bankConnect:false, pwa:false,
+  }},
+  { name:"Doximity", price:"Free", features:{
+    salary:true, fi:false, tax:false, loans:false, retirement:false, realestate:false, estate:false, insurance:false,
+    contracts:false, burnout:false, stateArb:false, dualPhys:false, moonlight:false, malpractice:false, disability:false,
+    community:true, salaryDb:true, wellness:false, rvu:false, negotiate:false, w4:false, checklists:false,
+    charitable:false, locum:false, partnership:false, debtPayoff:false, backdoorRoth:false, lifestyleCreep:false,
+    offerCompare:false, marketplace:false, docVault:false, aiAnalysis:false, credentials:false, incomeMap:false,
+    netWorthTrack:false, emergencyFund:false, taxCalendar:false, bankConnect:false, pwa:false,
+  }},
+  { name:"SalaryDr", price:"Free", features:{
+    salary:true, fi:false, tax:false, loans:false, retirement:false, realestate:false, estate:false, insurance:false,
+    contracts:false, burnout:false, stateArb:false, dualPhys:false, moonlight:false, malpractice:false, disability:false,
+    community:true, salaryDb:true, wellness:false, rvu:false, negotiate:true, w4:false, checklists:false,
+    charitable:false, locum:false, partnership:false, debtPayoff:false, backdoorRoth:false, lifestyleCreep:false,
+    offerCompare:false, marketplace:false, docVault:false, aiAnalysis:false, credentials:false, incomeMap:false,
+    netWorthTrack:false, emergencyFund:false, taxCalendar:false, bankConnect:false, pwa:false,
+  }},
+];
+
+export const FEATURE_LABELS = {
+  salary:"Salary Benchmarks", fi:"FI Calculator", tax:"Tax Scanner", loans:"Loan Optimizer",
+  retirement:"Retirement Planner", realestate:"Real Estate", estate:"Estate Planning", insurance:"Insurance Review",
+  contracts:"Contract Scanner (AI)", burnout:"Burnout Calculator", stateArb:"State Arbitrage + COL",
+  dualPhys:"Dual-Physician", moonlight:"Moonlighting ROI", malpractice:"Malpractice Risk",
+  disability:"Disability Sim", community:"Community Forum", salaryDb:"Salary Database",
+  wellness:"Wellness Resources", rvu:"RVU Calculator", negotiate:"Negotiation Kit",
+  w4:"W-4 Optimizer", checklists:"Financial Checklists", charitable:"Charitable Giving",
+  locum:"Locum Rates", partnership:"Partnership Track", debtPayoff:"Debt Payoff Visualizer",
+  backdoorRoth:"Backdoor Roth Wizard", lifestyleCreep:"Lifestyle Creep", offerCompare:"Offer Comparison",
+  marketplace:"Provider Marketplace", docVault:"Document Vault (AI)", aiAnalysis:"AI Double-Pass Analysis",
+  credentials:"Credential Tracker", incomeMap:"100-Metro Income Map", netWorthTrack:"Net Worth Tracker",
+  emergencyFund:"Emergency Fund", taxCalendar:"Tax Calendar", bankConnect:"Bank Integration", pwa:"Mobile PWA",
+};

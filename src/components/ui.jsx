@@ -60,7 +60,7 @@ export const Donut = ({ value, max, size = 80, sw = 6, color = "#34d399", childr
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth={sw} />
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--border)" strokeWidth={sw} />
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={sw}
           strokeDasharray={`${(pct / 100) * circ} ${circ}`} strokeLinecap="round"
           style={{ transition: "stroke-dasharray 0.8s ease" }} />
