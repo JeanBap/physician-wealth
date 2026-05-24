@@ -61,6 +61,8 @@ import IncomeMap from "./modules/IncomeMap";
 import Marketplace from "./modules/Marketplace";
 import OfferCompare from "./modules/OfferCompare";
 import Admin from "./modules/Admin";
+import CredentialTracker from "./modules/CredentialTracker";
+import LifestyleCreep from "./modules/LifestyleCreep";
 
 const MODULE_COMPONENTS = {
   dashboard: Dashboard,
@@ -94,10 +96,18 @@ const MODULE_COMPONENTS = {
   marketplace: Marketplace,
   offercompare: OfferCompare,
   admin: Admin,
+  credentials: CredentialTracker,
+  creep: LifestyleCreep,
 };
 
 export default function App() {
-  const [view, setView] = useState("landing"); // landing | auth | onboarding | app
+  const [view, setView] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("pw_user");
+      if (savedUser) return "app";
+    } catch {}
+    return "landing";
+  }); // landing | auth | onboarding | app
   // Hash-based routing for URL slugs
   const getHash = () => window.location.hash.replace("#/", "") || "dashboard";
   const [page, setPage] = useState(getHash);
@@ -107,8 +117,33 @@ export default function App() {
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
-  const [profile, setProfile] = useState({ ...DEFAULT_PROFILE });
-  const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pw_profile");
+      if (saved) return { ...DEFAULT_PROFILE, ...JSON.parse(saved) };
+    } catch {}
+    return { ...DEFAULT_PROFILE };
+  });
+
+  // Auto-save profile to localStorage on every change
+  useEffect(() => {
+    try { localStorage.setItem("pw_profile", JSON.stringify(profile)); } catch {}
+  }, [profile]);
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pw_user");
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return null;
+  });
+
+  // Auto-save user to localStorage
+  useEffect(() => {
+    try {
+      if (user) localStorage.setItem("pw_user", JSON.stringify(user));
+      else localStorage.removeItem("pw_user");
+    } catch {}
+  }, [user]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const navigate = useCallback((target) => {
@@ -233,7 +268,7 @@ export default function App() {
           <div className="flex gap-3 mt-2">
             <button onClick={() => { navigate("settings"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Settings</button>
             <button onClick={() => { navigate("billing"); setSidebarOpen(false); }} className="text-xs text-white/55 hover:text-white/55">Billing</button>
-            <button onClick={() => { setUser(null); setView("landing"); }} className="text-xs text-white/55 hover:text-white/55">Logout</button>
+            <button onClick={() => { setUser(null); setView("landing"); localStorage.removeItem("pw_user"); }} className="text-xs text-white/55 hover:text-white/55">Logout</button>
           </div>
         </div>
       </aside>

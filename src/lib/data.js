@@ -118,6 +118,8 @@ export const MODULES = {
   incomemap:     { label:"Income Map",        icon:"◎", tier:"free",    color:"#60a5fa", cat:"Core" },
   marketplace:   { label:"Providers",         icon:"◆", tier:"free",    color:"#fbbf24", cat:"Core" },
   offercompare:  { label:"Offer Compare",     icon:"◎", tier:"pro",     color:"#34d399", cat:"Career" },
+  credentials:   { label:"Credentials",       icon:"◎", tier:"free",    color:"#818cf8", cat:"Career" },
+  creep:         { label:"Lifestyle Creep",   icon:"◈", tier:"free",    color:"#f87171", cat:"Core" },
   nwtracker:     { label:"Net Worth Track",  icon:"◎", tier:"free",    color:"#34d399", cat:"Core" },
   taxcalendar:   { label:"Tax Calendar",     icon:"◈", tier:"pro",     color:"#a78bfa", cat:"Tax" },
   emergency:     { label:"Emergency Fund",   icon:"◇", tier:"free",    color:"#fbbf24", cat:"Core" },
