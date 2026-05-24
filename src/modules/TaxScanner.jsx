@@ -211,8 +211,8 @@ Return ONLY valid JSON:
 
       <Takeaway items={[
         `Effective rate: ${effectiveRate}%. Total tax: ${fmt(totalTax)} on ${fmt(sal)}.`,
-        `${applicable.length} strategies could save ${fmt(totalSavings)}/yr. Start with the lowest-risk option.`,
-        `Upload your tax return for AI analysis. Average physician finds $15-50K in missed deductions.`,
+        `${FALLBACK_STRATEGIES.length} strategies available. Upload your return for personalized savings estimate.`,
+        `Average physician finds $15-50K/yr in missed deductions via AI double-pass analysis.`,
       ]} />
     </div>
   );

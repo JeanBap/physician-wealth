@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, STATE_NAMES, STATE_COL, fedTax, fica, fmt, fN } from "../lib/data";
-import { Section, Stat, Card, Alert, Inp } from "../components/ui";
+import { Section, Stat, Card, Alert, Inp, Takeaway } from "../components/ui";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid } from "recharts";
 
 const NO_TAX = ["FL","TX","NV","WA","WY","SD","TN","NH","AK"];
