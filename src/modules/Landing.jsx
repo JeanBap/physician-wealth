@@ -95,7 +95,7 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
       `}</style>
 
       {/* Nav */}
-      <nav style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <nav style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 36, height: 36, borderRadius: 10, background: T.navy, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Activity size={20} color="#fff" strokeWidth={2} />
@@ -173,11 +173,11 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
       </div>
 
       {/* Features */}
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 32px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 16px" }}>
         {sectionLabel("Features")}
         <h2 className="serif" style={{ fontSize: 38, fontWeight: 900, color: T.navy, marginBottom: 6 }}>Everything a physician needs</h2>
         <p style={{ fontSize: 16, color: T.text2, marginBottom: 48, maxWidth: 480 }}>48 interconnected modules. Change one number, watch the ripple across your entire financial picture.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           {FEATURES.map((f, i) => (
             <div key={i} className="feat-card" style={{ background: T.card, border: `1px solid ${T.border}`, borderRadius: 16, padding: 28, cursor: "pointer" }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: f.bg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
@@ -196,7 +196,7 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
           {sectionLabel("How It Works", T.navy)}
           <h2 className="serif" style={{ fontSize: 34, fontWeight: 900, color: T.navy }}>Three minutes to clarity</h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 32 }}>
           {[
             { step: "01", title: "Tell us about you", desc: "5-step onboarding: specialty, salary, debt, assets, goals. Takes 2 minutes.", icon: Users, color: T.teal },
             { step: "02", title: "Upload your docs", desc: "Tax returns, contracts, insurance. Triple-pass AI analyzes each document.", icon: FileText, color: T.navy },
@@ -216,13 +216,13 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
       </div>
 
       {/* Pricing */}
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 32px", borderTop: `1px solid ${T.border}` }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 16px", borderTop: `1px solid ${T.border}` }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           {sectionLabel("Pricing")}
           <h2 className="serif" style={{ fontSize: 34, fontWeight: 900, color: T.navy, marginBottom: 6 }}>Pays for itself in one session</h2>
           <p style={{ fontSize: 16, color: T.text2 }}>Average user finds $15K+ in savings. That's 150x ROI on Premium.</p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
           {TIERS.map((p, i) => {
             const expanded = expandedTier === i;
             const show = expanded ? p.features : p.features.slice(0, 7);
@@ -260,7 +260,7 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
 
       {/* Blog */}
       <div id="blog-section">
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 32px", borderTop: `1px solid ${T.border}` }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "48px 16px", borderTop: `1px solid ${T.border}` }}>
         {sectionLabel("Research & Insights")}
         <h2 className="serif" style={{ fontSize: 34, fontWeight: 900, color: T.navy, marginBottom: 6 }}>The physician finance blog</h2>
         <p style={{ fontSize: 16, color: T.text2, marginBottom: 48, maxWidth: 480 }}>Data-driven analysis on compensation, certifications, and wealth building.</p>
@@ -282,7 +282,7 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
           {sectionLabel("Testimonials", T.gold)}
           <h2 className="serif" style={{ fontSize: 34, fontWeight: 900, color: T.navy }}>Physicians love this</h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
           {[
             { quote: "Found $32K in missed deductions. The AI scanner caught things my CPA missed for 3 years.", name: "Dr. Sarah Chen", spec: "Cardiology, NY", save: "$32,400/yr" },
             { quote: "State arbitrage tool showed me moving from CA to TX gains $47K/year after COL. We moved.", name: "Dr. Marcus Rivera", spec: "Orthopedic Surgery, TX", save: "$47,100/yr" },

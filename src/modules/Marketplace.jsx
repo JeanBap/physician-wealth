@@ -24,7 +24,7 @@ export default function Marketplace({ profile }) {
 
       <p className="text-sm text-white/50">Curated providers who specialize in physician finances. All recommendations are independent.</p>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {PROVIDER_CATEGORIES.map(cat => {
           const isUrgent = urgentNeeds.includes(cat.id);
           const isSelected = selectedCat === cat.id;

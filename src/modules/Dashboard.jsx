@@ -275,7 +275,7 @@ export default function Dashboard({ profile, navigate }) {
       </Card>
     ),
     stats: (
-      <div className="grid grid-cols-4 gap-3 stagger">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 stagger">
         {[
           { l:"Net Worth", v:fmt(animNw), c:netWorth>=0?C.emerald:C.red, s:`${fiPct}% to FI` },
           { l:"Income", v:fmt(sal), c:C.blue, s:`#${rank}/20` },
@@ -440,7 +440,7 @@ export default function Dashboard({ profile, navigate }) {
     nav: (
       <div className="no-print">
         <p className="text-xs text-white/65 uppercase tracking-[0.2em] mb-3">All Modules</p>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {Object.entries(MODULES).filter(([k,m])=>!m.always).map(([k,m])=>(
             <button key={k} onClick={()=>navigate(k)} className="group p-3.5 rounded-xl text-center transition-all duration-300 hover:scale-[1.04] hover:shadow-lg" style={{ background:C.card, border:`1px solid ${C.border}` }}
               onMouseEnter={e=>{e.currentTarget.style.background=`${m.color||C.emerald}10`;e.currentTarget.style.borderColor=`${m.color||C.emerald}30`;e.currentTarget.style.boxShadow=`0 4px 20px ${m.color||C.emerald}08`}}

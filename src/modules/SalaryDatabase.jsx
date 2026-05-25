@@ -147,7 +147,7 @@ export default function SalaryDatabase({ profile }) {
       <Section title="Salary Database" sub="Anonymous, Physician-Verified" />
       <p className="text-sm text-white/50">{submissions.length} verified submissions. Share yours to help the community.</p>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <select value={filterSpec} onChange={e => setFilterSpec(e.target.value)}
           className="bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-white/55 outline-none">
           <option value="all" className="bg-[#13141c]">All Specialties</option>

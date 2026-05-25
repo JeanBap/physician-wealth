@@ -41,7 +41,7 @@ export default function Billing({ profile, navigate, user }) {
       </Card>
 
       {/* Plan comparison */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {plans.map((p, i) => {
           const isCurrent = p.id === plan || (isAdmin && p.id === "premium");
           return (

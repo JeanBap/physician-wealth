@@ -339,7 +339,21 @@ export default function App() {
         </div>
 
         {/* Module render */}
-        <div className="p-4 md:p-6 pb-16 max-w-3xl mx-auto">
+        <div className="p-3 sm:p-4 md:p-6 pb-16 max-w-3xl mx-auto">
+      <style>{`
+        @media (max-width: 640px) {
+          .grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
+          .grid-cols-3 { grid-template-columns: repeat(1, 1fr) !important; }
+          .grid-cols-2 { grid-template-columns: repeat(1, 1fr) !important; }
+          .gap-3 { gap: 0.5rem !important; }
+          .text-2xl { font-size: 1.25rem !important; }
+          .p-5 { padding: 0.75rem !important; }
+          .space-y-5 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.75rem !important; }
+        }
+        @media (max-width: 768px) {
+          .grid-cols-4 { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+      `}</style>
           {!hasAccess ? (
             <PaywallLock tier={modMeta?.tier || "pro"} onUpgrade={() => setPage("billing")} />
           ) : ModuleComp ? (
