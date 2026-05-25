@@ -119,7 +119,7 @@ export default function Retirement({ profile }) {
         <ResponsiveContainer width="100%" height={contribData.length * 35 + 10}>
           <BarChart data={contribData} layout="vertical" barCategoryGap="20%">
             <XAxis type="number" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
-            <YAxis type="category" dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false} width={60}/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} width={60}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="value" name="Limit" radius={[0,4,4,0]}>{contribData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
           </BarChart>

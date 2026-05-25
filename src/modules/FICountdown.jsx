@@ -163,7 +163,7 @@ export default function FICountdown({ profile: p, standalone }) {
     <div className="space-y-5 animate-in">
       {/* Countdown hero */}
       <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 text-center glow-pulse" style={{
-        background: "radial-gradient(ellipse at 50% 0%, rgba(52,211,153,0.12) 0%, transparent 60%), rgba(255,255,255,0.02)",
+        background: "radial-gradient(ellipse at 50% 0%, rgba(52,211,153,0.12) 0%, transparent 60%), var(--chartBarBg, rgba(0,0,0,0.06))",
         border: "1px solid rgba(52,211,153,0.12)"
       }}>
         <div className="absolute inset-0 overflow-hidden rounded-2xl">
@@ -231,7 +231,7 @@ export default function FICountdown({ profile: p, standalone }) {
                 <XAxis dataKey="age" tick={{ fontSize:11, fill:chartText() }} axisLine={false} tickLine={false}/>
                 <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} unit="K"/>
                 <Tooltip content={<Tip/>}/>
-                <ReferenceLine x={age} stroke="rgba(255,255,255,0.15)" strokeDasharray="4 4" label={{ value:"Now", position:"top", fontSize:10, fill:"rgba(255,255,255,0.3)" }}/>
+                <ReferenceLine x={age} stroke={chartGrid()} strokeDasharray="4 4" label={{ value:"Now", position:"top", fontSize:10, fill:chartText() }}/>
                 <Area type="monotone" dataKey="salary" name="Your Salary ($K)" stroke="#34d399" fill="url(#salTraj)" strokeWidth={2.5} dot={false}/>
                 <Line type="monotone" dataKey="median" name="Specialty Median" stroke="#a78bfa" strokeWidth={1.5} strokeDasharray="4 4" dot={false}/>
               </AreaChart>

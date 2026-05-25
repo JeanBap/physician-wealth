@@ -89,7 +89,7 @@ export default function LoanOptimizer({ profile }) {
         <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Total Cost Comparison ($K)</p>
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={compData} barCategoryGap="25%">
-            <XAxis dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
+            <XAxis dataKey="name" tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false}/>
             <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} unit="K"/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="total" name="Total Paid ($K)" radius={[4,4,0,0]}>{compData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>

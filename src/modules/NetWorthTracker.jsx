@@ -110,7 +110,7 @@ export default function NetWorthTracker({ profile }) {
             <XAxis dataKey="date" tick={{ fontSize:11, fill:chartText() }} axisLine={false} tickLine={false}/>
             <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
-            <ReferenceLine y={0} stroke="rgba(255,255,255,0.1)"/>
+            <ReferenceLine y={0} stroke={chartGrid()}/>
             <Area type="monotone" dataKey="nw" name="Net Worth" stroke="#34d399" fill="url(#nwHist)" strokeWidth={2.5} dot={false}/>
           </AreaChart>
         </ResponsiveContainer>

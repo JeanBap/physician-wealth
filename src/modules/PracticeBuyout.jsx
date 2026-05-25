@@ -67,7 +67,7 @@ export default function PracticeBuyout({ profile }) {
               <linearGradient id="incG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#60a5fa" stopOpacity={0.2}/><stop offset="100%" stopColor="#60a5fa" stopOpacity={0}/></linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
-            <XAxis dataKey="year" tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} label={{ value:"Year", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.1)" }}/>
+            <XAxis dataKey="year" tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} label={{ value:"Year", position:"insideBottom", offset:-5, fontSize:8, fill:chartText() }}/>
             <YAxis tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="cumIncome" name="Cumulative Income" stroke="#60a5fa" fill="url(#incG)" strokeWidth={2} dot={false}/>

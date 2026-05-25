@@ -47,7 +47,7 @@ const CONNECTIONS = {
   settings: { reads:["ALL"], writes:["ALL"], linksTo:["onboarding"], feeds:["ALL"], desc:"Profile changes propagate to every module via auto-save." },
 };
 
-const CATS = { Core:"#34d399", Tax:"#a78bfa", Debt:"#f87171", Wealth:"#fbbf24", Protection:"#60a5fa", Career:"#f472b6", Social:"#f472b6", Wellness:"#fbbf24", Banking:"#818cf8", AI:"#a78bfa", System:"rgba(255,255,255,0.3)" };
+const CATS = { Core:"#34d399", Tax:"#a78bfa", Debt:"#f87171", Wealth:"#fbbf24", Protection:"#60a5fa", Career:"#f472b6", Social:"#f472b6", Wellness:"#fbbf24", Banking:"#818cf8", AI:"#a78bfa", System:"var(--chartText, rgba(0,0,0,0.3))" };
 
 export default function ModuleMap({ navigate }) {
   const [selected, setSelected] = useState(null);

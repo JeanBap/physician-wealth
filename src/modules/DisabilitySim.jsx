@@ -71,7 +71,7 @@ export default function DisabilitySim({ profile }) {
                 <linearGradient id="depG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#f87171" stopOpacity={0.3}/><stop offset="100%" stopColor="#f87171" stopOpacity={0}/></linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
-              <XAxis dataKey="month" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} label={{ value:"Months", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.15)" }}/>
+              <XAxis dataKey="month" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} label={{ value:"Months", position:"insideBottom", offset:-5, fontSize:8, fill:chartText() }}/>
               <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Area type="monotone" dataKey="savings" name="Savings" stroke="#f87171" fill="url(#depG)" strokeWidth={2} dot={false}/>

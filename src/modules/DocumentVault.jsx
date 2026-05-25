@@ -23,7 +23,7 @@ const DOC_TYPES = [
   { v:"real_estate", l:"Property / Lease", icon:"home", color:"#fbbf24" },
   { v:"medical", l:"License / Credential", icon:"hospital", color:"#818cf8" },
   { v:"estate", l:"Will / Trust / POA", icon:"clipboard", color:"#a78bfa" },
-  { v:"other", l:"Other Document", icon:"filetext", color:"rgba(255,255,255,0.3)" },
+  { v:"other", l:"Other Document", icon:"filetext", color:"var(--chartText, rgba(0,0,0,0.3))" },
 ];
 
 function buildContextMd(profile, docs) {

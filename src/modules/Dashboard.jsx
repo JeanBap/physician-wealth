@@ -19,7 +19,7 @@ const getC = () => {
     amber: "#fbbf24", red: "#f87171", pink: "#f472b6",
     grid: v("chartGrid") || "rgba(0,0,0,0.04)",
     axis: v("chartAxis") || chartBarFill(),
-    text: v("chartText") || "rgba(255,255,255,0.2)",
+    text: v("chartText") || "rgba(0,0,0,0.3)",
     bg: v("bg2") || "#0d0e14",
     card: v("card") || "rgba(0,0,0,0.02)",
     border: v("border") || "rgba(0,0,0,0.08)",
@@ -237,7 +237,7 @@ export default function Dashboard({ profile, navigate }) {
   // Widget rendering map
   const WIDGET_CONTENT = {
     hero: (
-      <div className="relative overflow-hidden rounded-2xl p-6" style={{ background:"radial-gradient(ellipse at 30% 0%, rgba(52,211,153,0.08) 0%, transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%)", border:`1px solid ${C.border}` }}>
+      <div className="relative overflow-hidden rounded-2xl p-6" style={{ background:"radial-gradient(ellipse at 30% 0%, rgba(52,211,153,0.08) 0%, transparent 60%), linear-gradient(180deg, var(--chartBarBg, rgba(0,0,0,0.06)) 0%, transparent 100%)", border:`1px solid ${C.border}` }}>
         <div className="absolute top-0 right-0 w-80 h-80 rounded-full opacity-15" style={{ background:"radial-gradient(circle, rgba(52,211,153,0.2), transparent 70%)" }} />
         <div className="absolute bottom-0 left-1/3 w-60 h-60 rounded-full opacity-10" style={{ background:"radial-gradient(circle, rgba(96,165,250,0.15), transparent 70%)" }} />
         <p className="text-sm text-white/55 uppercase tracking-[0.15em]">{greeting()}</p>

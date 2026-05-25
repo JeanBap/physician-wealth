@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, STATE_NAMES, STATE_COL, fedTax, fica, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Inp, Takeaway } from "../components/ui";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid } from "recharts";
-import { chartGrid } from "../lib/chartColors";
+import { chartGrid, chartText } from "../lib/chartColors";
 
 const NO_TAX = ["FL","TX","NV","WA","WY","SD","TN","NH","AK"];
 
@@ -97,9 +97,9 @@ export default function StateArbitrage({ profile }) {
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={chartData} layout="vertical" barCategoryGap="15%">
             <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()} horizontal={false} />
-            <XAxis type="number" tick={{ fontSize: 8, fill: "rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false}
+            <XAxis type="number" tick={{ fontSize: 8, fill: chartText() }} axisLine={false} tickLine={false}
               tickFormatter={v => v >= 0 ? `+$${(v/1000).toFixed(0)}K` : `-$${(Math.abs(v)/1000).toFixed(0)}K`} />
-            <YAxis type="category" dataKey="name" tick={{ fontSize: 9, fill: "rgba(255,255,255,0.3)" }} axisLine={false} tickLine={false} width={35} />
+            <YAxis type="category" dataKey="name" tick={{ fontSize: 9, fill: chartText() }} axisLine={false} tickLine={false} width={35} />
             <Tooltip content={<ChartTip />} />
             <Bar dataKey="value" name={showCOL ? "Real Gain" : "Tax Savings"} radius={[0, 4, 4, 0]}>
               {chartData.map((d, i) => (

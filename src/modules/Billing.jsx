@@ -71,7 +71,7 @@ export default function Billing({ profile, navigate, user }) {
                 className="w-full mt-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer" style={{
                   background: isCurrent ? `${p.color}15` : p.id === "free" ? "var(--chartBarBg, rgba(0,0,0,0.02))" : `${p.color}20`,
                   border: `1px solid ${isCurrent ? `${p.color}30` : p.id === "free" ? "var(--chartCircle, rgba(0,0,0,0.04))" : `${p.color}40`}`,
-                  color: isCurrent ? p.color : p.id === "free" ? "rgba(255,255,255,0.2)" : p.color,
+                  color: isCurrent ? p.color : p.id === "free" ? "var(--chartText, rgba(0,0,0,0.3))" : p.color,
                   opacity: isCurrent || p.id === "free" ? 0.6 : 1,
                 }}>
                 {isCurrent ? "Current" : p.id === "free" ? "Free Forever" : `Upgrade to ${p.name}`}
