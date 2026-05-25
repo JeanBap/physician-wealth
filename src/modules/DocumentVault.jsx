@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { Icon } from "../components/icons";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Btn, Badge } from "../components/ui";
 import { saveDocument, getDocuments, updateDocument, deleteDocument, getUserContext, saveUserContext } from "../lib/supabase";
@@ -12,16 +13,16 @@ const Tip = ({ active, payload, label }) => {
 };
 
 const DOC_TYPES = [
-  { v:"tax_return", l:"Tax Return", icon:"📊", color:"#a78bfa" },
-  { v:"contract", l:"Employment Contract", icon:"📝", color:"#f87171" },
-  { v:"insurance", l:"Insurance Policy", icon:"🛡️", color:"#fbbf24" },
-  { v:"paystub", l:"Pay Stub / W-2", icon:"💰", color:"#34d399" },
-  { v:"loan_stmt", l:"Loan Statement", icon:"🎯", color:"#60a5fa" },
-  { v:"investment", l:"Investment Statement", icon:"📈", color:"#f472b6" },
-  { v:"real_estate", l:"Property / Lease", icon:"🏠", color:"#fbbf24" },
-  { v:"medical", l:"License / Credential", icon:"🏥", color:"#818cf8" },
-  { v:"estate", l:"Will / Trust / POA", icon:"📋", color:"#a78bfa" },
-  { v:"other", l:"Other Document", icon:"📄", color:"rgba(255,255,255,0.3)" },
+  { v:"tax_return", l:"Tax Return", icon:"chart", color:"#a78bfa" },
+  { v:"contract", l:"Employment Contract", icon:"memo", color:"#f87171" },
+  { v:"insurance", l:"Insurance Policy", icon:"shield", color:"#fbbf24" },
+  { v:"paystub", l:"Pay Stub / W-2", icon:"money", color:"#34d399" },
+  { v:"loan_stmt", l:"Loan Statement", icon:"target", color:"#60a5fa" },
+  { v:"investment", l:"Investment Statement", icon:"trendingup", color:"#f472b6" },
+  { v:"real_estate", l:"Property / Lease", icon:"home", color:"#fbbf24" },
+  { v:"medical", l:"License / Credential", icon:"hospital", color:"#818cf8" },
+  { v:"estate", l:"Will / Trust / POA", icon:"clipboard", color:"#a78bfa" },
+  { v:"other", l:"Other Document", icon:"filetext", color:"rgba(255,255,255,0.3)" },
 ];
 
 function buildContextMd(profile, docs) {
@@ -233,10 +234,10 @@ Be specific with numbers. Reference the physician's specialty and income level.`
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 bg-white/[0.02] rounded-xl border border-white/[0.05]">
-        {[{id:"upload",l:"Upload",icon:"📤"},{id:"docs",l:`Documents (${docs.length})`,icon:"📁"},{id:"context",l:"AI Context",icon:"🧠"}].map(t => (
+        {[{id:"upload",l:"Upload",icon:"filetext"},{id:"docs",l:`Documents (${docs.length})`,icon:"vault"},{id:"context",l:"AI Context",icon:"aichat"}].map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
             className={`flex-1 px-3 py-2.5 rounded-lg text-sm font-bold transition ${tab === t.id ? "bg-white/[0.06] text-white/75" : "text-white/40 hover:text-white/55"}`}>
-            <span className="mr-1.5">{t.icon}</span>{t.l}
+            <Icon name={t.icon} size={16} className="opacity-70" />{t.l}
           </button>
         ))}
       </div>
@@ -253,7 +254,7 @@ Be specific with numbers. Reference the physician's specialty and income level.`
                 <label className="block text-xs text-white/50 uppercase tracking-wider font-medium mb-1.5">Document type</label>
                 <select value={selectedType} onChange={e => setSelectedType(e.target.value)}
                   className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2.5 text-sm text-white/65 outline-none">
-                  {DOC_TYPES.map(t => <option key={t.v} value={t.v} className="bg-[#13141c]">{t.icon} {t.l}</option>)}
+                  {DOC_TYPES.map(t => <option key={t.v} value={t.v} className="bg-[#13141c]">{t.l}</option>)}
                 </select>
               </div>
               <div>
@@ -271,7 +272,7 @@ Be specific with numbers. Reference the physician's specialty and income level.`
             <div className="grid grid-cols-2 gap-2">
               {DOC_TYPES.filter(t => t.v !== "other").map(t => (
                 <div key={t.v} className="flex items-start gap-2 p-2 rounded-lg bg-white/[0.02]">
-                  <span className="text-lg">{t.icon}</span>
+                  <Icon name={t.icon} size={16} className="opacity-70" />
                   <div>
                     <p className="text-sm text-white/55 font-medium">{t.l}</p>
                     <p className="text-xs text-white/40">AI extracts key data, flags issues</p>
@@ -319,7 +320,7 @@ Be specific with numbers. Reference the physician's specialty and income level.`
               <Card key={doc.id}>
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3 flex-1 min-w-0">
-                    <span className="text-xl mt-0.5">{type?.icon || "📄"}</span>
+                    <span className="mt-0.5"><Icon name={type?.icon || "filetext"} size={20} className="opacity-60" /></span>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-white/65 font-bold truncate">{doc.filename}</p>
                       <div className="flex items-center gap-2 mt-0.5">

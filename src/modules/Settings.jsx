@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { Icon } from "../components/icons";
 import { MODULES, SPECIALTIES, STATE_NAMES, NOTIFICATION_DEFAULTS } from "../lib/data";
 import { upsertProfile, upsertNotificationPrefs } from "../lib/supabase";
 import { Section, Alert, Toggle, Btn, Card, Inp } from "../components/ui";
@@ -10,12 +11,12 @@ export default function Settings({ profile, setProfile, navigate, user }) {
   const [tab, setTab] = useState("profile");
 
   const tabs = [
-    { id:"profile", label:"Profile", icon:"👤" },
-    { id:"financial", label:"Financials", icon:"💰" },
-    { id:"insurance", label:"Insurance & Estate", icon:"🛡️" },
-    { id:"modules", label:"Modules", icon:"📊" },
-    { id:"notifications", label:"Alerts", icon:"🔔" },
-    { id:"data", label:"Data", icon:"🔒" },
+    { id:"profile", label:"Profile", icon:"community" },
+    { id:"financial", label:"Financials", icon:"money" },
+    { id:"insurance", label:"Insurance & Estate", icon:"shield" },
+    { id:"modules", label:"Modules", icon:"chart" },
+    { id:"notifications", label:"Alerts", icon:"bell" },
+    { id:"data", label:"Data", icon:"lock" },
   ];
 
   const update = (k, v) => setProfile(prev => ({ ...prev, [k]: v }));
@@ -62,7 +63,7 @@ export default function Settings({ profile, setProfile, navigate, user }) {
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
             className={`flex-shrink-0 px-3 py-2 rounded-lg text-sm font-bold transition ${tab === t.id ? "bg-white/[0.06] text-white/75" : "text-white/55 hover:text-white/55"}`}>
-            <span className="mr-1">{t.icon}</span>{t.label}
+            <Icon name={t.icon} size={16} className="opacity-70" />{t.label}
           </button>
         ))}
       </div>
@@ -206,7 +207,7 @@ export default function Settings({ profile, setProfile, navigate, user }) {
             {Object.entries(MODULES).filter(([k, m]) => !m.always).map(([k, m]) => (
               <div key={k} className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white/[0.02] transition">
                 <div className="flex items-center gap-3">
-                  <span className="text-sm opacity-30">{m.icon}</span>
+                  <Icon name={m.icon} size={16} className="opacity-70" />
                   <div>
                     <p className="text-sm text-white/55 font-medium">{m.label}</p>
                     <p className="text-xs text-white/50">{m.tier === "free" ? "Free" : m.tier === "pro" ? "Pro" : "Premium"} | {m.cat}</p>

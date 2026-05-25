@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
+import { Icon } from "../components/icons";
 import { Section, Card, Alert, Btn, Badge, Takeaway } from "../components/ui";
 
 const CREDENTIAL_TYPES = [
-  { type:"medical_license", label:"State Medical License", renewalYears:2, cmeRequired:true, icon:"🏥" },
-  { type:"dea", label:"DEA Registration", renewalYears:3, cmeRequired:false, icon:"💊" },
-  { type:"board_cert", label:"Board Certification", renewalYears:10, cmeRequired:true, icon:"📜" },
-  { type:"bls", label:"BLS/ACLS Certification", renewalYears:2, cmeRequired:false, icon:"❤️" },
-  { type:"state_license_2", label:"Additional State License", renewalYears:2, cmeRequired:true, icon:"🗺️" },
-  { type:"hospital_privileges", label:"Hospital Privileges", renewalYears:2, cmeRequired:false, icon:"🏨" },
-  { type:"malpractice", label:"Malpractice Insurance", renewalYears:1, cmeRequired:false, icon:"⚖️" },
-  { type:"npi", label:"NPI Number", renewalYears:0, cmeRequired:false, icon:"🔢" },
-  { type:"caqh", label:"CAQH Profile", renewalYears:0.25, cmeRequired:false, icon:"📋" },
+  { type:"medical_license", label:"State Medical License", renewalYears:2, cmeRequired:true, icon:"hospital" },
+  { type:"dea", label:"DEA Registration", renewalYears:3, cmeRequired:false, icon:"pill" },
+  { type:"board_cert", label:"Board Certification", renewalYears:10, cmeRequired:true, icon:"filetext" },
+  { type:"bls", label:"BLS/ACLS Certification", renewalYears:2, cmeRequired:false, icon:"wellness" },
+  { type:"state_license_2", label:"Additional State License", renewalYears:2, cmeRequired:true, icon:"locumrates" },
+  { type:"hospital_privileges", label:"Hospital Privileges", renewalYears:2, cmeRequired:false, icon:"hospital" },
+  { type:"malpractice", label:"Malpractice Insurance", renewalYears:1, cmeRequired:false, icon:"scale" },
+  { type:"npi", label:"NPI Number", renewalYears:0, cmeRequired:false, icon:"rvucalc" },
+  { type:"caqh", label:"CAQH Profile", renewalYears:0.25, cmeRequired:false, icon:"clipboard" },
 ];
 
 function loadCredentials() {
@@ -125,7 +126,7 @@ export default function CredentialTracker({ profile }) {
             return (
               <div key={cred.id} className={`flex items-center justify-between py-3 px-3 rounded-xl border ${isExpired ? "bg-red-500/[0.04] border-red-500/15" : isUrgent ? "bg-amber-500/[0.04] border-amber-500/10" : "border-white/[0.04]"}`}>
                 <div className="flex items-center gap-3">
-                  <span className="text-xl">{cred.icon}</span>
+                  <Icon name={cred.icon} size={16} className="opacity-70" />
                   <div>
                     <p className="text-sm text-white/65 font-medium">{cred.label}</p>
                     <p className="text-xs text-white/40">{cred.notes || ""} {cred.renewalYears > 0 ? `| Renews every ${cred.renewalYears}yr` : ""}</p>

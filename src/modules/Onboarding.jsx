@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Icon } from "../components/icons";
 import { SPECIALTIES, STATE_NAMES, STAGES } from "../lib/data";
 import { Inp, Btn, Card, Badge, Section, Toggle, Alert } from "../components/ui";
 
@@ -161,23 +162,23 @@ export default function Onboarding({ profile, setProfile, navigate }) {
             <p className="text-xs text-white/55 mb-4">We'll customize your dashboard. You can change this later in Settings.</p>
             <div className="grid grid-cols-2 gap-2">
               {[
-                { k:"tax", l:"Tax Optimization", icon:"📊" },
-                { k:"loans", l:"Loan Strategy", icon:"🎯" },
-                { k:"retirement", l:"Retirement Planning", icon:"🏦" },
-                { k:"realestate", l:"Real Estate", icon:"🏠" },
-                { k:"estateplan", l:"Estate Planning", icon:"📋" },
-                { k:"insurance", l:"Insurance Review", icon:"🛡️" },
-                { k:"contracts", l:"Contract Analysis", icon:"📝" },
-                { k:"moonlight", l:"Side Income", icon:"💰" },
-                { k:"burnout", l:"Burnout Prevention", icon:"🔥" },
-                { k:"statemove", l:"State Relocation", icon:"🗺️" },
+                { k:"tax", l:"Tax Optimization", icon:"chart" },
+                { k:"loans", l:"Loan Strategy", icon:"target" },
+                { k:"retirement", l:"Retirement Planning", icon:"bank" },
+                { k:"realestate", l:"Real Estate", icon:"home" },
+                { k:"estateplan", l:"Estate Planning", icon:"clipboard" },
+                { k:"insurance", l:"Insurance Review", icon:"shield" },
+                { k:"contracts", l:"Contract Analysis", icon:"memo" },
+                { k:"moonlight", l:"Side Income", icon:"money" },
+                { k:"burnout", l:"Burnout Prevention", icon:"burnout" },
+                { k:"statemove", l:"State Relocation", icon:"locumrates" },
               ].map(m => {
                 const sel = profile.priorities?.includes(m.k);
                 return (
                   <button key={m.k} onClick={() => setProfile(prev => ({
                     ...prev, priorities: sel ? prev.priorities.filter(p => p !== m.k) : [...(prev.priorities || []), m.k]
                   }))} className={`p-3 rounded-xl text-left transition border ${sel ? "bg-emerald-500/10 border-emerald-500/25" : "bg-white/[0.03] border-white/[0.06]"}`}>
-                    <span className="text-lg">{m.icon}</span>
+                    <Icon name={m.icon} size={16} className="opacity-70" />
                     <p className={`text-sm mt-1 font-medium ${sel ? "text-emerald-400" : "text-white/75"}`}>{m.l}</p>
                   </button>
                 );

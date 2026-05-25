@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { Icon } from "../components/icons";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
@@ -11,10 +12,10 @@ const Tip = ({ active, payload, label }) => {
 };
 
 const POLICIES = [
-  { type: "Malpractice", icon: "⚖️", desc: "Professional liability", benchmark: "mal" },
-  { type: "Disability (Own-Occ)", icon: "🔒", desc: "Income replacement, own-specialty", benchmark: null },
-  { type: "Life (Term 20yr)", icon: "🛡️", desc: "Income replacement for dependents", benchmark: null },
-  { type: "Umbrella", icon: "☂️", desc: "Excess liability coverage", benchmark: null },
+  { type: "Malpractice", icon: "scale", desc: "Professional liability", benchmark: "mal" },
+  { type: "Disability (Own-Occ)", icon: "lock", desc: "Income replacement, own-specialty", benchmark: null },
+  { type: "Life (Term 20yr)", icon: "shield", desc: "Income replacement for dependents", benchmark: null },
+  { type: "Umbrella", icon: "insurance", desc: "Excess liability coverage", benchmark: null },
 ];
 
 export default function Insurance({ profile }) {

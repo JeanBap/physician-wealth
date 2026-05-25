@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { Icon } from "../components/icons";
 import { SPECIALTIES } from "../lib/data";
 import { SEED_POSTS } from "../lib/seedPosts";
 import { VERIFIED_DOMAINS, RECENT_ACTIVITY } from "../lib/socialProof";
@@ -39,7 +40,7 @@ function LiveTicker() {
     return () => clearInterval(iv);
   }, []);
   const item = RECENT_ACTIVITY[idx];
-  const icons = { salary:"💰", post:"💬", savings:"📊", review:"⭐", milestone:"🎯" };
+  const icons = { salary:"money", post:"chat", savings:"chart", review:"star", milestone:"target" };
   return (
     <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04] overflow-hidden">
       <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />

@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
 import { Section, Card, Alert, Badge, Takeaway } from "../components/ui";
+import { Icon } from "../components/icons";
 
 const CHECKLISTS = {
-  "first-job": { title:"First Attending Job", icon:"🎓", items:[
+  "first-job": { title:"First Attending Job", icon:"graduation", items:[
     "Set up 401(k) and maximize employer match","Open backdoor Roth IRA","Get own-occupation disability insurance (3-6 month wait)",
     "Purchase umbrella liability ($2M+)","Review employment contract (use contract review attorney)","Set up emergency fund (6 months expenses)",
     "Refinance student loans OR enroll in PSLF","Create a will and healthcare directive","Update beneficiaries on all accounts",
     "Automate savings: 20%+ of gross income","Open HSA if on HDHP","Set up term life insurance if dependents",
     "Review malpractice coverage (occurrence vs claims-made)","Resist lifestyle creep: live like a resident for 2-3 years",
   ]},
-  "annual": { title:"Annual Financial Review", icon:"📅", items:[
+  "annual": { title:"Annual Financial Review", icon:"calendar", items:[
     "Review and rebalance investment portfolio","Max out 401(k) contribution ($23,500 + catch-up)","Execute backdoor Roth IRA conversion",
     "Max HSA contribution ($8,750 family)","Review insurance coverage (DI, umbrella, life, malpractice)","Update estate plan if life changes",
     "Check credit report (annualcreditreport.com)","Review tax withholding (W-4 optimizer)","Harvest tax losses in taxable accounts",
     "Contribute to 529 plans if applicable","Review and negotiate contracts/compensation","Update credential tracker (licenses, CME, DEA)",
     "Review beneficiary designations","Assess PSLF progress if applicable","Review net worth vs prior year",
   ]},
-  "pre-retire": { title:"Pre-Retirement (5yr out)", icon:"🏖️", items:[
+  "pre-retire": { title:"Pre-Retirement (5yr out)", icon:"beach", items:[
     "Calculate retirement income needs (80% replacement)","Project portfolio withdrawal rate (4% rule)","Review Social Security strategy (delay to 67-70?)",
     "Plan health insurance bridge (COBRA, ACA marketplace, spouse plan)","Consider Roth conversion ladder in lower-income years",
     "Review asset allocation (shift toward bonds/income)","Estimate Medicare premiums (IRMAA surcharge for high income)",
@@ -55,7 +56,7 @@ export default function ChecklistHub({ profile }) {
           return (
             <button key={id} onClick={() => setActiveList(id)}
               className={`flex-1 p-3 rounded-xl text-center transition border ${activeList === id ? "bg-emerald-500/[0.06] border-emerald-500/15" : "border-white/[0.04] hover:bg-white/[0.02]"}`}>
-              <span className="text-xl">{cl.icon}</span>
+              <Icon name={cl.icon} size={20} className="mx-auto text-emerald-400/70" />
               <p className="text-sm text-white/55 font-bold mt-1">{cl.title}</p>
               <p className="text-xs text-white/50">{done}/{cl.items.length}</p>
             </button>
@@ -77,8 +78,8 @@ export default function ChecklistHub({ profile }) {
             return (
               <button key={i} onClick={() => toggle(activeList, i)}
                 className={`w-full flex items-center gap-3 p-2.5 rounded-lg text-left transition ${done ? "bg-emerald-500/[0.03]" : "hover:bg-white/[0.02]"}`}>
-                <div className={`w-5 h-5 rounded-md flex items-center justify-center text-xs flex-shrink-0 ${done ? "bg-emerald-500/20 text-emerald-400" : "bg-white/[0.04] text-white/20"}`}>
-                  {done ? "O" : ""}
+                <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 ${done ? "bg-emerald-500/20 text-emerald-400" : "bg-white/[0.06] text-white/15"}`}>
+                  {done ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.3"><circle cx="12" cy="12" r="1"/></svg>}
                 </div>
                 <span className={`text-sm ${done ? "text-emerald-400/60 line-through" : "text-white/55"}`}>{item}</span>
               </button>
