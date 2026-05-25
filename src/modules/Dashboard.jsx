@@ -8,6 +8,7 @@ import {
   PolarGrid, PolarAngleAxis, PolarRadiusAxis, LineChart, Line,
   XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
 } from "recharts";
+import { chartBarFill, chartGrid } from "../lib/chartColors";
 
 // Theme-aware: read CSS vars at render time
 const getC = () => {
@@ -16,12 +17,12 @@ const getC = () => {
   return {
     emerald: v("accent") || "#34d399", blue: v("accent2") || "#60a5fa", purple: v("accent3") || "#a78bfa",
     amber: "#fbbf24", red: "#f87171", pink: "#f472b6",
-    grid: v("chartGrid") || "rgba(255,255,255,0.03)",
-    axis: v("chartAxis") || "rgba(255,255,255,0.06)",
+    grid: v("chartGrid") || "rgba(0,0,0,0.04)",
+    axis: v("chartAxis") || chartBarFill(),
     text: v("chartText") || "rgba(255,255,255,0.2)",
     bg: v("bg2") || "#0d0e14",
-    card: v("card") || "rgba(255,255,255,0.025)",
-    border: v("border") || "rgba(255,255,255,0.05)",
+    card: v("card") || "rgba(0,0,0,0.02)",
+    border: v("border") || "rgba(0,0,0,0.08)",
   };
 };
 const C = getC();
@@ -382,7 +383,7 @@ export default function Dashboard({ profile, navigate }) {
             <XAxis type="number" tick={{ fontSize:8, fill:C.text }} axisLine={false} tickLine={false}/>
             <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:C.text }} axisLine={false} tickLine={false} width={85}/>
             <Tooltip content={<Tip prefix="$"/>}/>
-            <Bar dataKey="salary" name="Median ($K)" radius={[0,4,4,0]}>{specComp.map((d,i)=><Cell key={i} fill={d.yours?C.emerald:"rgba(255,255,255,0.06)"}/>)}</Bar>
+            <Bar dataKey="salary" name="Median ($K)" radius={[0,4,4,0]}>{specComp.map((d,i)=><Cell key={i} fill={d.yours?C.emerald:chartBarFill()}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>
       </Card>

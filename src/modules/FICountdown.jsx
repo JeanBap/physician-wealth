@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, STATE_COL, fedTax, fica, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert, Donut, Toggle, Takeaway } from "../components/ui";
 import { AreaChart, Area, LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -226,9 +227,9 @@ export default function FICountdown({ profile: p, standalone }) {
                 <defs>
                   <linearGradient id="salTraj" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.2}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-                <XAxis dataKey="age" tick={{ fontSize:11, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-                <YAxis tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="K"/>
+                <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+                <XAxis dataKey="age" tick={{ fontSize:11, fill:chartText() }} axisLine={false} tickLine={false}/>
+                <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} unit="K"/>
                 <Tooltip content={<Tip/>}/>
                 <ReferenceLine x={age} stroke="rgba(255,255,255,0.15)" strokeDasharray="4 4" label={{ value:"Now", position:"top", fontSize:10, fill:"rgba(255,255,255,0.3)" }}/>
                 <Area type="monotone" dataKey="salary" name="Your Salary ($K)" stroke="#34d399" fill="url(#salTraj)" strokeWidth={2.5} dot={false}/>
@@ -248,9 +249,9 @@ export default function FICountdown({ profile: p, standalone }) {
                 <defs>
                   <linearGradient id="nwJourney" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.3}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-                <XAxis dataKey="age" tick={{ fontSize:11, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-                <YAxis tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+                <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+                <XAxis dataKey="age" tick={{ fontSize:11, fill:chartText() }} axisLine={false} tickLine={false}/>
+                <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
                 <Tooltip content={<Tip/>}/>
                 <Area type="monotone" dataKey="fiTarget" name="FI Target (inflated)" stroke="#fbbf24" fill="none" strokeWidth={1.5} strokeDasharray="6 4" dot={false}/>
                 <Area type="monotone" dataKey="netWorth" name="Net Worth" stroke="#34d399" fill="url(#nwJourney)" strokeWidth={2.5} dot={false}/>
@@ -264,9 +265,9 @@ export default function FICountdown({ profile: p, standalone }) {
             <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Annual Cash Flow Over Time</p>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={projData.filter((_,i) => i % Math.max(1, Math.floor(yearsToRetire/12)) === 0)} barCategoryGap="15%">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-                <XAxis dataKey="age" tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-                <YAxis tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+                <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+                <XAxis dataKey="age" tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false}/>
+                <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
                 <Tooltip content={<Tip/>}/>
                 <Bar dataKey="livingCosts" name="Living Costs" stackId="a" fill="#f87171" fillOpacity={0.5} radius={0}/>
                 {wantKids && <Bar dataKey="kidCosts" name="Kid Costs" stackId="a" fill="#fbbf24" fillOpacity={0.5} radius={0}/>}

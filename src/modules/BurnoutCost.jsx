@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert , Takeaway } from "../components/ui";
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartBarFill, chartCircle, chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -59,7 +60,7 @@ export default function BurnoutCost({ profile }) {
       <div className="flex items-center justify-center py-3">
         <div className="relative w-32 h-32">
           <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="8"/>
+            <circle cx="50" cy="50" r="42" fill="none" stroke={chartCircle()} strokeWidth="8"/>
             <circle cx="50" cy="50" r="42" fill="none"
               stroke={score > 60 ? "#f87171" : score > 40 ? "#fbbf24" : "#34d399"}
               strokeWidth="8" strokeDasharray={`${score * 2.64} 264`} strokeLinecap="round"
@@ -102,8 +103,8 @@ export default function BurnoutCost({ profile }) {
           <p className="text-xs text-white/55 uppercase tracking-widest mb-1">You vs Specialty Average</p>
           <ResponsiveContainer width="100%" height={180}>
             <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="65%">
-              <PolarGrid stroke="rgba(255,255,255,0.04)"/>
-              <PolarAngleAxis dataKey="dim" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }}/>
+              <PolarGrid stroke={chartCircle()}/>
+              <PolarAngleAxis dataKey="dim" tick={{ fontSize:8, fill:chartText() }}/>
               <PolarRadiusAxis tick={false} axisLine={false} domain={[0,100]}/>
               <Radar name="You" dataKey="you" stroke="#f87171" fill="#f87171" fillOpacity={0.15} strokeWidth={2} dot={{ r:3, fill:"#f87171" }}/>
               <Radar name="Specialty" dataKey="avg" stroke="#a78bfa" fill="none" strokeWidth={1.5} strokeDasharray="4 4"/>
@@ -114,8 +115,8 @@ export default function BurnoutCost({ profile }) {
           <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Financial Impact</p>
           <ResponsiveContainer width="100%" height={140}>
             <BarChart data={costData} barCategoryGap="25%">
-              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <XAxis dataKey="name" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="value" name="Cost" radius={[4,4,0,0]}>{costData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
@@ -129,10 +130,10 @@ export default function BurnoutCost({ profile }) {
         <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Burnout by Specialty (Top 8)</p>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={burnRank} layout="vertical" barCategoryGap="12%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false}/>
-            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="%"/>
-            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false} width={90}/>
-            <Bar dataKey="burn" name="Burnout %" radius={[0,4,4,0]}>{burnRank.map((d,i)=><Cell key={i} fill={d.yours?"#f87171":"rgba(255,255,255,0.06)"}/>)}</Bar>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()} horizontal={false}/>
+            <XAxis type="number" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} unit="%"/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} width={90}/>
+            <Bar dataKey="burn" name="Burnout %" radius={[0,4,4,0]}>{burnRank.map((d,i)=><Cell key={i} fill={d.yours?"#f87171":chartBarFill()}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>
       </Card>

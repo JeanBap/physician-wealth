@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert, Takeaway } from "../components/ui";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 const Tip=({active,payload,label})=>{if(!active||!payload?.length)return null;return(<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/50 mb-1">{label}</p>{payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>)};
 
 export default function PartnershipTrack({ profile }) {
@@ -49,9 +50,9 @@ export default function PartnershipTrack({ profile }) {
             <defs>
               <linearGradient id="eqPart" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#a78bfa" stopOpacity={0.3}/><stop offset="100%" stopColor="#a78bfa" stopOpacity={0}/></linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="year" tick={{fontSize:11,fill:"rgba(255,255,255,0.45)"}} axisLine={false} tickLine={false}/>
-            <YAxis tick={{fontSize:10,fill:"rgba(255,255,255,0.45)"}} axisLine={false} tickLine={false} unit="K"/>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+            <XAxis dataKey="year" tick={{fontSize:11,fill:chartText()}} axisLine={false} tickLine={false}/>
+            <YAxis tick={{fontSize:10,fill:chartText()}} axisLine={false} tickLine={false} unit="K"/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="salary" name="Salary ($K)" stroke="#34d399" fill="none" strokeWidth={2} dot={false}/>
             <Area type="monotone" dataKey="equity" name="Equity ($K)" stroke="#a78bfa" fill="url(#eqPart)" strokeWidth={2} dot={false}/>

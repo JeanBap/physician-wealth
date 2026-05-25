@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartBarFill } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -75,7 +76,7 @@ export default function SalaryBench({ profile }) {
             <Tooltip content={<Tip />} />
             <Bar dataKey="salary" name="Median" radius={[0, 4, 4, 0]} animationDuration={800}>
               {chartData.map((d, i) => (
-                <Cell key={i} fill={d.yours ? "#34d399" : "rgba(255,255,255,0.06)"} />
+                <Cell key={i} fill={d.yours ? "#34d399" : chartBarFill()} />
               ))}
             </Bar>
           </BarChart>

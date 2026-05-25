@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { chartBarFill, chartText } from "../lib/chartColors";
 const Tip=({active,payload,label})=>{if(!active||!payload?.length)return null;return(<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/50 mb-1">{label}</p>{payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>)};
 
 const LOCUM_RATES = {
@@ -36,10 +37,10 @@ export default function LocumRates({ profile }) {
         <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Daily Rates by Specialty</p>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={chartData} layout="vertical" barCategoryGap="8%">
-            <XAxis type="number" tick={{fontSize:10,fill:"rgba(255,255,255,0.45)"}} axisLine={false} tickLine={false} tickFormatter={v=>`$${v.toLocaleString()}`}/>
-            <YAxis type="category" dataKey="name" tick={{fontSize:10,fill:"rgba(255,255,255,0.5)"}} axisLine={false} tickLine={false} width={90}/>
+            <XAxis type="number" tick={{fontSize:10,fill:chartText()}} axisLine={false} tickLine={false} tickFormatter={v=>`$${v.toLocaleString()}`}/>
+            <YAxis type="category" dataKey="name" tick={{fontSize:10,fill:chartText()}} axisLine={false} tickLine={false} width={90}/>
             <Tooltip content={<Tip/>}/>
-            <Bar dataKey="value" name="Daily Rate" radius={[0,4,4,0]}>{chartData.map((d,i)=><Cell key={i} fill={d.yours?"#34d399":"rgba(255,255,255,0.06)"}/>)}</Bar>
+            <Bar dataKey="value" name="Daily Rate" radius={[0,4,4,0]}>{chartData.map((d,i)=><Cell key={i} fill={d.yours?"#34d399":chartBarFill()}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>
       </Card>

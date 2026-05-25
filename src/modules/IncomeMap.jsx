@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, STATE_COL, STATE_NAMES, METROS_100, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert, Badge, Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartBarFill, chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -75,12 +76,12 @@ export default function IncomeMap({ profile }) {
         </p>
         <ResponsiveContainer width="100%" height={Math.min(600, showTop * 24 + 40)}>
           <BarChart data={chartData} layout="vertical" barCategoryGap="6%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false} />
-            <XAxis type="number" tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} />
-            <YAxis type="category" dataKey="name" tick={{ fontSize:10, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false} width={90} />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()} horizontal={false} />
+            <XAxis type="number" tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} />
+            <YAxis type="category" dataKey="name" tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} width={90} />
             <Tooltip content={<Tip />} />
             <Bar dataKey="value" name={sortBy === "growth" ? "Growth %" : "Income ($K)"} radius={[0,4,4,0]}>
-              {chartData.map((d, i) => <Cell key={i} fill={d.yours ? "#34d399" : "rgba(255,255,255,0.06)"} />)}
+              {chartData.map((d, i) => <Cell key={i} fill={d.yours ? "#34d399" : chartBarFill()} />)}
             </Bar>
           </BarChart>
         </ResponsiveContainer>

@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, STATE_COL, STATE_NAMES, METROS_100, fedTax, fica, fmt, fN, pmtCalc } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert, Badge, Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
+import { chartCircle, chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -132,9 +133,9 @@ export default function OfferCompare({ profile }) {
             <p className="text-xs text-white/50 uppercase tracking-widest mb-2">Head-to-Head ($K)</p>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={compData} barCategoryGap="25%">
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" />
-                <XAxis dataKey="metric" tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="K" />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()} />
+                <XAxis dataKey="metric" tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} unit="K" />
                 <Tooltip content={<Tip />} />
                 <Bar dataKey="a" name={offers[0].name} fill="#60a5fa" radius={[4,4,0,0]} />
                 <Bar dataKey="b" name={offers[1].name} fill="#34d399" radius={[4,4,0,0]} />
@@ -147,8 +148,8 @@ export default function OfferCompare({ profile }) {
             <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Multi-Factor Analysis</p>
             <ResponsiveContainer width="100%" height={220}>
               <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="65%">
-                <PolarGrid stroke="rgba(255,255,255,0.04)" />
-                <PolarAngleAxis dataKey="dim" tick={{ fontSize:11, fill:"rgba(255,255,255,0.5)" }} />
+                <PolarGrid stroke={chartCircle()} />
+                <PolarAngleAxis dataKey="dim" tick={{ fontSize:11, fill:chartText() }} />
                 <PolarRadiusAxis tick={false} axisLine={false} domain={[0,100]} />
                 <Radar name={offers[0].name} dataKey="a" stroke="#60a5fa" fill="#60a5fa" fillOpacity={0.1} strokeWidth={2} />
                 <Radar name={offers[1].name} dataKey="b" stroke="#34d399" fill="#34d399" fillOpacity={0.1} strokeWidth={2} />

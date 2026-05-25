@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -90,7 +91,7 @@ export default function EstatePlan({ profile }) {
           <ResponsiveContainer width="100%" height={160}>
             <BarChart data={shelterData} barCategoryGap="20%">
               <XAxis dataKey="name" tick={{ fontSize:10, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <YAxis tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="value" name="Annual" radius={[4,4,0,0]}>{shelterData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>

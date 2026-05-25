@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { fmt, fN, pmtCalc } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { AreaChart, Area, BarChart, Bar, Cell, PieChart, Pie, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -90,7 +91,7 @@ export default function RealEstate({ profile }) {
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={incomeData} barCategoryGap="20%">
             <XAxis dataKey="name" tick={{ fontSize:10, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+            <YAxis tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="value" name="Amount" radius={[4,4,0,0]}>{incomeData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
           </BarChart>
@@ -106,9 +107,9 @@ export default function RealEstate({ profile }) {
               <linearGradient id="eqRe" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.3}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient>
               <linearGradient id="cfRe" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#60a5fa" stopOpacity={0.2}/><stop offset="100%" stopColor="#60a5fa" stopOpacity={0}/></linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="year" tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+            <XAxis dataKey="year" tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="value" name="Property Value" stroke="#fbbf24" fill="none" strokeWidth={1.5} strokeDasharray="4 4" dot={false}/>
             <Area type="monotone" dataKey="equity" name="Equity" stroke="#34d399" fill="url(#eqRe)" strokeWidth={2} dot={false}/>

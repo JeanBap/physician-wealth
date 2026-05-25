@@ -32,7 +32,7 @@ export default function Onboarding({ profile, setProfile, navigate }) {
         {/* Progress bar */}
         <div className="flex gap-1">
           {STEPS.map((_, i) => (
-            <div key={i} className="flex-1 h-1.5 rounded-full transition-all" style={{ background: i <= step ? "#34d399" : "rgba(255,255,255,0.06)" }} />
+            <div key={i} className="flex-1 h-1.5 rounded-full transition-all" style={{ background: i <= step ? "#34d399" : "var(--chartBarFill, rgba(0,0,0,0.06))" }} />
           ))}
         </div>
 

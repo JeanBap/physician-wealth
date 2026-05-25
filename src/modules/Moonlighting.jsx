@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, fmt, fN, marginalRate } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
+import { chartGrid } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -53,7 +54,7 @@ export default function Moonlighting({ profile }) {
         <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Net Annual Income by Gig ($K)</p>
         <ResponsiveContainer width="100%" height={160}>
           <BarChart data={chartData} barCategoryGap="20%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()} />
             <XAxis dataKey="name" tick={{ fontSize: 8, fill: "rgba(255,255,255,0.25)" }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 8, fill: "rgba(255,255,255,0.2)" }} axisLine={false} tickLine={false} unit="K" />
             <Tooltip content={<Tip />} />

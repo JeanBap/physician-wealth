@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BANK_REGISTRY, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { chartBarBg, chartBarFill, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -54,9 +55,9 @@ export default function PlaidAccounts({ profile }) {
           {supported.map(bank => (
             <button key={bank.id} onClick={() => connectBank(bank)} disabled={loading}
               className="group p-6 rounded-xl text-center transition-all hover:scale-[1.02]"
-              style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)" }}
+              style={{ background:chartBarBg(), border:`1px solid ${chartBarFill()}` }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = `${bank.color}40`; e.currentTarget.style.background = `${bank.color}08`; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}>
+              onMouseLeave={e => { e.currentTarget.style.borderColor = chartBarFill(); e.currentTarget.style.background = chartBarBg(); }}>
               <div className="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center text-xl font-black" style={{ background:`${bank.color}15`, border:`1px solid ${bank.color}20`, color:bank.color }}>
                 {bank.logo}
               </div>
@@ -94,8 +95,8 @@ export default function PlaidAccounts({ profile }) {
         <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Spending by Category</p>
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={catData} barCategoryGap="20%">
-            <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+            <XAxis dataKey="name" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="value" name="Spent" radius={[4,4,0,0]} fill="#f8717180"/>
           </BarChart>

@@ -8,7 +8,8 @@ import {
   ChevronRight, ArrowRight, Lock, CheckCircle2, Zap, Target,
   DollarSign, LineChart, Clock, Award, Sparkles, Activity,
   FileSearch, Briefcase, GraduationCap, Home as HomeIcon, BadgeCheck,
-  Globe, BookOpen, AlertCircle,
+  Globe, BookOpen, AlertCircle, Wallet, Flame, Moon, Map,
+  ShieldCheck, PieChart, Calendar, HeartPulse,
 } from "lucide-react";
 
 /* ── Theme A: Swiss Medical ── */
@@ -20,15 +21,30 @@ const T = {
 };
 
 const FEATURES = [
-  { icon: Brain, title: "AI Tax Analysis", desc: "Triple-pass AI (DeepSeek + Haiku + Sonnet) identifies $15-50K in missed deductions from your returns.", bg: "#F0FDF4", stroke: T.teal },
-  { icon: Activity, title: "20 Specialties", desc: "Salary, malpractice, burnout benchmarks calibrated to your exact specialty and career stage.", bg: "#EFF6FF", stroke: T.navy },
-  { icon: Clock, title: "Financial Independence", desc: "Live countdown with physician salary trajectory, kid costs, and inflation modeling.", bg: "#FFFBEB", stroke: T.gold },
-  { icon: Globe, title: "State Arbitrage", desc: "Tax + cost of living optimizer across all 50 states. See your real purchasing power.", bg: "#F5F3FF", stroke: "#7C3AED" },
-  { icon: FileSearch, title: "Contract Scanner", desc: "AI reads your employment contract and flags unfavorable clauses before you sign.", bg: "#FFF1F2", stroke: "#E11D48" },
-  { icon: LineChart, title: "Net Worth Tracker", desc: "Track wealth trajectory over time with milestone goals and progress alerts.", bg: "#F0FDF4", stroke: T.teal },
-  { icon: Shield, title: "Disability Simulator", desc: "Model income disruption scenarios. Compare own-occupation DI carriers.", bg: "#FEF2F2", stroke: "#DC2626" },
-  { icon: HomeIcon, title: "Real Estate Analysis", desc: "Property ROI modeling, physician mortgage comparison, syndication analysis.", bg: "#FFFBEB", stroke: T.gold },
-  { icon: BookOpen, title: "Document Vault", desc: "Upload any financial document. AI builds a comprehensive context profile.", bg: "#EFF6FF", stroke: T.navy },
+  { icon: Brain, title: "AI Tax Analysis", desc: "Triple-pass AI identifies $15-50K in missed physician deductions from moonlighting, sign-on bonuses, and CME expenses. Specialty-specific write-offs your CPA misses.", bg: "#F0FDF4", stroke: T.teal },
+  { icon: DollarSign, title: "Salary Benchmarking", desc: "Compare your total compensation against 95,000+ physician salaries filtered by specialty, years of experience, state, and practice setting. See your national percentile.", bg: "#FFFBEB", stroke: T.gold },
+  { icon: GraduationCap, title: "Student Loan Optimizer", desc: "Side-by-side comparison of PSLF, SAVE, refinancing, and standard repayment using your specialty income trajectory. Find the strategy that saves you the most over your career.", bg: "#EFF6FF", stroke: T.navy },
+  { icon: Globe, title: "State Arbitrage", desc: "Compare after-tax physician income across all 50 states with specialty-specific compensation, state tax brackets, and cost-of-living adjustments. Find your highest-paying state.", bg: "#F5F3FF", stroke: "#7C3AED" },
+  { icon: Zap, title: "Financial Independence", desc: "Physician-specific FI calculator accounting for delayed savings start, high DI premiums, and student debt. Model exactly when you can leave clinical practice.", bg: "#F0FDF4", stroke: T.teal },
+  { icon: FileSearch, title: "Contract Scanner", desc: "Upload your employment agreement and AI highlights restrictive covenants, tail coverage clauses, and non-compete terms that could cost six figures.", bg: "#FFF1F2", stroke: "#E11D48" },
+  { icon: Wallet, title: "Backdoor Roth Wizard", desc: "Step-by-step mega backdoor Roth for physicians earning above income limits. Calculates pro-rata rules and avoids the IRS 6% excess contribution penalty.", bg: "#FFFBEB", stroke: T.gold },
+  { icon: Calculator, title: "W-4 Optimizer", desc: "Avoid a $30K+ tax surprise by optimizing W-4 withholdings for call pay, holiday pay, and year-end bonuses. Includes quarterly estimated tax calculator for 1099 moonlighting.", bg: "#EFF6FF", stroke: T.navy },
+  { icon: Stethoscope, title: "20 Specialties", desc: "Financial benchmarks for cardiology, orthopedics, radiology, anesthesia, and 16 more. Salary, malpractice, and burnout data calibrated to your field and career stage.", bg: "#F0FDF4", stroke: T.teal },
+  { icon: Shield, title: "Malpractice Risk", desc: "Benchmark your malpractice premiums against specialty averages and analyze tail coverage costs. Identifies high-risk procedures and models claims impact on future rates.", bg: "#FEF2F2", stroke: "#DC2626" },
+  { icon: Briefcase, title: "Practice Buyout", desc: "Model partnership buy-ins, practice valuation, and owner vs. employed total compensation. Compare income trajectories over the full buy-out period.", bg: "#F5F3FF", stroke: "#7C3AED" },
+  { icon: HeartPulse, title: "Dual-Physician Planning", desc: "Optimize combined tax brackets, retirement limits, and budgeting for two physician incomes. Handles Medicare surtaxes, HHI phase-outs, and coordinated disability insurance.", bg: "#FFF1F2", stroke: "#E11D48" },
+  { icon: Activity, title: "RVU Calculator", desc: "Convert wRVU targets into real compensation using specialty-specific payer rates. See how productivity changes affect bonus thresholds and total income.", bg: "#FFFBEB", stroke: T.gold },
+  { icon: Flame, title: "Burnout Cost Calculator", desc: "Quantify the financial impact of reducing clinical hours or transitioning to part-time. Model how reduced FTE affects pension, DI riders, and long-term wealth.", bg: "#FEF2F2", stroke: "#DC2626" },
+  { icon: Moon, title: "Moonlighting ROI", desc: "Compare locum tenens rates, per-diem shifts, and 1099 opportunities against your W-2 hourly rate. Factors in self-employment tax and lost benefits for true profit margin.", bg: "#EFF6FF", stroke: T.navy },
+  { icon: Map, title: "Income Map", desc: "Specialty-adjusted salary ranking across 100+ US metros with cost-of-living multipliers. Identify the highest-paying cities for your specialty and model relocation ROI.", bg: "#F0FDF4", stroke: T.teal },
+  { icon: TrendingUp, title: "Net Worth Tracker", desc: "Track physician net worth including deferred comp, 401(a), and 457(b) accounts. Adjusts for tax-sheltered growth and medical practice equity.", bg: "#F5F3FF", stroke: "#7C3AED" },
+  { icon: ShieldCheck, title: "Insurance Review", desc: "Analyze own-occupation disability, umbrella liability, and life insurance against physician risk benchmarks. Identifies coverage gaps for highly compensated specialists.", bg: "#FFFBEB", stroke: T.gold },
+  { icon: PieChart, title: "Spending Analysis", desc: "Physician-specific budgeting with 28% housing rule, debt-to-income ratios for jumbo mortgages, and specialty-adjusted emergency fund targets.", bg: "#EFF6FF", stroke: T.navy },
+  { icon: Calendar, title: "Tax Calendar", desc: "19 physician-specific tax deadlines including quarterly estimated payments, SEP IRA cutoffs, and 1099 filing windows. Notifications for multi-state income.", bg: "#FFF1F2", stroke: "#E11D48" },
+  { icon: Building2, title: "Real Estate Analysis", desc: "Evaluate medical office condos, physician mortgage 0% down options, and rental property ROI. Accounts for high debt-to-income ratios unique to physicians.", bg: "#F0FDF4", stroke: T.teal },
+  { icon: Scale, title: "Lifestyle Creep Detector", desc: "Model the lifetime cost of luxury cars, vacation homes, country clubs, and private school. See how each upgrade delays your financial independence date.", bg: "#FFFBEB", stroke: T.gold },
+  { icon: Target, title: "Disability Simulator", desc: "Model own-occupation disability scenarios using specialty morbidity rates. Compare elimination periods and residual disability riders from top carriers.", bg: "#FEF2F2", stroke: "#DC2626" },
+  { icon: BookOpen, title: "Document Vault", desc: "Encrypted storage for medical licenses, DEA registrations, malpractice policies, and contracts. Organized for credentialing, mortgage apps, and disability claims.", bg: "#EFF6FF", stroke: T.navy },
 ];
 
 const TIERS = [

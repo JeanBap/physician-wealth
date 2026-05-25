@@ -5,6 +5,7 @@ import { Section, Stat, Card, Alert, Btn, Badge } from "../components/ui";
 import { saveDocument, getDocuments, updateDocument, deleteDocument, getUserContext, saveUserContext } from "../lib/supabase";
 import { analyzeTriple, analyzeDouble } from "../lib/ai";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -305,8 +306,8 @@ Be specific with numbers. Reference the physician's specialty and income level.`
               <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Documents by Type</p>
               <ResponsiveContainer width="100%" height={100}>
                 <BarChart data={typeDistribution} barCategoryGap="20%">
-                  <XAxis dataKey="name" tick={{ fontSize:11, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-                  <YAxis tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} allowDecimals={false}/>
+                  <XAxis dataKey="name" tick={{ fontSize:11, fill:chartText() }} axisLine={false} tickLine={false}/>
+                  <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} allowDecimals={false}/>
                   <Bar dataKey="value" name="Count" radius={[4,4,0,0]}>{typeDistribution.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
                 </BarChart>
               </ResponsiveContainer>

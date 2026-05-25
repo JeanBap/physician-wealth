@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Inp, Alert, Card , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -69,9 +70,9 @@ export default function DisabilitySim({ profile }) {
               <defs>
                 <linearGradient id="depG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#f87171" stopOpacity={0.3}/><stop offset="100%" stopColor="#f87171" stopOpacity={0}/></linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-              <XAxis dataKey="month" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} label={{ value:"Months", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.15)" }}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+              <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+              <XAxis dataKey="month" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} label={{ value:"Months", position:"insideBottom", offset:-5, fontSize:8, fill:"rgba(255,255,255,0.15)" }}/>
+              <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Area type="monotone" dataKey="savings" name="Savings" stroke="#f87171" fill="url(#depG)" strokeWidth={2} dot={false}/>
             </AreaChart>
@@ -84,8 +85,8 @@ export default function DisabilitySim({ profile }) {
         <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Carrier Premiums (Monthly)</p>
         <ResponsiveContainer width="100%" height={140}>
           <BarChart data={carrierData} barCategoryGap="20%">
-            <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${v}`}/>
+            <XAxis dataKey="name" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${v}`}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="premium" name="Premium" radius={[4,4,0,0]}>{carrierData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
           </BarChart>

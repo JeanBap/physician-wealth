@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_TAX, fedTax, fica, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert , Takeaway } from "../components/ui";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -109,7 +110,7 @@ export default function Spending({ profile }) {
           <ResponsiveContainer width="100%" height={140}>
             <BarChart data={taxBreakdown} barCategoryGap="25%">
               <XAxis dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+              <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="value" name="Tax" radius={[4,4,0,0]}>{taxBreakdown.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>

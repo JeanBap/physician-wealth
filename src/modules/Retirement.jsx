@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Donut, Alert , Takeaway } from "../components/ui";
 import { AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -102,9 +103,9 @@ export default function Retirement({ profile }) {
             <defs>
               <linearGradient id="retG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.3}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="age" tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-            <YAxis tick={{ fontSize:9, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+            <XAxis dataKey="age" tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false}/>
+            <YAxis tick={{ fontSize:9, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="balance" name="Portfolio" stroke="#34d399" fill="url(#retG)" strokeWidth={2.5} dot={false}/>
             <Area type="monotone" dataKey="target" name="FI Target" stroke="#fbbf24" fill="none" strokeWidth={1.5} strokeDasharray="6 4" dot={false}/>
@@ -117,7 +118,7 @@ export default function Retirement({ profile }) {
         <p className="text-xs text-white/55 uppercase tracking-widest mb-2">2025 Contribution Limits</p>
         <ResponsiveContainer width="100%" height={contribData.length * 35 + 10}>
           <BarChart data={contribData} layout="vertical" barCategoryGap="20%">
-            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+            <XAxis type="number" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
             <YAxis type="category" dataKey="name" tick={{ fontSize:9, fill:"rgba(255,255,255,0.55)" }} axisLine={false} tickLine={false} width={60}/>
             <Tooltip content={<Tip/>}/>
             <Bar dataKey="value" name="Limit" radius={[0,4,4,0]}>{contribData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>

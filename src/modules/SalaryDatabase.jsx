@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, STATE_NAMES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Badge, Takeaway, Btn } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartBarFill } from "../lib/chartColors";
 const Tip=({active,payload,label})=>{if(!active||!payload?.length)return null;return(<div style={{background:"var(--tooltipBg)",border:"1px solid var(--tooltipBorder)"}} className="rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/50 mb-1">{label}</p>{payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>)};
 
 function loadSubmissions() { try { return JSON.parse(localStorage.getItem("pw_salarydb") || "[]"); } catch { return []; } }
@@ -193,7 +194,7 @@ export default function SalaryDatabase({ profile }) {
             <XAxis type="number" tick={{fontSize:10,fill:"var(--chartText)"}} axisLine={false} tickLine={false} unit="K"/>
             <YAxis type="category" dataKey="name" tick={{fontSize:10,fill:"var(--text3)"}} axisLine={false} tickLine={false} width={90}/>
             <Tooltip content={<Tip/>}/>
-            <Bar dataKey="value" name="Avg Total ($K)" radius={[0,4,4,0]}>{specChart.map((d,i)=><Cell key={i} fill={d.yours?"#34d399":"rgba(255,255,255,0.06)"}/>)}</Bar>
+            <Bar dataKey="value" name="Avg Total ($K)" radius={[0,4,4,0]}>{specChart.map((d,i)=><Cell key={i} fill={d.yours?"#34d399":chartBarFill()}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>
       </Card>

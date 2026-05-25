@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Inp , Takeaway } from "../components/ui";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
+import { chartBarFill, chartCircle, chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -58,7 +59,7 @@ export default function MalpracticeRisk({ profile }) {
       <div className="flex items-center justify-center py-3">
         <div className="relative w-32 h-32">
           <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="8"/>
+            <circle cx="50" cy="50" r="42" fill="none" stroke={chartCircle()} strokeWidth="8"/>
             <circle cx="50" cy="50" r="42" fill="none"
               stroke={riskScore > 70 ? "#f87171" : riskScore > 40 ? "#fbbf24" : "#34d399"}
               strokeWidth="8" strokeDasharray={`${riskScore * 2.64} 264`} strokeLinecap="round"/>
@@ -82,8 +83,8 @@ export default function MalpracticeRisk({ profile }) {
           <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Risk Factors</p>
           <ResponsiveContainer width="100%" height={180}>
             <RadarChart data={riskRadar} cx="50%" cy="50%" outerRadius="65%">
-              <PolarGrid stroke="rgba(255,255,255,0.04)"/>
-              <PolarAngleAxis dataKey="factor" tick={{ fontSize:7, fill:"rgba(255,255,255,0.5)" }}/>
+              <PolarGrid stroke={chartCircle()}/>
+              <PolarAngleAxis dataKey="factor" tick={{ fontSize:7, fill:chartText() }}/>
               <PolarRadiusAxis tick={false} axisLine={false} domain={[0,100]}/>
               <Radar name="Risk" dataKey="value" stroke="#f87171" fill="#f87171" fillOpacity={0.15} strokeWidth={2} dot={{ r:2, fill:"#f87171" }}/>
             </RadarChart>
@@ -94,8 +95,8 @@ export default function MalpracticeRisk({ profile }) {
           <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Carrier Premiums ($K/yr)</p>
           <ResponsiveContainer width="100%" height={150}>
             <BarChart data={carrierData} barCategoryGap="20%">
-              <XAxis dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false}/>
-              <YAxis tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="K"/>
+              <XAxis dataKey="name" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false}/>
+              <YAxis tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} unit="K"/>
               <Tooltip content={<Tip/>}/>
               <Bar dataKey="premium" name="Premium ($K)" radius={[4,4,0,0]}>{carrierData.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
             </BarChart>
@@ -108,10 +109,10 @@ export default function MalpracticeRisk({ profile }) {
         <p className="text-xs text-white/55 uppercase tracking-widest mb-1">Claim Rates by Specialty (%)</p>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={claimRank} layout="vertical" barCategoryGap="12%">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={false}/>
-            <XAxis type="number" tick={{ fontSize:8, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} unit="%"/>
-            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:"rgba(255,255,255,0.5)" }} axisLine={false} tickLine={false} width={90}/>
-            <Bar dataKey="rate" name="Claim Rate" radius={[0,4,4,0]}>{claimRank.map((d,i)=><Cell key={i} fill={d.yours?"#f87171":"rgba(255,255,255,0.06)"}/>)}</Bar>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()} horizontal={false}/>
+            <XAxis type="number" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} unit="%"/>
+            <YAxis type="category" dataKey="name" tick={{ fontSize:8, fill:chartText() }} axisLine={false} tickLine={false} width={90}/>
+            <Bar dataKey="rate" name="Claim Rate" radius={[0,4,4,0]}>{claimRank.map((d,i)=><Cell key={i} fill={d.yours?"#f87171":chartBarFill()}/>)}</Bar>
           </BarChart>
         </ResponsiveContainer>
       </Card>

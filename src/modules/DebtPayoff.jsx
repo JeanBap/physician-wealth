@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { fmt, fN, pmtCalc } from "../lib/data";
 import { Section, Stat, Card, Alert, Takeaway } from "../components/ui";
 import { AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 const Tip=({active,payload,label})=>{if(!active||!payload?.length)return null;return(<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/50 mb-1">{label}</p>{payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>)};
 
 export default function DebtPayoff({ profile }) {
@@ -95,9 +96,9 @@ export default function DebtPayoff({ profile }) {
         <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Debt Balance Over Time</p>
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart data={simulation.timeline}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="month" tick={{fontSize:10,fill:"rgba(255,255,255,0.45)"}} axisLine={false} tickLine={false} tickFormatter={v=>`${Math.round(v/12)}yr`}/>
-            <YAxis tick={{fontSize:10,fill:"rgba(255,255,255,0.45)"}} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+            <XAxis dataKey="month" tick={{fontSize:10,fill:chartText()}} axisLine={false} tickLine={false} tickFormatter={v=>`${Math.round(v/12)}yr`}/>
+            <YAxis tick={{fontSize:10,fill:chartText()}} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(0)}K`}/>
             <Tooltip content={<Tip/>}/>
             {debts.map((d,i) => (
               <Area key={d.id} type="monotone" dataKey={d.name} name={d.name} stackId="1" stroke={debtColors[i]} fill={debtColors[i]} fillOpacity={0.3} strokeWidth={0}/>

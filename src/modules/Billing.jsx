@@ -47,8 +47,8 @@ export default function Billing({ profile, navigate, user }) {
           return (
             <div key={p.id} className={`relative rounded-xl p-5 transition-all ${isCurrent ? "scale-[1.02]" : ""}`}
               style={{
-                background: isCurrent ? `linear-gradient(180deg, ${p.color}08 0%, transparent 100%)` : "rgba(255,255,255,0.02)",
-                border: `1px solid ${isCurrent ? `${p.color}30` : "rgba(255,255,255,0.05)"}`,
+                background: isCurrent ? `linear-gradient(180deg, ${p.color}08 0%, transparent 100%)` : "var(--chartBarBg, rgba(0,0,0,0.02))",
+                border: `1px solid ${isCurrent ? `${p.color}30` : "var(--border, rgba(0,0,0,0.08))"}`,
               }}>
               {p.id === "pro" && !isAdmin && <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-blue-500 text-sm text-white font-bold">POPULAR</div>}
               <p className="text-xs text-white/55 uppercase font-bold tracking-wider">{p.name}</p>
@@ -69,8 +69,8 @@ export default function Billing({ profile, navigate, user }) {
                   createCheckoutSession(STRIPE_CONFIG.prices[priceKey], user?.email || profile?.email);
                 }} disabled={isCurrent || isAdmin || p.id === "free"}
                 className="w-full mt-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer" style={{
-                  background: isCurrent ? `${p.color}15` : p.id === "free" ? "rgba(255,255,255,0.02)" : `${p.color}20`,
-                  border: `1px solid ${isCurrent ? `${p.color}30` : p.id === "free" ? "rgba(255,255,255,0.04)" : `${p.color}40`}`,
+                  background: isCurrent ? `${p.color}15` : p.id === "free" ? "var(--chartBarBg, rgba(0,0,0,0.02))" : `${p.color}20`,
+                  border: `1px solid ${isCurrent ? `${p.color}30` : p.id === "free" ? "var(--chartCircle, rgba(0,0,0,0.04))" : `${p.color}40`}`,
                   color: isCurrent ? p.color : p.id === "free" ? "rgba(255,255,255,0.2)" : p.color,
                   opacity: isCurrent || p.id === "free" ? 0.6 : 1,
                 }}>

@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert, Toggle, Takeaway } from "../components/ui";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 const Tip=({active,payload,label})=>{if(!active||!payload?.length)return null;return(<div className="bg-[#13141c] border border-white/10 rounded-lg px-3 py-2 shadow-2xl"><p className="text-xs text-white/50 mb-1">{label}</p>{payload.map((p,i)=><p key={i} className="text-sm font-bold" style={{color:p.color}}>{p.name}: ${p.value?.toLocaleString()}</p>)}</div>)};
 
 export default function BackdoorRoth({ profile }) {
@@ -76,9 +77,9 @@ export default function BackdoorRoth({ profile }) {
         <ResponsiveContainer width="100%" height={180}>
           <AreaChart data={projection}>
             <defs><linearGradient id="rothG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#34d399" stopOpacity={0.3}/><stop offset="100%" stopColor="#34d399" stopOpacity={0}/></linearGradient></defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-            <XAxis dataKey="year" tick={{fontSize:11,fill:"rgba(255,255,255,0.45)"}} axisLine={false} tickLine={false}/>
-            <YAxis tick={{fontSize:10,fill:"rgba(255,255,255,0.45)"}} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+            <XAxis dataKey="year" tick={{fontSize:11,fill:chartText()}} axisLine={false} tickLine={false}/>
+            <YAxis tick={{fontSize:10,fill:chartText()}} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
             <Tooltip content={<Tip/>}/>
             <Area type="monotone" dataKey="balance" name="Roth Balance" stroke="#34d399" fill="url(#rothG)" strokeWidth={2.5} dot={false}/>
           </AreaChart>

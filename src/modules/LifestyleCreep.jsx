@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { SPECIALTIES, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Inp, Alert, Takeaway } from "../components/ui";
 import { AreaChart, Area, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { chartGrid, chartText } from "../lib/chartColors";
 
 const Tip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -104,9 +105,9 @@ export default function LifestyleCreep({ profile }) {
                 <defs>
                   <linearGradient id="lostG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#f87171" stopOpacity={0.3}/><stop offset="100%" stopColor="#f87171" stopOpacity={0}/></linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)"/>
-                <XAxis dataKey="year" tick={{ fontSize:11, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-                <YAxis tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
+                <CartesianGrid strokeDasharray="3 3" stroke={chartGrid()}/>
+                <XAxis dataKey="year" tick={{ fontSize:11, fill:chartText() }} axisLine={false} tickLine={false}/>
+                <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1e6).toFixed(1)}M`}/>
                 <Tooltip content={<Tip/>}/>
                 <Area type="monotone" dataKey="lost" name="Wealth Lost" stroke="#f87171" fill="url(#lostG)" strokeWidth={2.5} dot={false}/>
               </AreaChart>
@@ -118,8 +119,8 @@ export default function LifestyleCreep({ profile }) {
               <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Creep by Category (Monthly)</p>
               <ResponsiveContainer width="100%" height={120}>
                 <BarChart data={catBreakdown} barCategoryGap="20%">
-                  <XAxis dataKey="name" tick={{ fontSize:11, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false}/>
-                  <YAxis tick={{ fontSize:10, fill:"rgba(255,255,255,0.45)" }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
+                  <XAxis dataKey="name" tick={{ fontSize:11, fill:chartText() }} axisLine={false} tickLine={false}/>
+                  <YAxis tick={{ fontSize:10, fill:chartText() }} axisLine={false} tickLine={false} tickFormatter={v=>`$${(v/1000).toFixed(1)}K`}/>
                   <Bar dataKey="value" name="Monthly" radius={[4,4,0,0]}>{catBreakdown.map((d,i)=><Cell key={i} fill={d.color}/>)}</Bar>
                 </BarChart>
               </ResponsiveContainer>
