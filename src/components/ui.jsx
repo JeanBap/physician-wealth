@@ -137,9 +137,13 @@ export const Spark = ({ data, color = "#34d399", w = 60, h = 20 }) => {
 // --- PAYWALL LOCK ---
 export const PaywallLock = ({ tier, navigate }) => (
   <div className="flex flex-col items-center justify-center py-16 text-center">
-    <div className="w-16 h-16 rounded-full bg-white/[0.04] flex items-center justify-center mb-4 text-2xl">🔒</div>
-    <p className="text-sm text-white/55 font-bold mb-1">{tier === "premium" ? "Premium" : "Pro"} Feature</p>
-    <p className="text-xs text-white/55 mb-4">Upgrade to access {tier} features</p>
+    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] flex items-center justify-center mb-5 border border-white/[0.08] shadow-lg">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/40">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1"/>
+      </svg>
+    </div>
+    <p className="text-sm text-white/65 font-bold mb-1">{tier === "premium" ? "Premium" : "Pro"} Feature</p>
+    <p className="text-xs text-white/45 mb-5 max-w-xs">Unlock {tier} tools to optimize your physician finances</p>
     <Btn onClick={() => navigate("billing")}>View Plans</Btn>
   </div>
 );
@@ -151,15 +155,21 @@ export const Widget = ({ id, title, visible, onToggle, onMoveUp, onMoveDown, isF
     <div className={`relative group transition-all ${!visible ? "opacity-30" : ""}`}>
       {editing && (
         <div className="absolute -left-10 top-0 bottom-0 flex flex-col items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition z-10">
-          {!isFirst && <button onClick={onMoveUp} className="w-7 h-7 rounded bg-white/[0.06] text-xs text-white/75 hover:text-white/75 hover:bg-white/[0.1]">^</button>}
-          {!isLast && <button onClick={onMoveDown} className="w-7 h-7 rounded bg-white/[0.06] text-xs text-white/75 hover:text-white/75 hover:bg-white/[0.1]">v</button>}
+          {!isFirst && <button onClick={onMoveUp} className="w-7 h-7 rounded-lg bg-white/[0.06] flex items-center justify-center text-white/40 hover:text-white/70 hover:bg-white/[0.1] transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 15l-6-6-6 6"/></svg>
+          </button>}
+          {!isLast && <button onClick={onMoveDown} className="w-7 h-7 rounded-lg bg-white/[0.06] flex items-center justify-center text-white/40 hover:text-white/70 hover:bg-white/[0.1] transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>}
         </div>
       )}
       {editing && (
         <div className="absolute -right-2 -top-2 z-10">
           <button onClick={onToggle}
-            className={`w-6 h-6 rounded-full text-xs font-bold border transition ${visible ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-400" : "bg-red-500/20 border-red-500/30 text-red-400"}`}>
-            {visible ? "O" : "X"}
+            className={`w-6 h-6 rounded-full flex items-center justify-center border transition ${visible ? "bg-emerald-500/20 border-emerald-500/30 text-emerald-400" : "bg-red-500/20 border-red-500/30 text-red-400"}`}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              {visible ? <path d="M20 6L9 17l-5-5"/> : <path d="M18 6L6 18M6 6l12 12"/>}
+            </svg>
           </button>
         </div>
       )}
@@ -172,7 +182,9 @@ export const Widget = ({ id, title, visible, onToggle, onMoveUp, onMoveDown, isF
 export const Takeaway = ({ items }) => (
   <div className="mt-6 rounded-xl p-4 md:p-5" style={{ background:"linear-gradient(135deg, rgba(52,211,153,0.06) 0%, rgba(96,165,250,0.04) 100%)", border:"1px solid rgba(52,211,153,0.1)" }}>
     <div className="flex items-center gap-2 mb-3">
-      <div className="w-6 h-6 rounded-lg bg-emerald-500/15 flex items-center justify-center text-xs">&#9889;</div>
+      <div className="w-6 h-6 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
       <p className="text-sm font-bold text-emerald-400/80">Key Takeaways</p>
     </div>
     <div className="space-y-2">

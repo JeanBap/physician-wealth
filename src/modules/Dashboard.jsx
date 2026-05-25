@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { SPECIALTIES, MODULES, STATE_TAX, STATE_NAMES, STATE_COL, fedTax, fica, fmt, fN } from "../lib/data";
 import { Card, Donut, Badge, Widget } from "../components/ui";
+import { Icon } from "../components/icons";
 import FICountdown from "./FICountdown";
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, RadarChart, Radar,
@@ -281,10 +282,12 @@ export default function Dashboard({ profile, navigate }) {
           { l:"Take-Home", v:fmt(takeHome), c:C.emerald, s:`${((totalTax/sal)*100).toFixed(0)}% tax` },
           { l:"Total Debt", v:fmt(totalDebt), c:totalDebt>0?C.red:C.emerald, s:totalDebt>0?`${Math.round(totalDebt/totalIncome*100)}% DTI`:"Debt free" },
         ].map((s, i) => (
-          <div key={i} className="rounded-xl p-4" style={{ background:C.card, border:`1px solid ${C.border}` }}>
-            <p className="text-xs text-white/55 uppercase tracking-wider">{s.l}</p>
-            <p className="text-xl font-black tabular-nums mt-1" style={{ color:s.c }}>{s.v}</p>
-            <p className="text-xs text-white/65 mt-0.5">{s.s}</p>
+          <div key={i} className="rounded-xl p-4 transition-all duration-300 hover:scale-[1.02] group" style={{ background:C.card, border:`1px solid ${C.border}` }}
+            onMouseEnter={e=>{e.currentTarget.style.borderColor=`${s.c}25`;e.currentTarget.style.boxShadow=`0 4px 20px ${s.c}08`}}
+            onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.boxShadow="none"}}>
+            <p className="text-xs text-white/45 uppercase tracking-wider font-medium">{s.l}</p>
+            <p className="text-xl font-black tabular-nums mt-1.5 tracking-tight" style={{ color:s.c }}>{s.v}</p>
+            <p className="text-xs text-white/50 mt-1">{s.s}</p>
           </div>
         ))}
       </div>
@@ -439,11 +442,11 @@ export default function Dashboard({ profile, navigate }) {
         <p className="text-xs text-white/65 uppercase tracking-[0.2em] mb-3">All Modules</p>
         <div className="grid grid-cols-4 gap-2">
           {Object.entries(MODULES).filter(([k,m])=>!m.always).map(([k,m])=>(
-            <button key={k} onClick={()=>navigate(k)} className="group p-3 rounded-xl text-center transition-all duration-200 hover:scale-[1.03]" style={{ background:C.card, border:`1px solid ${C.border}` }}
-              onMouseEnter={e=>{e.currentTarget.style.background=`${m.color||C.emerald}10`;e.currentTarget.style.borderColor=`${m.color||C.emerald}25`}}
-              onMouseLeave={e=>{e.currentTarget.style.background=C.card;e.currentTarget.style.borderColor=C.border}}>
-              <p className="text-lg mb-1 opacity-20">{m.icon}</p>
-              <p className="text-xs text-white/65 group-hover:text-white/75 font-medium transition">{m.label}</p>
+            <button key={k} onClick={()=>navigate(k)} className="group p-3.5 rounded-xl text-center transition-all duration-300 hover:scale-[1.04] hover:shadow-lg" style={{ background:C.card, border:`1px solid ${C.border}` }}
+              onMouseEnter={e=>{e.currentTarget.style.background=`${m.color||C.emerald}10`;e.currentTarget.style.borderColor=`${m.color||C.emerald}30`;e.currentTarget.style.boxShadow=`0 4px 20px ${m.color||C.emerald}08`}}
+              onMouseLeave={e=>{e.currentTarget.style.background=C.card;e.currentTarget.style.borderColor=C.border;e.currentTarget.style.boxShadow="none"}}>
+              <div className="flex justify-center mb-2 opacity-30 group-hover:opacity-60 transition-opacity" style={{color:m.color||C.emerald}}><Icon name={k} size={20} /></div>
+              <p className="text-xs text-white/65 group-hover:text-white/80 font-medium transition">{m.label}</p>
             </button>
           ))}
         </div>

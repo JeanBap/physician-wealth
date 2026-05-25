@@ -29,6 +29,7 @@ class ErrorBoundary extends React.Component {
 import { MODULES, SPECIALTIES, DEFAULT_PROFILE, STAGES } from "./lib/data";
 import { getTheme, setThemeId, applyTheme, getLang, setLangId, t as tr, THEMES, LANGS } from "./lib/theme";
 import { PaywallLock, Badge } from "./components/ui";
+import { Icon, LockIcon } from "./components/icons";
 import { canAccessModule, getTrialDaysLeft, isTrialExpired } from "./lib/stripe";
 
 // Module imports
@@ -241,7 +242,9 @@ export default function App() {
         <aside className={`absolute left-0 top-0 h-full w-64 transition-transform duration-300 flex flex-col ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`} style={{ background:"var(--sidebarBg)", backdropFilter:"blur(20px)" }}>
           <div className="p-4 border-b border-white/[0.04] flex items-center justify-between">
             <p className="text-emerald-400 text-base font-black" style={{ fontFamily:"'Instrument Serif', Georgia, serif" }}>PhysicianWealth</p>
-            <button onClick={() => setSidebarOpen(false)} className="text-white/40 text-lg">X</button>
+            <button onClick={() => setSidebarOpen(false)} className="text-white/40 hover:text-white/60 p-1 rounded-lg hover:bg-white/[0.06] transition">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
           </div>
           <nav className="flex-1 overflow-y-auto py-2">
             {Object.entries(sidebarSections).map(([cat, items]) => (
@@ -252,9 +255,10 @@ export default function App() {
                   const locked = !canAccessModule(m.tier, userTier, trialExpired);
                   return (
                     <button key={m.key} onClick={() => { navigate(m.key); setSidebarOpen(false); }}
-                      className={`w-full text-left px-4 py-2.5 flex items-center justify-between transition ${active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/50 hover:text-white/65 hover:bg-white/[0.02]"} ${locked ? "opacity-40" : ""}`}>
-                      <span className="text-sm truncate">{m.label}</span>
-                      {locked && <span className="text-xs text-white/40">&#128274;</span>}
+                      className={`w-full text-left px-4 py-2 flex items-center gap-2.5 transition-all duration-200 rounded-r-lg ${active ? "bg-emerald-500/[0.08] text-emerald-400 border-l-2 border-emerald-400" : "text-white/50 hover:text-white/65 hover:bg-white/[0.03] border-l-2 border-transparent"} ${locked ? "opacity-40" : ""}`}>
+                      <Icon name={m.key} size={15} className="flex-shrink-0 opacity-70" />
+                      <span className="text-sm truncate flex-1">{m.label}</span>
+                      {locked && <Icon name="billing" size={12} className="opacity-40 flex-shrink-0" />}
                     </button>
                   );
                 })}
@@ -274,7 +278,9 @@ export default function App() {
             </p>
             {user?.isAdmin ? <p className="text-xs text-emerald-400/70 mt-0.5">Admin</p> : trialDays > 0 && <p className="text-xs text-amber-400/50 mt-0.5">{trialDays}d trial</p>}
           </div>
-          <button onClick={() => setSidebarOpen(false)} className="text-white/30 hover:text-white/55 text-sm transition">✕</button>
+          <button onClick={() => setSidebarOpen(false)} className="text-white/30 hover:text-white/55 p-1 rounded-lg hover:bg-white/[0.06] transition">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
         </div>
 
         {/* Nav */}
@@ -287,12 +293,13 @@ export default function App() {
                 const locked = !canAccessModule(m.tier, userTier, trialExpired);
                 return (
                   <button key={m.key} onClick={() => navigate(m.key)}
-                    className={`w-full text-left px-4 py-2.5 flex items-center justify-between transition ${
-                      active ? "bg-emerald-500/[0.08] text-emerald-400" : "text-white/75 hover:text-white/65 hover:bg-white/[0.02]"
+                    className={`w-full text-left px-4 py-2 flex items-center gap-2.5 transition-all duration-200 rounded-r-lg ${
+                      active ? "bg-emerald-500/[0.08] text-emerald-400 border-l-2 border-emerald-400" : "text-white/75 hover:text-white/65 hover:bg-white/[0.03] border-l-2 border-transparent hover:border-white/10"
                     } ${locked ? "opacity-40" : ""}`}>
-                    <span className="text-sm truncate">{m.label}</span>
-                    {m.tier === "premium" && <span className="text-sm text-amber-400/70 ml-1">PRO</span>}
-                    {locked && <span className="text-xs text-white/65">🔒</span>}
+                    <Icon name={m.key} size={15} className="flex-shrink-0 opacity-70" />
+                    <span className="text-sm truncate flex-1">{m.label}</span>
+                    {m.tier === "premium" && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400/70 border border-amber-500/15">PRO</span>}
+                    {locked && <LockIcon size={12} className="opacity-40 flex-shrink-0" />}
                   </button>
                 );
               })}
@@ -314,14 +321,17 @@ export default function App() {
       {/* Main content */}
       <main className="flex-1 overflow-y-auto w-full relative min-h-screen">
         {/* Top bar */}
-        <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b sticky top-0 z-20" style={{ background:"var(--bg)", borderColor:"var(--border)" }}>
-          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/40 hover:text-white/60 text-xl p-1 transition" title={sidebarOpen ? "Close sidebar" : "Open sidebar"}>
-            {sidebarOpen ? "\u00d7" : "\u2261"}
+        <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b sticky top-0 z-20 backdrop-blur-md" style={{ background:"var(--topbarBg)", borderColor:"var(--border)" }}>
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white/40 hover:text-white/60 p-1.5 rounded-lg hover:bg-white/[0.04] transition-all" title={sidebarOpen ? "Close sidebar" : "Open sidebar"}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">{sidebarOpen ? <path d="M18 6L6 18M6 6l12 12"/> : <><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></>}</svg>
           </button>
-          <p className="text-xs md:text-sm text-white/55 font-medium">{modMeta?.label || "Dashboard"}</p>
-          <div className="flex items-center gap-3">
-            <button onClick={toggleTheme} className="text-xs px-2 py-1 rounded-md transition" style={{ background:"var(--inputBg)", border:"1px solid var(--border)", color:"var(--text3)" }} title="Toggle theme">
-              {theme === "dark" ? "☀️" : "🌙"}
+          <div className="flex items-center gap-2">
+            <Icon name={page} size={14} className="opacity-50" />
+            <p className="text-xs md:text-sm font-medium" style={{color:"var(--text2)"}}>{modMeta?.label || "Dashboard"}</p>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <button onClick={toggleTheme} className="p-1.5 rounded-lg hover:bg-white/[0.04] transition-all" style={{ color:"var(--text3)" }} title="Toggle theme">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{theme === "dark" ? <><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></> : <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>}</svg>
             </button>
             <Badge color="#34d399">{profile.specialty}</Badge>
             <span className="text-xs hidden md:inline" style={{ color:"var(--text3)" }}>{profile.state}</span>
