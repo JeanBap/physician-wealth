@@ -33,7 +33,7 @@ export const THEMES = {
 };
 
 export function getTheme() {
-  try { return localStorage.getItem("pw_theme") || "dark"; } catch { return "dark"; }
+  try { return localStorage.getItem("pw_theme") || "light"; } catch { return "light"; }
 }
 
 export function setThemeId(id) {
@@ -42,7 +42,7 @@ export function setThemeId(id) {
 }
 
 export function applyTheme(id) {
-  const t = THEMES[id] || THEMES.dark;
+  const t = THEMES[id] || THEMES.light;
   const root = document.documentElement;
   Object.entries(t).forEach(([k, v]) => {
     if (k === "id" || k === "label") return;

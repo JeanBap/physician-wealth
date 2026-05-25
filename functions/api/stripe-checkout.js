@@ -11,8 +11,8 @@ export async function onRequestPost(context) {
 
     const params = new URLSearchParams();
     params.append("mode", "subscription");
-    params.append("success_url", "https://physician-wealth.pages.dev/#/billing?success=true");
-    params.append("cancel_url", "https://physician-wealth.pages.dev/#/billing?canceled=true");
+    params.append("success_url", "https://physician-wealth.com/#/billing?success=true");
+    params.append("cancel_url", "https://physician-wealth.com/#/billing?canceled=true");
     params.append("line_items[0][price]", priceId);
     params.append("line_items[0][quantity]", "1");
     if (email) params.append("customer_email", email);

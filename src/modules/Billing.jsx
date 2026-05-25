@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { PRICING, fmt, fN } from "../lib/data";
 import { Section, Stat, Card, Alert, Badge } from "../components/ui";
-import { canAccessModule } from "../lib/stripe";
+import { canAccessModule, createCheckoutSession, openCustomerPortal, STRIPE_CONFIG } from "../lib/stripe";
 
 export default function Billing({ profile, navigate, user }) {
   const [plan, setPlan] = useState(user?.isAdmin ? "premium" : "free");
+  const [checkoutMsg, setCheckoutMsg] = useState(() => {
+    const params = new URLSearchParams(window.location.hash.split("?")[1] || "");
+    if (params.get("success") === "true") return "success";
+    if (params.get("canceled") === "true") return "canceled";
+    return null;
+  });
   const isAdmin = user?.isAdmin;
 
   const plans = [
@@ -17,6 +23,8 @@ export default function Billing({ profile, navigate, user }) {
     <div className="space-y-5 animate-in">
       <Section title="Billing & Plans" sub="Manage your subscription" />
 
+      {checkoutMsg === "success" && <Alert type="success">Payment successful! Your subscription is now active. It may take a moment to update.</Alert>}
+      {checkoutMsg === "canceled" && <Alert type="warn">Checkout was canceled. No charges were made.</Alert>}
       {isAdmin && <Alert type="success">Admin account. Full access to all features, no billing required.</Alert>}
 
       {/* Current plan */}
@@ -55,14 +63,18 @@ export default function Billing({ profile, navigate, user }) {
                   </div>
                 ))}
               </div>
-              <button onClick={() => !isAdmin && setPlan(p.id)} disabled={isCurrent || isAdmin}
-                className="w-full mt-4 py-2 rounded-lg text-xs font-bold transition" style={{
-                  background: isCurrent ? `${p.color}15` : "rgba(255,255,255,0.04)",
-                  border: `1px solid ${isCurrent ? `${p.color}30` : "rgba(255,255,255,0.06)"}`,
-                  color: isCurrent ? p.color : "rgba(255,255,255,0.3)",
-                  opacity: isCurrent ? 1 : 0.6,
+              <button onClick={() => {
+                  if (isAdmin || isCurrent) return;
+                  const priceKey = p.id === "pro" ? "pro_monthly" : "premium_monthly";
+                  createCheckoutSession(STRIPE_CONFIG.prices[priceKey], user?.email || profile?.email);
+                }} disabled={isCurrent || isAdmin || p.id === "free"}
+                className="w-full mt-4 py-2 rounded-lg text-xs font-bold transition cursor-pointer" style={{
+                  background: isCurrent ? `${p.color}15` : p.id === "free" ? "rgba(255,255,255,0.02)" : `${p.color}20`,
+                  border: `1px solid ${isCurrent ? `${p.color}30` : p.id === "free" ? "rgba(255,255,255,0.04)" : `${p.color}40`}`,
+                  color: isCurrent ? p.color : p.id === "free" ? "rgba(255,255,255,0.2)" : p.color,
+                  opacity: isCurrent || p.id === "free" ? 0.6 : 1,
                 }}>
-                {isCurrent ? "Current" : `Upgrade to ${p.name}`}
+                {isCurrent ? "Current" : p.id === "free" ? "Free Forever" : `Upgrade to ${p.name}`}
               </button>
             </div>
           );
@@ -72,7 +84,7 @@ export default function Billing({ profile, navigate, user }) {
       <Card>
         <p className="text-xs text-white/55 uppercase tracking-widest mb-2">Payment Methods</p>
         <p className="text-sm text-white/55">Managed through Stripe. Click below to update.</p>
-        <button className="mt-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm text-white/75 hover:text-white/65 transition">
+        <button onClick={() => openCustomerPortal(user?.email || profile?.email)} className="mt-2 px-4 py-2 rounded-lg bg-white/[0.04] border border-white/[0.06] text-sm text-white/75 hover:text-white/65 transition cursor-pointer">
           Manage Payment Method
         </button>
       </Card>

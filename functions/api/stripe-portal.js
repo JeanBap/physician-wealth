@@ -20,7 +20,7 @@ export async function onRequestPost(context) {
 
     const params = new URLSearchParams();
     params.append("customer", custData.data[0].id);
-    params.append("return_url", "https://physician-wealth.pages.dev/#/billing");
+    params.append("return_url", "https://physician-wealth.com/#/billing");
 
     const portalRes = await fetch("https://api.stripe.com/v1/billing_portal/sessions", {
       method: "POST",

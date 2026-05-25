@@ -345,16 +345,16 @@ export const REGION_SALARY = {
 
 // Recommended provider categories for marketplace
 export const PROVIDER_CATEGORIES = [
-  { id:"tax", name:"Physician Tax Specialists", desc:"CPAs who specialize in physician W-2 + 1099 optimization", icon:"📊", examples:["Physician Tax Advisors","Earned CPA","WCG (formerly Watson CPA)"] },
-  { id:"wealth", name:"Fee-Only Wealth Managers", desc:"Fiduciary advisors specializing in physician finances", icon:"💰", examples:["Earned Wealth","Physician Wealth Services","WCI-recommended advisors"] },
-  { id:"insurance", name:"Insurance Brokers", desc:"Own-occupation DI + umbrella specialists for MDs", icon:"🛡️", examples:["Pattern Insurance","WhiteCoat DI","Guardian Direct"] },
-  { id:"loans", name:"Loan Refinancing", desc:"Student loan refi with physician-specific rates", icon:"🎯", examples:["SoFi","Laurel Road","Splash Financial"] },
-  { id:"mortgage", name:"Physician Mortgages", desc:"0% down, no PMI for MDs. Major banks + regional lenders", icon:"🏠", examples:["KeyBank","Regions","Fifth Third","Citizens"] },
-  { id:"legal", name:"Asset Protection Attorneys", desc:"Trusts, LLCs, and estate planning for high-income MDs", icon:"⚖️", examples:["Physician's Resource","Anderson Business Advisors"] },
-  { id:"contracts", name:"Contract Review", desc:"Employment contract attorneys specializing in physician agreements", icon:"📝", examples:["Contract Diagnostics","Resolve Physician Agency"] },
-  { id:"banking", name:"Business Banking", desc:"High-yield accounts for practice owners", icon:"🏦", examples:["Mercury","Brex","Novo"] },
-  { id:"realestate", name:"RE Investment Platforms", desc:"Syndications and crowdfunding for accredited investors", icon:"🏗️", examples:["CrowdStreet","Fundrise","Origin Investments"] },
-  { id:"disability", name:"Disability Insurance", desc:"Own-occupation carriers with physician discounts", icon:"🔒", examples:["Guardian","MassMutual","Principal","Standard"] },
+  { id:"tax", iconName:"salary", name:"Physician Tax Specialists", desc:"CPAs who specialize in physician W-2 + 1099 optimization", icon:"📊", examples:["Physician Tax Advisors","Earned CPA","WCG (formerly Watson CPA)"] },
+  { id:"wealth", iconName:"nwtracker", name:"Fee-Only Wealth Managers", desc:"Fiduciary advisors specializing in physician finances", icon:"💰", examples:["Earned Wealth","Physician Wealth Services","WCI-recommended advisors"] },
+  { id:"insurance", iconName:"insurance", name:"Insurance Brokers", desc:"Own-occupation DI + umbrella specialists for MDs", icon:"🛡️", examples:["Pattern Insurance","WhiteCoat DI","Guardian Direct"] },
+  { id:"loans", iconName:"loans", name:"Loan Refinancing", desc:"Student loan refi with physician-specific rates", icon:"🎯", examples:["SoFi","Laurel Road","Splash Financial"] },
+  { id:"mortgage", iconName:"realestate", name:"Physician Mortgages", desc:"0% down, no PMI for MDs. Major banks + regional lenders", icon:"🏠", examples:["KeyBank","Regions","Fifth Third","Citizens"] },
+  { id:"legal", iconName:"estateplan", name:"Asset Protection Attorneys", desc:"Trusts, LLCs, and estate planning for high-income MDs", icon:"⚖️", examples:["Physician's Resource","Anderson Business Advisors"] },
+  { id:"contracts", iconName:"contracts", name:"Contract Review", desc:"Employment contract attorneys specializing in physician agreements", icon:"📝", examples:["Contract Diagnostics","Resolve Physician Agency"] },
+  { id:"banking", iconName:"practicebuy", name:"Business Banking", desc:"High-yield accounts for practice owners", icon:"🏦", examples:["Mercury","Brex","Novo"] },
+  { id:"realestate", iconName:"marketplace", name:"RE Investment Platforms", desc:"Syndications and crowdfunding for accredited investors", icon:"🏗️", examples:["CrowdStreet","Fundrise","Origin Investments"] },
+  { id:"disability", iconName:"disability", name:"Disability Insurance", desc:"Own-occupation carriers with physician discounts", icon:"🔒", examples:["Guardian","MassMutual","Principal","Standard"] },
 ];
 
 export const METROS_100 = [

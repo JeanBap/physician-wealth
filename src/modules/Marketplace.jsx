@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PROVIDER_CATEGORIES, fmt } from "../lib/data";
 import { Section, Card, Alert, Badge, Takeaway } from "../components/ui";
+import { Icon } from "../components/icons";
 
 export default function Marketplace({ profile }) {
   const [selectedCat, setSelectedCat] = useState(null);
@@ -31,7 +32,7 @@ export default function Marketplace({ profile }) {
             <button key={cat.id} onClick={() => setSelectedCat(isSelected ? null : cat.id)}
               className={`text-left p-4 rounded-xl glass border-glow transition-all duration-300 hover:scale-[1.01] ${isSelected ? "ring-1 ring-emerald-500/30" : ""} ${isUrgent ? "border-amber-500/20" : ""}`}>
               <div className="flex items-start justify-between">
-                <span className="text-2xl">{cat.icon}</span>
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{background:"rgba(13,148,136,0.08)"}}><Icon name={cat.iconName || "activity"} size={20} className="text-emerald-400" /></div>
                 {isUrgent && <span className="text-xs px-1.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-bold">Needed</span>}
               </div>
               <p className="text-sm text-white/65 font-bold mt-2">{cat.name}</p>

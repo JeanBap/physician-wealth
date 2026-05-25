@@ -259,6 +259,7 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
       </div>
 
       {/* Blog */}
+      <div id="blog-section">
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 32px", borderTop: `1px solid ${T.border}` }}>
         {sectionLabel("Research & Insights")}
         <h2 className="serif" style={{ fontSize: 34, fontWeight: 900, color: T.navy, marginBottom: 6 }}>The physician finance blog</h2>
@@ -332,6 +333,8 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
         </button>
       </div>
 
+      </div>
+
       {/* Footer */}
       <div style={{ borderTop: `1px solid ${T.border}`, padding: "32px", textAlign: "center" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 8 }}>
@@ -341,7 +344,8 @@ export default function Landing({ navigate, theme: themeProp, toggleTheme: toggl
           <span style={{ fontSize: 14, fontWeight: 700, color: T.navy }}>Physician<span style={{ color: T.teal }}>Wealth</span></span>
         </div>
         <p style={{ fontSize: 12, color: T.text3 }}>Not financial advice. Educational tool for physician financial planning.</p>
-        <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12 }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 12, flexWrap: "wrap" }}>
+          <a href="#blog" onClick={e => { e.preventDefault(); document.getElementById("blog-section")?.scrollIntoView({ behavior: "smooth" }); }} style={{ fontSize: 12, color: T.teal, textDecoration: "none", fontWeight: 600 }}>Blog</a>
           <a href="/privacy.html" style={{ fontSize: 12, color: T.text3, textDecoration: "none" }}>Privacy Policy</a>
           <a href="/terms.html" style={{ fontSize: 12, color: T.text3, textDecoration: "none" }}>Terms of Service</a>
           <a href="/cookie-policy.html" style={{ fontSize: 12, color: T.text3, textDecoration: "none" }}>Cookie Policy</a>
