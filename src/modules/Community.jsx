@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Icon } from "../components/icons";
 import { SPECIALTIES } from "../lib/data";
 import { SEED_POSTS } from "../lib/seedPosts";
+import { SEED_REPLIES } from "../lib/seedReplies";
 import { VERIFIED_DOMAINS, RECENT_ACTIVITY } from "../lib/socialProof";
 import { Section, Card, Btn, Badge, Alert, Takeaway } from "../components/ui";
 
@@ -59,7 +60,8 @@ export default function Community({ profile, user }) {
     // Add verified employers to some seed posts
     const enriched = SEED_POSTS.map(p => {
       const employers = { 86:"HCA Healthcare", 87:"Kaiser Permanente", 88:"Mass General Brigham", 89:"CommonSpirit Health", 90:"USAP/Envision", 93:"Veterans Affairs", 94:"US Military", 99:"Children's Hospital" };
-      return { ...p, verifiedEmployer: employers[p.id] || null };
+      const replies = SEED_REPLIES[p.id] || [];
+      return { ...p, verifiedEmployer: employers[p.id] || null, replyList: replies, replies: replies.length || p.replies };
     });
     return [...enriched, ...userPosts];
   }, []);
